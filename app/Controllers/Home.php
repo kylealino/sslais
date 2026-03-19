@@ -24,7 +24,7 @@ class Home extends BaseController
         //     return view('MyDashboardDev');    // For all others
         // }
 
-        return view('MyDashboardDev'); 
+        return view('MyLogin'); 
     }
     
 }
