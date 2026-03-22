@@ -3,7 +3,7 @@
         <!-- footer -->
         <!-- -------------------------------------------------------------- -->
         <footer class="footer py-3 bg-white border-top text-center">
-          2025© All Rights Reserved by FODS
+          2026© All Rights Reserved by SSLAIS
         </footer>
         <!-- -------------------------------------------------------------- -->
         <!-- End footer -->

@@ -269,10 +269,10 @@ echo view('templates/myheader.php');
             
             <div class="stat-card">
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    <div class="icon-wrapper" style="color: var(--sslais-success);"><i class="bi bi-cash-stack"></i></div>
+                    <div class="icon-wrapper" style="color: var(--sslais-danger);"><i class="bi bi-cash-stack"></i></div>
                     <span class="badge-sm bg-light">+5.2%</span>
                 </div>
-                <div class="metric-value">320</div>
+                <div class="metric-value">1000000</div>
                 <div class="metric-label">Active Loans</div>
                 <div class="progress-mini mt-1">
                     <div class="progress-bar-mini" style="width: 78%;"></div>
