@@ -26,6 +26,8 @@ function __mysys_members_ent() {
 					var contact_number = document.getElementById("contact_number");
 					var address = document.getElementById("address");
 					var email = document.getElementById("email");
+					var username = document.getElementById("username");
+					var password = document.getElementById("password");
 
 					var mparam = { 
 						member_id: member_id.value,
@@ -36,6 +38,8 @@ function __mysys_members_ent() {
 						contact_number: contact_number.value,
 						address: address.value,
 						email: email.value,
+						username: username.value,
+						password: password.value,
 						meaction: 'MEMBERS-SAVE'
 					}
 
@@ -68,52 +72,6 @@ function __mysys_members_ent() {
 		}); //end forEach		
 	}; //
 
-	this.__delete_members = function() {
-		const deleteBtn = document.getElementById('btn_delete');
-		const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-	
-		let member_id = null; // store member_id for use after confirmation
-	
-		deleteBtn.addEventListener('click', function () {
-			member_id = document.getElementById("member_id").value;
-	
-			// Show the modal
-			const deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
-			deleteModal.show();
-		});
-	
-		confirmDeleteBtn.addEventListener('click', function () {
-			if (!member_id) return;
-	
-			const mparam = {
-				member_id: member_id,
-				meaction: 'MAIN-DELETE'
-			};
-	
-			jQuery.ajax({
-				type: "POST",
-				url: mesiteurl + 'mymembers',
-				context: document.body,
-				data: mparam,
-				global: false,
-				cache: false,
-				success: function(data) {
-					jQuery('.me-mymembers-outp-msg').html(data);
-				},
-				error: function(xhr, status, error) {
-					toastr.error('[mymembers-ENT', "Hello, Error Loading Page..." + error, {
-						closeButton: true,
-					});
-				}
-			});
-	
-			// Close the modal
-			const deleteModal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
-			deleteModal.hide();
-		});
-	};
 	
 
 }; //end main
-
-__mysys_members_ent.__delete_members();

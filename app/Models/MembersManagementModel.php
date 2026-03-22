@@ -25,6 +25,9 @@ class MembersManagementModel extends Model
 		$contact_number = $this->request->getPostGet('contact_number');
 		$address = $this->request->getPostGet('address');
 		$email = $this->request->getPostGet('email');
+		$username = $this->request->getPostGet('username');
+		$password = $this->request->getPostGet('password');
+		$hash_password = hash('sha512', $password);
 
 		// var_dump(
 		// 	$member_id,
@@ -60,9 +63,13 @@ class MembersManagementModel extends Model
 					`middle_name`,
 					`contact_number`,
 					`address`,
-					`email`
+					`email`,
+					`username`,
+					`password`,
+					`hash_password`,
+					`created_by`
 				)
-				VALUES (?, ?, ?, ?, ?, ?, ?)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 			", [
 				$member_no,
 				$last_name,
@@ -70,7 +77,11 @@ class MembersManagementModel extends Model
 				$middle_name,
 				$contact_number,
 				$address,
-				$email
+				$email,
+				$username,
+				$password,
+				$hash_password,
+				$this->cuser,
 			]);
 			$status = "Member Saved successfully";
 			$color = "success";
@@ -84,7 +95,11 @@ class MembersManagementModel extends Model
 					`middle_name` = ?,
 					`contact_number` = ?,
 					`address` = ?,
-					`email` = ?
+					`email` = ?,
+					`username` = ?,
+					`password` = ?,
+					`hash_password` = ?,
+					`created_by` = ?
 				WHERE `member_id` = ?
 			", [
 				$member_no,
@@ -94,6 +109,10 @@ class MembersManagementModel extends Model
 				$contact_number,
 				$address,
 				$email,
+				$username,
+				$password,
+				$hash_password,
+				$this->cuser,
 				$member_id
 			]);
 			$status = "Member Updated successfully";

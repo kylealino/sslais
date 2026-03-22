@@ -10,6 +10,8 @@ $middle_name = "";
 $address = "";
 $contact_number = "";
 $email = "";
+$username = "";
+$password = "";
 
 if(!empty($member_id) || !is_null($member_id)) { 
 
@@ -23,6 +25,8 @@ if(!empty($member_id) || !is_null($member_id)) {
         `address`,
         `contact_number`,
         `email`,
+        `username`,
+        `password`,
         `created_by`,
         `created_at`
     FROM
@@ -39,6 +43,8 @@ if(!empty($member_id) || !is_null($member_id)) {
     $address = $data['address'];
     $contact_number = $data['contact_number'];
     $email = $data['email'];
+    $username = $data['username'];
+    $password = $data['password'];
 
 }
 echo view('templates/myheader.php');
@@ -108,8 +114,6 @@ echo view('templates/myheader.php');
                                 <input type="text" id="middle_name" name="middle_name" value="<?=$middle_name;?>" class="form-control form-control-sm"/>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 my-2">
                         <div class="row mb-2">
                             <div class="col-sm-4">
                                 <span>Contact No.:</span>
@@ -126,12 +130,35 @@ echo view('templates/myheader.php');
                                 <input type="text" id="email" name="email" value="<?=$email;?>" class="form-control form-control-sm"/>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-sm-6 my-2">
                         <div class="row mb-2">
                             <div class="col-sm-4">
                                 <span>Address:</span>
                             </div>
                             <div class="col-sm-8">
                             <textarea name="address" id="address" placeholder="" rows="3" class="form-control form-control-sm"><?=$address;?></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-4">
+                                <span>Username:</span>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" id="username" name="username" value="<?=$username;?>" class="form-control form-control-sm"/>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-4">
+                                <span>Password:</span>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="input-group input-group-sm">
+                                <input type="password" id="password" name="password" value="<?=$password;?>" class="form-control"/>
+                                <button class="btn btn-light" type="button" id="togglePassword">
+                                    <i class="ti ti-eye" id="toggleIcon"></i>
+                                </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -204,19 +231,34 @@ echo view('templates/myheader.php');
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="<?=base_url('assets/js/members-management/mymembers.js?v=1');?>"></script>
+<script src="<?=base_url('assets/js/members-management/mymembers.js?v=2');?>"></script>
 <script src="<?=base_url('assets/js/mysysapps.js');?>"></script>
 <script>
     __mysys_members_ent.__members_saving();
     $(document).ready(function () {
-  $('#datatablesSimple').DataTable({
-    pageLength: 5,
-    lengthChange: false,
-    language: {
-      search: "Search:"
-    }
-  });
-});
+        $('#datatablesSimple').DataTable({
+            pageLength: 5,
+            lengthChange: false,
+            language: {
+            search: "Search:"
+            }
+        });
+    });
+
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('toggleIcon');
+
+        if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('ti-eye');
+        icon.classList.add('ti-eye-off');
+        } else {
+        input.type = 'password';
+        icon.classList.remove('ti-eye-off');
+        icon.classList.add('ti-eye');
+        }
+    });
 </script>
 <?php
     echo view('templates/myfooter.php');

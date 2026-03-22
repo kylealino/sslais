@@ -385,7 +385,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
               <span class="hide-menu fs-2">MEMBERS MANAGEMENT</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>mymembers?meaction=MAIN" aria-expanded="false">
+              <a class="sidebar-link" href="<?=site_url();?>myaccount?meaction=MAIN" aria-expanded="false">
                 <span>
                   <i class="ti ti-settings"></i>
                 </span>

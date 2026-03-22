@@ -263,3 +263,719 @@ in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
  9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
 11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-22 10:37:00 --> mysqli_sql_exception: Unknown column 'user_name' in 'field list' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n    SELECT\r\n ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n    SELECT\r\n ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n    SELECT\r\n ...')
+#3 C:\xampp\htdocs\sslais\app\Views\members-management\members-main.php(18): CodeIgniter\Database\BaseConnection->query('\r\n    SELECT\r\n ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('members-managem...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(60): view('members-managem...', Array)
+#8 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(25): App\Controllers\MembersManagementController->loadMembersView()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#11 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2026-03-22 10:37:00 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'user_name' in 'field list'
+[Method: GET, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\members-management\members-main.php(18): CodeIgniter\Database\BaseConnection->query('
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `user_name`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `member_id` = \'1\'')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 5 APPPATH\Controllers\MembersManagementController.php(60): view('members-management/members-main', [...])
+ 6 APPPATH\Controllers\MembersManagementController.php(25): App\Controllers\MembersManagementController->loadMembersView()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:37:00 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'user_name' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `user_name`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `member_id` = \'1\'')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `user_name`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `member_id` = \'1\'')
+ 3 APPPATH\Views\members-management\members-main.php(18): CodeIgniter\Database\BaseConnection->query('
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `user_name`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `member_id` = \'1\'')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 7 APPPATH\Controllers\MembersManagementController.php(60): view('members-management/members-main', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(25): App\Controllers\MembersManagementController->loadMembersView()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:37:00 --> [Caused by] mysqli_sql_exception: Unknown column 'user_name' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `user_name`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `member_id` = \'1\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `user_name`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `member_id` = \'1\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `user_name`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `member_id` = \'1\'')
+ 4 APPPATH\Views\members-management\members-main.php(18): CodeIgniter\Database\BaseConnection->query('
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `user_name`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `member_id` = \'1\'')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 8 APPPATH\Controllers\MembersManagementController.php(60): view('members-management/members-main', [...])
+ 9 APPPATH\Controllers\MembersManagementController.php(25): App\Controllers\MembersManagementController->loadMembersView()
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:37:38 --> ErrorException: Undefined array key "user_name"
+[Method: GET, Route: mymembers]
+in APPPATH\Views\members-management\members-main.php on line 46.
+ 1 APPPATH\Views\members-management\members-main.php(46): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "user_name"', 'C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php', 46)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 5 APPPATH\Controllers\MembersManagementController.php(60): view('members-management/members-main', [...])
+ 6 APPPATH\Controllers\MembersManagementController.php(25): App\Controllers\MembersManagementController->loadMembersView()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-22 10:44:49 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+	...' at line 3 in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n\t\t\t\tUPDATE `t...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n\t\t\t\tUPDATE `t...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n\t\t\t\tUPDATE `t...')
+#3 C:\xampp\htdocs\sslais\app\Models\MembersManagementModel.php(84): CodeIgniter\Database\BaseConnection->query('\r\n\t\t\t\tUPDATE `t...', Array)
+#4 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-03-22 10:44:49 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+	...' at line 3
+[Method: POST, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Models\MembersManagementModel.php(84): CodeIgniter\Database\BaseConnection->query('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?
+				WHERE `member_id` = ?
+			', [...])
+ 2 APPPATH\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:44:49 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+	...' at line 3
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?
+				WHERE `member_id` = ?
+			')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?
+				WHERE `member_id` = ?
+			')
+ 3 APPPATH\Models\MembersManagementModel.php(84): CodeIgniter\Database\BaseConnection->query('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?
+				WHERE `member_id` = ?
+			', [...])
+ 4 APPPATH\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:44:49 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+	...' at line 3
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?
+				WHERE `member_id` = ?
+			', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?
+				WHERE `member_id` = ?
+			')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?
+				WHERE `member_id` = ?
+			')
+ 4 APPPATH\Models\MembersManagementModel.php(84): CodeIgniter\Database\BaseConnection->query('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?
+				WHERE `member_id` = ?
+			', [...])
+ 5 APPPATH\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:51:07 --> ParseError: syntax error, unexpected variable "$member_id", expecting "]"
+[Method: POST, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 112.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\MembersManagementModel')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\MembersManagementModel')
+ 4 SYSTEMPATH\Config\Factories.php(297): class_exists('App\\Models\\MembersManagementModel')
+ 5 SYSTEMPATH\Config\Factories.php(216): CodeIgniter\Config\Factories::locateClass([...], 'App\\Models\\MembersManagementModel')
+ 6 SYSTEMPATH\Config\Factories.php(159): CodeIgniter\Config\Factories::getDefinedInstance([...], 'App\\Models\\MembersManagementModel', [...])
+ 7 SYSTEMPATH\Common.php(804): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(12): model('App\\Models\\MembersManagementModel')
+ 9 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\MembersManagementController->__construct()
+10 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:51:13 --> ParseError: syntax error, unexpected variable "$member_id", expecting "]"
+[Method: GET, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 112.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\MembersManagementModel')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\MembersManagementModel')
+ 4 SYSTEMPATH\Config\Factories.php(297): class_exists('App\\Models\\MembersManagementModel')
+ 5 SYSTEMPATH\Config\Factories.php(216): CodeIgniter\Config\Factories::locateClass([...], 'App\\Models\\MembersManagementModel')
+ 6 SYSTEMPATH\Config\Factories.php(159): CodeIgniter\Config\Factories::getDefinedInstance([...], 'App\\Models\\MembersManagementModel', [...])
+ 7 SYSTEMPATH\Common.php(804): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(12): model('App\\Models\\MembersManagementModel')
+ 9 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\MembersManagementController->__construct()
+10 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:51:15 --> ParseError: syntax error, unexpected variable "$member_id", expecting "]"
+[Method: GET, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 112.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\MembersManagementModel')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\MembersManagementModel')
+ 4 SYSTEMPATH\Config\Factories.php(297): class_exists('App\\Models\\MembersManagementModel')
+ 5 SYSTEMPATH\Config\Factories.php(216): CodeIgniter\Config\Factories::locateClass([...], 'App\\Models\\MembersManagementModel')
+ 6 SYSTEMPATH\Config\Factories.php(159): CodeIgniter\Config\Factories::getDefinedInstance([...], 'App\\Models\\MembersManagementModel', [...])
+ 7 SYSTEMPATH\Common.php(804): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(12): model('App\\Models\\MembersManagementModel')
+ 9 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\MembersManagementController->__construct()
+10 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:51:16 --> ParseError: syntax error, unexpected variable "$member_id", expecting "]"
+[Method: GET, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 112.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\MembersManagementModel')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\MembersManagementModel')
+ 4 SYSTEMPATH\Config\Factories.php(297): class_exists('App\\Models\\MembersManagementModel')
+ 5 SYSTEMPATH\Config\Factories.php(216): CodeIgniter\Config\Factories::locateClass([...], 'App\\Models\\MembersManagementModel')
+ 6 SYSTEMPATH\Config\Factories.php(159): CodeIgniter\Config\Factories::getDefinedInstance([...], 'App\\Models\\MembersManagementModel', [...])
+ 7 SYSTEMPATH\Common.php(804): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(12): model('App\\Models\\MembersManagementModel')
+ 9 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\MembersManagementController->__construct()
+10 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:51:16 --> ParseError: syntax error, unexpected variable "$member_id", expecting "]"
+[Method: GET, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 112.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\MembersManagementModel')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\MembersManagementModel')
+ 4 SYSTEMPATH\Config\Factories.php(297): class_exists('App\\Models\\MembersManagementModel')
+ 5 SYSTEMPATH\Config\Factories.php(216): CodeIgniter\Config\Factories::locateClass([...], 'App\\Models\\MembersManagementModel')
+ 6 SYSTEMPATH\Config\Factories.php(159): CodeIgniter\Config\Factories::getDefinedInstance([...], 'App\\Models\\MembersManagementModel', [...])
+ 7 SYSTEMPATH\Common.php(804): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(12): model('App\\Models\\MembersManagementModel')
+ 9 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\MembersManagementController->__construct()
+10 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:51:17 --> ParseError: syntax error, unexpected variable "$member_id", expecting "]"
+[Method: GET, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 112.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\MembersManagementModel')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\MembersManagementModel')
+ 4 SYSTEMPATH\Config\Factories.php(297): class_exists('App\\Models\\MembersManagementModel')
+ 5 SYSTEMPATH\Config\Factories.php(216): CodeIgniter\Config\Factories::locateClass([...], 'App\\Models\\MembersManagementModel')
+ 6 SYSTEMPATH\Config\Factories.php(159): CodeIgniter\Config\Factories::getDefinedInstance([...], 'App\\Models\\MembersManagementModel', [...])
+ 7 SYSTEMPATH\Common.php(804): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(12): model('App\\Models\\MembersManagementModel')
+ 9 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\MembersManagementController->__construct()
+10 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:51:17 --> ParseError: syntax error, unexpected variable "$member_id", expecting "]"
+[Method: GET, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 112.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\MembersManagementModel')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\MembersManagementModel')
+ 4 SYSTEMPATH\Config\Factories.php(297): class_exists('App\\Models\\MembersManagementModel')
+ 5 SYSTEMPATH\Config\Factories.php(216): CodeIgniter\Config\Factories::locateClass([...], 'App\\Models\\MembersManagementModel')
+ 6 SYSTEMPATH\Config\Factories.php(159): CodeIgniter\Config\Factories::getDefinedInstance([...], 'App\\Models\\MembersManagementModel', [...])
+ 7 SYSTEMPATH\Common.php(804): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(12): model('App\\Models\\MembersManagementModel')
+ 9 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\MembersManagementController->__construct()
+10 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:52:59 --> ParseError: syntax error, unexpected variable "$member_id", expecting "]"
+[Method: GET, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 112.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\MembersManagementModel')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\MembersManagementModel')
+ 4 SYSTEMPATH\Config\Factories.php(297): class_exists('App\\Models\\MembersManagementModel')
+ 5 SYSTEMPATH\Config\Factories.php(216): CodeIgniter\Config\Factories::locateClass([...], 'App\\Models\\MembersManagementModel')
+ 6 SYSTEMPATH\Config\Factories.php(159): CodeIgniter\Config\Factories::getDefinedInstance([...], 'App\\Models\\MembersManagementModel', [...])
+ 7 SYSTEMPATH\Common.php(804): CodeIgniter\Config\Factories::__callStatic('models', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(12): model('App\\Models\\MembersManagementModel')
+ 9 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\MembersManagementController->__construct()
+10 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:55:12 --> ErrorException: Undefined variable $created_by
+[Method: POST, Route: mymembers]
+in APPPATH\Models\MembersManagementModel.php on line 115.
+ 1 APPPATH\Models\MembersManagementModel.php(115): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $created_by', 'C:\\xampp\\htdocs\\sslais\\app\\Models\\MembersManagementModel.php', 115)
+ 2 APPPATH\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-22 10:55:23 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE `member_id` = '1'' at line 14 in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n\t\t\t\tUPDATE `t...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n\t\t\t\tUPDATE `t...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n\t\t\t\tUPDATE `t...')
+#3 C:\xampp\htdocs\sslais\app\Models\MembersManagementModel.php(89): CodeIgniter\Database\BaseConnection->query('\r\n\t\t\t\tUPDATE `t...', Array)
+#4 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-03-22 10:55:23 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE `member_id` = '1'' at line 14
+[Method: POST, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Models\MembersManagementModel.php(89): CodeIgniter\Database\BaseConnection->query('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?,
+					`hash_password` = ?,
+					`created_by` = ?,
+				WHERE `member_id` = ?
+			', [...])
+ 2 APPPATH\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:55:23 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE `member_id` = '1'' at line 14
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = \'12301293\',
+					`last_name` = \'alino\',
+					`first_name` = \'kyle\',
+					`middle_name` = \'posdas\',
+					`contact_number` = \'912031023\',
+					`address` = \'123 address hehe caloocan city\',
+					`email` = \'kylealino@gmail.com\',
+					`username` = \'ADMIN-KYLE\',
+					`password` = \'123456\',
+					`hash_password` = \'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413\',
+					`created_by` = \'ADMIN-KYLE\',
+				WHERE `member_id` = \'1\'
+			')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = \'12301293\',
+					`last_name` = \'alino\',
+					`first_name` = \'kyle\',
+					`middle_name` = \'posdas\',
+					`contact_number` = \'912031023\',
+					`address` = \'123 address hehe caloocan city\',
+					`email` = \'kylealino@gmail.com\',
+					`username` = \'ADMIN-KYLE\',
+					`password` = \'123456\',
+					`hash_password` = \'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413\',
+					`created_by` = \'ADMIN-KYLE\',
+				WHERE `member_id` = \'1\'
+			')
+ 3 APPPATH\Models\MembersManagementModel.php(89): CodeIgniter\Database\BaseConnection->query('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?,
+					`hash_password` = ?,
+					`created_by` = ?,
+				WHERE `member_id` = ?
+			', [...])
+ 4 APPPATH\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 10:55:23 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE `member_id` = '1'' at line 14
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = \'12301293\',
+					`last_name` = \'alino\',
+					`first_name` = \'kyle\',
+					`middle_name` = \'posdas\',
+					`contact_number` = \'912031023\',
+					`address` = \'123 address hehe caloocan city\',
+					`email` = \'kylealino@gmail.com\',
+					`username` = \'ADMIN-KYLE\',
+					`password` = \'123456\',
+					`hash_password` = \'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413\',
+					`created_by` = \'ADMIN-KYLE\',
+				WHERE `member_id` = \'1\'
+			', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = \'12301293\',
+					`last_name` = \'alino\',
+					`first_name` = \'kyle\',
+					`middle_name` = \'posdas\',
+					`contact_number` = \'912031023\',
+					`address` = \'123 address hehe caloocan city\',
+					`email` = \'kylealino@gmail.com\',
+					`username` = \'ADMIN-KYLE\',
+					`password` = \'123456\',
+					`hash_password` = \'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413\',
+					`created_by` = \'ADMIN-KYLE\',
+				WHERE `member_id` = \'1\'
+			')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = \'12301293\',
+					`last_name` = \'alino\',
+					`first_name` = \'kyle\',
+					`middle_name` = \'posdas\',
+					`contact_number` = \'912031023\',
+					`address` = \'123 address hehe caloocan city\',
+					`email` = \'kylealino@gmail.com\',
+					`username` = \'ADMIN-KYLE\',
+					`password` = \'123456\',
+					`hash_password` = \'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413\',
+					`created_by` = \'ADMIN-KYLE\',
+				WHERE `member_id` = \'1\'
+			')
+ 4 APPPATH\Models\MembersManagementModel.php(89): CodeIgniter\Database\BaseConnection->query('
+				UPDATE `tbl_members`
+				SET
+					`member_no` = ?,
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`username` = ?,
+					`password` = ?,
+					`hash_password` = ?,
+					`created_by` = ?,
+				WHERE `member_id` = ?
+			', [...])
+ 5 APPPATH\Controllers\MembersManagementController.php(29): App\Models\MembersManagementModel->members_save()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-22 11:14:52 --> ParseError: syntax error, unexpected token "break", expecting ";"
+[Method: GET, Route: myaccount]
+in APPPATH\Controllers\AccountSettingsController.php on line 26.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(295): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\sslais\\app\\Controllers\\AccountSettingsController.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(271): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\AccountSettingsController')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\AccountSettingsController')
+ 4 SYSTEMPATH\CodeIgniter.php(885): class_exists('\\App\\Controllers\\AccountSettingsController', true)
+ 5 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
