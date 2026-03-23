@@ -195,6 +195,7 @@ echo view('templates/myheader.php');
                         <th>First Name</th>
                         <th>Contact number</th>
                         <th>Email</th>
+                        <th>Loan Count</th>
                     </tr>
                 </thead>
                 <tbody class="align-middle">
@@ -212,8 +213,11 @@ echo view('templates/myheader.php');
                     ?>
                     <tr>
                         <td class="text-center align-middle">
-                            <a class="text-info nav-icon-hover fs-6" href="mymembers?meaction=MAIN&member_id=<?= $member_id ?>">
-                                <i class="ti ti-eye" aria-hidden="true"></i>
+                            <a class="text-info nav-icon-hover fs-6" href="mymembers?meaction=MAIN&member_id=<?= $member_id ?>" title="Edit Member">
+                                <i class="ti ti-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a class="text-warning nav-icon-hover fs-6" href="mymembers?meaction=MAIN&member_id=<?= $member_id ?>" title="View loan">
+                                <i class="ti ti-file-dollar" aria-hidden="true"></i>
                             </a>
                         </td>
                         <td class="text-center"><?=$member_no;?></td>
@@ -221,6 +225,7 @@ echo view('templates/myheader.php');
                         <td class="text-center"><?=$first_name;?></td>
                         <td class="text-center"><?=$contact_number;?></td>
                         <td class="text-center"><?=$email;?></td>
+                        <td class="text-center">1</td>
                     </tr>
                     <?php endforeach; endif;?>
                 </tbody>

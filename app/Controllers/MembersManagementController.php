@@ -27,14 +27,9 @@ class MembersManagementController extends BaseController
 
             case 'MEMBERS-SAVE': 
                 $this->mymembers->members_save();
-                return redirect()->to('myua?meaction=MAIN');
+                return redirect()->to('mymembers?meaction=MAIN');
                 break;
             
-            case 'MAIN-ACCESS-SAVE': 
-                $this->mymembers->user_access_save();
-                return redirect()->to('myua?meaction=MAIN');
-                break;
-
         }
     }
 

@@ -4,12 +4,12 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class AccountSettingsController  extends BaseController
+class LoanAvailmentController  extends BaseController
 {
     public function __construct()
 	{
 		$this->request = \Config\Services::request();
-        $this->myaccount = model('App\Models\AccountSettingsModel');
+        $this->myloanavailment = model('App\Models\LoanAvailmentModel');
         $this->db = \Config\Database::connect();
         $this->session = session();
         $this->cuser = $this->session->get('__xsys_myuserzicas__');
@@ -21,12 +21,12 @@ class AccountSettingsController  extends BaseController
     
         switch ($meaction) {
             case 'MAIN': 
-                return view('members-management/account-main');
+                return view('loan-availment/loan-main');
                 break;
 
             case 'ACCOUNT-SAVE': 
-                $this->myaccount->account_save();
-                return redirect()->to('myaccount?meaction=MAIN');
+                $this->myloanavailment->loanavailment_save();
+                return redirect()->to('myloanavailment?meaction=MAIN');
                 break;
             
 

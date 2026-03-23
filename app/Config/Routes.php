@@ -21,4 +21,12 @@ $routes->post('mymembers', 'MembersManagementController::index',['filter' => 'my
 $routes->get('myaccount', 'AccountSettingsController::index',['filter' => 'myauthuser']);
 $routes->post('myaccount', 'AccountSettingsController::index',['filter' => 'myauthuser']);
 
+//LOAN AVAILMENT - Loan availment module
+$routes->get('myloanavailment', 'LoanAvailmentController::index',['filter' => 'myauthuser']);
+$routes->post('myloanavailment', 'LoanAvailmentController::index',['filter' => 'myauthuser']);
+
+//LOAN PROFILE - Loan profile module
+$routes->get('myloanprofile', 'LoanProfileController::index',['filter' => 'myauthuser']);
+$routes->post('myloanprofile', 'LoanProfileController::index',['filter' => 'myauthuser']);
+
 
