@@ -9,10 +9,9 @@ class AccountSettingsController  extends BaseController
     public function __construct()
 	{
 		$this->request = \Config\Services::request();
-        $this->mymembers = model('App\Models\MembersManagementModel');
+        $this->myaccount = model('App\Models\AccountSettingsModel');
         $this->db = \Config\Database::connect();
         $this->session = session();
-        $this->db = \Config\Database::connect();
         $this->cuser = $this->session->get('__xsys_myuserzicas__');
 	}
 
@@ -22,11 +21,11 @@ class AccountSettingsController  extends BaseController
     
         switch ($meaction) {
             case 'MAIN': 
-                return view('members-management/account-main')
+                return view('members-management/account-main');
                 break;
 
             case 'ACCOUNT-SAVE': 
-                $this->mymembers->members_save();
+                $this->myaccount->account_save();
                 return redirect()->to('myua?meaction=MAIN');
                 break;
             

@@ -3,51 +3,60 @@ $this->request = \Config\Services::request();
 $this->db = \Config\Database::connect();
 $this->session = session();
 $this->cuser = $this->session->get('__xsys_myuserzicas__');
-$recid = $this->request->getPostGet('recid');
 
-$full_name = "";
-$division = "";
-$section = "";
-$position = "";
-$username = "";
-$hash_password = "";
-$hash_value = "";
+$member_id = "";
+$member_no = "";
+$first_name = "";
+$last_name = "";
+$middle_name = "";
+$address = "";
+$contact_number = "";
 $email = "";
-$contact_no = "";
+$username = "";
+$password = "";
 
-
-if(!empty($recid) || !is_null($recid)) { 
+if(!empty($this->cuser) || !is_null($this->cuser)) { 
 
     $query = $this->db->query("
-    SELECT 
-        `full_name`, 
-        `division`,
-        `section`, 
-        `position`,
-        `username`, 
-        `hash_password`,
-        `hash_value`
-    FROM 
-        `myua_user` 
-    WHERE 
-        `recid` = '$recid'"
+    SELECT
+        `member_id`,
+        `member_no`,
+        `first_name`,
+        `last_name`,
+        `middle_name`,
+        `address`,
+        `contact_number`,
+        `email`,
+        `username`,
+        `password`,
+        `created_by`,
+        `created_at`
+    FROM
+        `tbl_members`
+    WHERE
+        `username` = '$this->cuser'"
     );
 
     $data = $query->getRowArray();
-    $full_name = $data['full_name'];
-    $division = $data['division'];
-    $section = $data['section'];
-    $position = $data['position'];
+    $member_id = $data['member_id'];
+    $member_no = $data['member_no'];
+    $first_name = $data['first_name'];
+    $last_name = $data['last_name'];
+    $middle_name = $data['middle_name'];
+    $address = $data['address'];
+    $contact_number = $data['contact_number'];
+    $email = $data['email'];
     $username = $data['username'];
-    $hash_password = $data['hash_password'];
-    $hash_value = $data['hash_value'];
-
+    $password = $data['password'];
 
 }
 echo view('templates/myheader.php');
 ?>
 
 <div class="container-fluid">
+    <div class="row me-myaccount-outp-msg mx-0">
+    </div>
+    <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
     <div class="row mb-2 mt-0">
         <h4 class="fw-semibold mb-8">Account Settings</h4>
         <nav aria-label="breadcrumb">
@@ -82,25 +91,30 @@ echo view('templates/myheader.php');
                             </div>
                         </div>
                         <div class="col-lg-6 d-flex align-items-stretch">
-                            <div class="card w-100 border position-relative overflow-hidden">
-                            <div class="card-body p-4">
-                                <h4 class="card-title">Change Password</h4>
-                                <p class="card-subtitle mb-4">To change your password please confirm here</p>
-                                <form>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Current Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" value="12345678910">
+                                <div class="card w-100 border position-relative overflow-hidden">
+                                <form action="<?=site_url();?>myaccount?meaction=ACCOUNT-SAVE" method="post" class="myaccount-validation">
+                                <div class="card-body p-4">
+                                    <h4 class="card-title">Change Password</h4>
+                                    <p class="card-subtitle mb-4">To change your password please confirm here</p>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Current Password</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="password" class="form-control" id="password" value="<?=$password;?>">
+                                            <button class="btn btn-light" type="button" id="togglePassword">
+                                                <i class="ti ti-eye" id="toggleIcon"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword2" class="form-label">New Password</label>
+                                        <div class="input-group input-group-sm">
+                                            <input type="password" class="form-control" id="newpassword" value="<?=$password;?>">
+                                            <button class="btn btn-light" type="button" id="newtogglePassword">
+                                                <i class="ti ti-eye" id="toggleIcon"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword2" class="form-label">New Password</label>
-                                    <input type="password" class="form-control" id="newpassword" value="12345678910">
-                                </div>
-                                <div>
-                                    <label for="exampleInputPassword3" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirmpassword" value="12345678910">
-                                </div>
-                                </form>
-                            </div>
                             </div>
                         </div>
                         <div class="col-12">
@@ -108,43 +122,52 @@ echo view('templates/myheader.php');
                                 <div class="card-body p-4">
                                     <h4 class="card-title">Personal Details</h4>
                                     <p class="card-subtitle mb-4">To change your personal detail , edit and save from here</p>
-                                    <form>
+                                    
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="exampleInputtext" class="form-label">Full Name</label>
-                                                <input type="hidden" class="form-control" id="recid" name="recid" value="<?=$recid;?>"/>
-                                                <input type="text" id="exampleInputtext" name="full_name" value="<?=$full_name;?>" class="form-control"/>
+                                                <label for="exampleInputtext" class="form-label">Username</label>
+                                                <input type="text" id="username" name="username" value="<?=$username;?>" disabled class="username form-control form-control-sm"/>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">Division</label>
-                                                <input type="text" id="division" name="division" value="<?=$division;?>" class="form-control"/>
+                                                <label for="member_no" class="form-label">Member No.</label>
+                                                <input type="text" id="member_no" name="member_no" value="<?=$member_no;?>" disabled class="member_no form-control form-control-sm"/>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="exampleInputtext1" class="form-label">Section</label>
-                                                <input type="text" id="section" name="section" value="<?=$section;?>" class="form-control"/>
+                                                <label for="first_name" class="form-label">First Name</label>
+                                                <input type="hidden" class="form-control form-control-sm" id="member_id" name="member_id" value="<?=$member_id;?>"/>
+                                                <input type="text" id="first_name" name="first_name" value="<?=$first_name;?>" class="first_name form-control form-control-sm"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Last Name</label>
+                                                <input type="text" id="last_name" name="last_name" value="<?=$last_name;?>" class="last_name form-control form-control-sm"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="middle_name" class="form-label">Middle Name</label>
+                                                <input type="text" id="middle_name" name="middle_name" value="<?=$middle_name;?>" class="middle_name form-control form-control-sm"/>
                                             </div>
                                             </div>
                                             <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="exampleInputtext1" class="form-label">Position</label>
-                                                <input type="text" id="position" name="position" value="<?=$position;?>" class="form-control"/>
+                                                <label for="contact_number" class="form-label">Contact Number</label>
+                                                <input type="text" id="contact_number" name="contact_number" value="<?=$contact_number;?>" class="contact_number form-control form-control-sm"/>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="exampleInputtext1" class="form-label">Email</label>
-                                                <input type="text" id="email" name="email" value="<?=$email;?>" class="form-control"/>
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="text" id="email" name="email" value="<?=$email;?>" class="email form-control form-control-sm"/>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="exampleInputtext1" class="form-label">Contact No.</label>
-                                                <input type="text" id="contact_no" name="contact_no" value="<?=$contact_no;?>" class="form-control"/>
+                                                <label for="address" class="form-label">Address</label>
+                                                <textarea name="address" id="address" placeholder="" rows="5" class="address form-control form-control-sm"><?=$address;?></textarea>
                                             </div>
                                         </div>
 
                                         <div class="col-12">
-                                        <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                            <button class="btn btn-primary">Save</button>
-                                            <button class="btn bg-danger-subtle text-danger">Cancel</button>
-                                        </div>
+                                            <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
+                                                <button type="submit" class="btn bg-success-subtle text-success btn-sm"><i class="ti ti-brand-doctrine mt-1 fs-4 me-1"></i>
+                                                    Save
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     </form>
@@ -157,17 +180,43 @@ echo view('templates/myheader.php');
         </div>
     </div>
 </div>
-<script>
-  function handleColorTheme(e) {
-    document.documentElement.setAttribute("data-color-theme", e);
-  }
-</script>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="<?=base_url('assets/libs/apexcharts/dist/apexcharts.min.js')?>"></script>
-<script src="<?=base_url('assets/js/report/mysaobreport.js?v=3');?>"></script>
-<script src="<?=base_url('assets/js/dashboards/dashboard2.js')?>"></script>
-<script src="<?=base_url('assets/js/apex-chart/apex.radial.init.js')?>"></script>
+<script src="<?=base_url('assets/js/members-management/myaccount.js?v=1');?>"></script>
+<script src="<?=base_url('assets/js/mysysapps.js');?>"></script>
+<script>
+    __mysys_account_ent.__account_saving();
+
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('toggleIcon');
+
+        if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('ti-eye');
+        icon.classList.add('ti-eye-off');
+        } else {
+        input.type = 'password';
+        icon.classList.remove('ti-eye-off');
+        icon.classList.add('ti-eye');
+        }
+    });
+    document.getElementById('newtogglePassword').addEventListener('click', function () {
+        const input = document.getElementById('newpassword');
+        const icon = document.getElementById('toggleIcon');
+
+        if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('ti-eye');
+        icon.classList.add('ti-eye-off');
+        } else {
+        input.type = 'password';
+        icon.classList.remove('ti-eye-off');
+        icon.classList.add('ti-eye');
+        }
+    });
+</script>
 
 
 <?php
