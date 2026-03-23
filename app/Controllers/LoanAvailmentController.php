@@ -24,7 +24,7 @@ class LoanAvailmentController  extends BaseController
                 return view('loan-availment/loan-main');
                 break;
 
-            case 'ACCOUNT-SAVE': 
+            case 'LOAN-AVAILMENT-SAVE': 
                 $this->myloanavailment->loanavailment_save();
                 return redirect()->to('myloanavailment?meaction=MAIN');
                 break;

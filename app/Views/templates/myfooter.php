@@ -3,7 +3,7 @@
         <!-- footer -->
         <!-- -------------------------------------------------------------- -->
         <footer class="footer py-3 bg-white border-top text-center">
-          2026© All Rights Reserved by SSLAIS
+          Copyright © 2026 SSLAIS. All rights reserved.
         </footer>
         <!-- -------------------------------------------------------------- -->
         <!-- End footer -->

@@ -125,38 +125,38 @@ echo view('templates/myheader.php');
                                     
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <div class="mb-3">
+                                            <div class="mb-1">
                                                 <label for="exampleInputtext" class="form-label">Username</label>
                                                 <input type="text" id="username" name="username" value="<?=$username;?>" disabled class="username form-control form-control-sm"/>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-1">
                                                 <label for="member_no" class="form-label">Member No.</label>
                                                 <input type="text" id="member_no" name="member_no" value="<?=$member_no;?>" disabled class="member_no form-control form-control-sm"/>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-1">
                                                 <label for="first_name" class="form-label">First Name</label>
                                                 <input type="hidden" class="form-control form-control-sm" id="member_id" name="member_id" value="<?=$member_id;?>"/>
                                                 <input type="text" id="first_name" name="first_name" value="<?=$first_name;?>" class="first_name form-control form-control-sm"/>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-1">
                                                 <label class="form-label">Last Name</label>
                                                 <input type="text" id="last_name" name="last_name" value="<?=$last_name;?>" class="last_name form-control form-control-sm"/>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-1">
                                                 <label for="middle_name" class="form-label">Middle Name</label>
                                                 <input type="text" id="middle_name" name="middle_name" value="<?=$middle_name;?>" class="middle_name form-control form-control-sm"/>
                                             </div>
                                             </div>
                                             <div class="col-lg-6">
-                                            <div class="mb-3">
+                                            <div class="mb-1">
                                                 <label for="contact_number" class="form-label">Contact Number</label>
                                                 <input type="text" id="contact_number" name="contact_number" value="<?=$contact_number;?>" class="contact_number form-control form-control-sm"/>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-1">
                                                 <label for="email" class="form-label">Email</label>
                                                 <input type="text" id="email" name="email" value="<?=$email;?>" class="email form-control form-control-sm"/>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-1">
                                                 <label for="address" class="form-label">Address</label>
                                                 <textarea name="address" id="address" placeholder="" rows="5" class="address form-control form-control-sm"><?=$address;?></textarea>
                                             </div>

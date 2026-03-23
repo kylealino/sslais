@@ -11,7 +11,7 @@ $interest_rate = "";
 $term_months = "";
 $start_date = "";
 $maturity_date = "";
-$Loan_CoMakers = "";
+$loan_comakers = "";
 $status = "Pending";
 
 if(!empty($loan_id)) {
@@ -26,7 +26,7 @@ if(!empty($loan_id)) {
     $term_months = $data['term_months'];
     $start_date = $data['start_date'];
     $maturity_date = $data['maturity_date'];
-    $Loan_CoMakers = $data['Loan_CoMakers'];
+    $loan_comakers = $data['loan_comakers'];
     $status = $data['status'];
 }
 
@@ -36,7 +36,7 @@ echo view('templates/myheader.php');
 ?>
 
 <div class="container-fluid">
-    <div class="row me-mymembers-outp-msg mx-0">
+    <div class="row me-myloanavailment-outp-msg mx-0">
     </div>
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
     <div class="row mb-2 mt-0">
@@ -63,133 +63,133 @@ echo view('templates/myheader.php');
             </div>
 		</div>						
         <div class="card-body p-0 px-4 py-2 my-2">
-            <form action="<?=site_url();?>myloans?meaction=LOAN-SAVE" method="post">
-            <input type="hidden" name="loan_id" value="<?=$loan_id;?>">
-            <div class="row">
-                <!-- LEFT -->
-                <div class="col-sm-6">
-                    <!-- MEMBER -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Member:</div>
-                        <div class="col-sm-8">
-                            <select name="member_id" class="form-control form-control-sm">
-                            <option value="">-- Select --</option>
-                            <?php foreach($members as $m): ?>
-                            <option value="<?=$m['member_id'];?>" <?=($member_id==$m['member_id'])?'selected':'';?>>
-                            <?=$m['first_name'].' '.$m['last_name'];?>
-                            </option>
-                            <?php endforeach; ?>
-                            </select>
+            <form action="<?=site_url();?>myloanavailment?meaction=LOAN-AVAILMENT-SAVE" method="post" class="myloanavailment-validation">
+                <input type="hidden" name="loan_id" id="loan_id" value="<?=$loan_id;?>">
+                <div class="row">
+                    <!-- LEFT -->
+                    <div class="col-sm-6">
+                        <!-- MEMBER -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Member:</div>
+                            <div class="col-sm-8">
+                                <select name="member_id" id="member_id" class="form-control form-control-sm">
+                                <option value="">-- Select --</option>
+                                <?php foreach($members as $m): ?>
+                                <option value="<?=$m['member_id'];?>" <?=($member_id==$m['member_id'])?'selected':'';?>>
+                                <?=$m['first_name'].' '.$m['last_name'];?>
+                                </option>
+                                <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- LOAN TYPE -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Loan Type:</div>
+                            <div class="col-sm-8">
+                                <select name="loan_type" id="loan_type" class="form-control form-control-sm">
+                                <option value="">-- Select --</option>
+                                <option <?=($loan_type=='Personal Loan')?'selected':'';?>>Personal Loan</option>
+                                <option <?=($loan_type=='Home Loan')?'selected':'';?>>Home Loan</option>
+                                <option <?=($loan_type=='Auto Loan')?'selected':'';?>>Auto Loan</option>
+                                <option <?=($loan_type=='Business Loan')?'selected':'';?>>Business Loan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- AMOUNT -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Loan Amount:</div>
+                            <div class="col-sm-8">
+                            <input type="number" name="loan_amount"  id="loan_amount" value="<?=$loan_amount;?>" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <!-- INTEREST -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Interest Rate:</div>
+                            <div class="col-sm-8">
+                            <input type="number" step="0.01" name="interest_rate"  id="interest_rate" value="<?=$interest_rate;?>" class="form-control form-control-sm">
+                            </div>
                         </div>
                     </div>
-                    <!-- LOAN TYPE -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Loan Type:</div>
-                        <div class="col-sm-8">
-                            <select name="loan_type" class="form-control form-control-sm">
-                            <option value="">-- Select --</option>
-                            <option <?=($loan_type=='Personal Loan')?'selected':'';?>>Personal Loan</option>
-                            <option <?=($loan_type=='Home Loan')?'selected':'';?>>Home Loan</option>
-                            <option <?=($loan_type=='Auto Loan')?'selected':'';?>>Auto Loan</option>
-                            <option <?=($loan_type=='Business Loan')?'selected':'';?>>Business Loan</option>
-                            </select>
+
+                    <!-- RIGHT -->
+                    <div class="col-sm-6">
+
+                        <!-- TERM -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Term:</div>
+                            <div class="col-sm-8">
+                                <select name="term_months" id="term_months" class="form-control form-control-sm">
+                                <?php foreach([6,12,24,36,48,60] as $t): ?>
+                                <option value="<?=$t;?>" <?=($term_months==$t)?'selected':'';?>><?=$t;?> months</option>
+                                <?php endforeach; ?>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <!-- AMOUNT -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Loan Amount:</div>
-                        <div class="col-sm-8">
-                        <input type="number" name="loan_amount" value="<?=$loan_amount;?>" class="form-control form-control-sm">
+
+                        <!-- START DATE -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Start Date:</div>
+                            <div class="col-sm-8">
+                            <input type="date" name="start_date" id="start_date" value="<?=$start_date;?>" class="form-control form-control-sm">
+                            </div>
                         </div>
-                    </div>
-                    <!-- INTEREST -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Interest Rate:</div>
-                        <div class="col-sm-8">
-                        <input type="number" step="0.01" name="interest_rate" value="<?=$interest_rate;?>" class="form-control form-control-sm">
+
+                        <!-- MATURITY DATE -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Maturity Date:</div>
+                            <div class="col-sm-8">
+                            <input type="date" name="maturity_date" id="maturity_date" value="<?=$maturity_date;?>" class="form-control form-control-sm">
+                            </div>
                         </div>
+
+                        <!-- CO-MAKER -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Co-maker:</div>
+                            <div class="col-sm-8">
+                                <select name="loan_comakers" id="loan_comakers" class="form-control form-control-sm">
+                                    <option value="">-- Select --</option>
+                                    <?php foreach($members as $m): ?>
+                                    <option value="<?=$m['member_id'];?>" <?=($loan_comakers==$m['member_id'])?'selected':'';?>>
+                                    <?=$m['first_name'].' '.$m['last_name'];?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- STATUS -->
+                        <div class="row mb-2">
+                            <div class="col-sm-4">Status:</div>
+                            <div class="col-sm-8">
+                                <select name="status" id="status" class="form-control form-control-sm" style="pointer-events:none; background:#e9ecef;" readonly>
+                                <option value="<?=$status;?>" <?=($status=='Pending')?'selected':'';?>>Pending</option>
+                                <option value="<?=$status;?>" <?=($status=='Approved')?'selected':'';?>>Approved</option>
+                                <option value="<?=$status;?>" <?=($status=='Active')?'selected':'';?>>Active</option>
+                                <option value="<?=$status;?>" <?=($status=='Closed')?'selected':'';?>>Closed</option>
+                                </select>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
-                <!-- RIGHT -->
-                <div class="col-sm-6">
-
-                    <!-- TERM -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Term:</div>
-                        <div class="col-sm-8">
-                            <select name="term_months" class="form-control form-control-sm">
-                            <?php foreach([6,12,24,36,48,60] as $t): ?>
-                            <option value="<?=$t;?>" <?=($term_months==$t)?'selected':'';?>><?=$t;?> months</option>
-                            <?php endforeach; ?>
-                            </select>
-                        </div>
+                <!-- BUTTONS -->
+                <div class="row mt-3">
+                    <div class="col-sm-12 text-end">
+                        <button type="submit" class="btn bg-success-subtle text-success btn-sm">
+                        Save Loan
+                        </button>
                     </div>
-
-                    <!-- START DATE -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Start Date:</div>
-                        <div class="col-sm-8">
-                        <input type="date" name="start_date" value="<?=$start_date;?>" class="form-control form-control-sm">
-                        </div>
-                    </div>
-
-                    <!-- MATURITY DATE -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Maturity Date:</div>
-                        <div class="col-sm-8">
-                        <input type="date" name="maturity_date" value="<?=$maturity_date;?>" class="form-control form-control-sm">
-                        </div>
-                    </div>
-
-                    <!-- CO-MAKER -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Co-maker:</div>
-                        <div class="col-sm-8">
-                            <select name="Loan_CoMakers" class="form-control form-control-sm">
-                            <option value="">-- Select --</option>
-                            <?php foreach($members as $m): ?>
-                            <option value="<?=$m['member_id'];?>" <?=($Loan_CoMakers==$m['member_id'])?'selected':'';?>>
-                            <?=$m['first_name'].' '.$m['last_name'];?>
-                            </option>
-                            <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- STATUS -->
-                    <div class="row mb-2">
-                        <div class="col-sm-4">Status:</div>
-                        <div class="col-sm-8">
-                            <select name="status" class="form-control form-control-sm">
-                            <option <?=($status=='Pending')?'selected':'';?>>Pending</option>
-                            <option <?=($status=='Approved')?'selected':'';?>>Approved</option>
-                            <option <?=($status=='Active')?'selected':'';?>>Active</option>
-                            <option <?=($status=='Closed')?'selected':'';?>>Closed</option>
-                            </select>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
-            <!-- BUTTONS -->
-            <div class="row mt-3">
-                <div class="col-sm-12 text-end">
-                    <button type="submit" class="btn bg-success-subtle text-success btn-sm">
-                    Save Loan
-                    </button>
-                </div>
-            </div>
             </form>
             <div class="row mt-3">
                 <!-- Button to generate amortization -->
-                <button type="button" id="generateAmortization" class="btn bg-success-subtle text-success btn-sm">
+                <button type="button" id="generateAmortization" class="btn bg-primary-subtle text-success btn-sm">
                     Generate Amortization
                 </button>
 
                 <!-- Table placeholder -->
                 <div class="table-responsive mt-3">
-                    <table class="table table-bordered" id="amortizationTable">
+                    <table class="table table-bordered ammortization-list" id="amortizationTable">
                         <thead>
                             <tr>
                                 <th>Period</th>
@@ -202,7 +202,7 @@ echo view('templates/myheader.php');
                             </tr>
                         </thead>
                         <tbody>
-                                                <!-- Skeletal rows with placeholders -->
+                        <!-- Skeletal rows with placeholders -->
                             <tr>
                                 <td>-</td>
                                 <td>-</td>
@@ -241,12 +241,13 @@ echo view('templates/myheader.php');
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="<?=base_url('assets/js/members-management/mymembers.js?v=2');?>"></script>
+<script src="<?=base_url('assets/js/loan-availment/myloanavailment.js?v=1');?>"></script>
 <script src="<?=base_url('assets/js/mysysapps.js');?>"></script>
 
 </script>
 
 <script>
+    __mysys_loanavailment_ent.__loanavailment_saving();
 document.getElementById('generateAmortization').addEventListener('click', function() {
 
     // Collect form values

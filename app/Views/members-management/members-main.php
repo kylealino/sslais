@@ -49,7 +49,44 @@ if(!empty($member_id) || !is_null($member_id)) {
 }
 echo view('templates/myheader.php');
 ?>
+<style>
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 50px;
+    letter-spacing: 0.3px;
+}
 
+/* Dot indicator */
+.status-pill::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+/* ACTIVE (Green - subtle) */
+.status-active {
+    background: rgba(25, 135, 84, 0.1);
+    color: #198754;
+}
+.status-active::before {
+    background: #198754;
+}
+
+/* INACTIVE (Blue - subtle) */
+.status-inactive {
+    background: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+.status-inactive::before {
+    background: #0d6efd;
+}
+</style>
 <div class="container-fluid">
     <div class="row me-mymembers-outp-msg mx-0">
     </div>
@@ -196,6 +233,8 @@ echo view('templates/myheader.php');
                         <th>Contact number</th>
                         <th>Email</th>
                         <th>Loan Count</th>
+                        <th>Loan Amount</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody class="align-middle">
@@ -226,6 +265,8 @@ echo view('templates/myheader.php');
                         <td class="text-center"><?=$contact_number;?></td>
                         <td class="text-center"><?=$email;?></td>
                         <td class="text-center">1</td>
+                        <td class="text-center">P1,000,000.00</td>
+                        <td class="text-center"><span class="status-pill status-active">Active</span></td>
                     </tr>
                     <?php endforeach; endif;?>
                 </tbody>
