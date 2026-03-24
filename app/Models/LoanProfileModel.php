@@ -2,7 +2,7 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class LoanAvailmentModel extends Model
+class LoanProfileModel extends Model
 {
 
     protected $db;
@@ -16,107 +16,58 @@ class LoanAvailmentModel extends Model
         
     }
 
-	public function loanavailment_save() { 
+	public function loanpayment_save() { 
 		$loan_id = $this->request->getPostGet('loan_id');
 		$member_id = $this->request->getPostGet('member_id');
-		$loan_type = $this->request->getPostGet('loan_type');
-		$loan_amount = $this->request->getPostGet('loan_amount');
-		$interest_rate = $this->request->getPostGet('interest_rate');
-		$term_months = $this->request->getPostGet('term_months');
-		$start_date = $this->request->getPostGet('start_date');
-		$maturity_date = $this->request->getPostGet('maturity_date');
-		$loan_comakers = $this->request->getPostGet('loan_comakers');
-		$status = $this->request->getPostGet('status');
-		$ammortizationdata = $this->request->getPostGet('ammortizationdata');
-
-
+		$interest = $this->request->getPostGet('interest');
+		$principal = $this->request->getPostGet('principal');
+		$total_payment = $this->request->getPostGet('total_payment');
+		$payment_date = $this->request->getPostGet('payment_date');
+		$ammortization_id = $this->request->getPostGet('ammortization_id');
 
 		// var_dump(
 		// 	$loan_id,
 		// 	$member_id,
-		// 	$loan_type,
-		// 	$loan_amount,
-		// 	$interest_rate,
-		// 	$term_months,
-		// 	$start_date,
-		// 	$maturity_date,
-		// 	$loan_comakers,
-		// 	$status
-		// 	$ammortizationdata
+		// 	$interest,
+		// 	$principal,
+		// 	$total_payment,
+		// 	$payment_date,
+		// 	$ammortization_id
 		// );
 		// die();
 
 		$query = $this->db->query("
-			INSERT INTO `tbl_loans`(
+			INSERT INTO `tbl_loans_payment`(
+				`loan_id`,
 				`member_id`,
-				`loan_type`,
-				`loan_amount`,
-				`interest_rate`,
-				`term_months`,
-				`start_date`,
-				`maturity_date`,
-				`status`,
-				`loan_comakers`,
+				`interest`,
+				`principal`,
+				`total_payment`,
+				`payment_date`,
 				`created_by`
 			)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			VALUES (?, ?, ?, ?, ?, ?, ?)
 		", [
+			$loan_id,
 			$member_id,
-			$loan_type,
-			$loan_amount,
-			$interest_rate,
-			$term_months,
-			$start_date,
-			$maturity_date,
-			$status,
-			$loan_comakers,
+			$interest,
+			$principal,
+			$total_payment,
+			$payment_date,
 			$this->cuser
 		]);
 
-		$loan_id = $this->db->insertID();
-		if (!empty($ammortizationdata)) {
-			for($aa = 0; $aa < count($ammortizationdata); $aa++){
-				$medata = explode("x|x",$ammortizationdata[$aa]);
-				$period = $medata[0]; 
-				$payment_date = date('Y/m/d', strtotime($medata[1]));
-				$beginning_balance = $medata[2]; 
-				$interest = $medata[3];
-				$principal = $medata[4];
-				$payment = $medata[5];  
-				$ending_balance = $medata[6];  
+		$query = $this->db->query("
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = ?
+			WHERE `ammortization_id` = ?
+		", [
+			'Paid',
+			$ammortization_id
+		]);
 
-				$query = $this->db->query("
-					INSERT INTO `tbl_loans_ammortization`(
-						`loan_id`,
-						`member_id`,
-						`period`,
-						`payment_date`,
-						`beginning_balance`,
-						`interest`,
-						`principal`,
-						`payment`,
-						`ending_balance`,
-						`created_by`
-					)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-					[
-						$loan_id,
-						$member_id,
-						$period,
-						$payment_date,
-						$beginning_balance,
-						$interest,
-						$principal,
-						$payment,
-						$ending_balance,
-						$this->cuser
-					]
-				);
-				
-			}
-		}
-
-		$status = "Loan Saved successfully";
+		$status = "Payment Saved successfully";
 		$color = "success";
 
 		if ($query) {
@@ -129,7 +80,7 @@ class LoanAvailmentModel extends Model
 						timeOut:2500,
 					});
 				setTimeout(function() {
-						window.location.href = 'myloanavailment?meaction=MAIN'; // Redirect to MAIN view
+						window.location.href = 'myloanprofile?meaction=MAIN&loan_id=$loan_id'; // Redirect to MAIN view
 					}, 2500); // 2-second delay for user to see the toast
 			</script>
 			";

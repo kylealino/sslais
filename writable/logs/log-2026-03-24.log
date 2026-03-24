@@ -1,0 +1,1207 @@
+CRITICAL - 2026-03-24 10:15:28 --> ErrorException: Undefined variable $amortization
+[Method: POST, Route: myloanavailment]
+in APPPATH\Models\LoanAvailmentModel.php on line 71.
+ 1 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $amortization', 'C:\\xampp\\htdocs\\sslais\\app\\Models\\LoanAvailmentModel.php', 71)
+ 2 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:18:22 --> ErrorException: Undefined variable $loan_comaker
+[Method: POST, Route: myloanavailment]
+in APPPATH\Models\LoanAvailmentModel.php on line 70.
+ 1 APPPATH\Models\LoanAvailmentModel.php(70): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $loan_comaker', 'C:\\xampp\\htdocs\\sslais\\app\\Models\\LoanAvailmentModel.php', 70)
+ 2 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-24 10:19:25 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' at line 13 in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n\t\t\tINSERT INT...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n\t\t\tINSERT INT...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n\t\t\tINSERT INT...')
+#3 C:\xampp\htdocs\sslais\app\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('\r\n\t\t\tINSERT INT...', Array)
+#4 C:\xampp\htdocs\sslais\app\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-03-24 10:19:25 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' at line 13
+[Method: POST, Route: myloanavailment]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 2 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:19:25 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' at line 13
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		')
+ 3 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 4 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:19:25 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' at line 13
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		')
+ 4 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 5 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:19:52 --> Error: Call to undefined method CodeIgniter\Database\MySQLi\Connection::insert_id()
+[Method: POST, Route: myloanavailment]
+in APPPATH\Models\LoanAvailmentModel.php on line 74.
+ 1 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:20:03 --> Error: Call to undefined method CodeIgniter\Database\MySQLi\Connection::insert_id()
+[Method: POST, Route: myloanavailment]
+in APPPATH\Models\LoanAvailmentModel.php on line 74.
+ 1 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-24 10:21:09 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' at line 13 in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n\t\t\t\t\tINSERT I...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n\t\t\t\t\tINSERT I...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n\t\t\t\t\tINSERT I...')
+#3 C:\xampp\htdocs\sslais\app\Models\LoanAvailmentModel.php(110): CodeIgniter\Database\BaseConnection->query('\r\n\t\t\t\t\tINSERT I...', Array)
+#4 C:\xampp\htdocs\sslais\app\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-03-24 10:21:09 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' at line 13
+[Method: POST, Route: myloanavailment]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Models\LoanAvailmentModel.php(110): CodeIgniter\Database\BaseConnection->query('
+					INSERT INTO `tbl_loans_ammortization`(
+						`loan_id`,
+						`member_id`,
+						`period`,
+						`payment_date`,
+						`beginning_balance`,
+						`interest`,
+						`principal`,
+						`payment`,
+						`ending_balance`,
+						`created_by`
+					)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [...])
+ 2 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:21:09 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' at line 13
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+					INSERT INTO `tbl_loans_ammortization`(
+						`loan_id`,
+						`member_id`,
+						`period`,
+						`payment_date`,
+						`beginning_balance`,
+						`interest`,
+						`principal`,
+						`payment`,
+						`ending_balance`,
+						`created_by`
+					)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+					INSERT INTO `tbl_loans_ammortization`(
+						`loan_id`,
+						`member_id`,
+						`period`,
+						`payment_date`,
+						`beginning_balance`,
+						`interest`,
+						`principal`,
+						`payment`,
+						`ending_balance`,
+						`created_by`
+					)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+ 3 APPPATH\Models\LoanAvailmentModel.php(110): CodeIgniter\Database\BaseConnection->query('
+					INSERT INTO `tbl_loans_ammortization`(
+						`loan_id`,
+						`member_id`,
+						`period`,
+						`payment_date`,
+						`beginning_balance`,
+						`interest`,
+						`principal`,
+						`payment`,
+						`ending_balance`,
+						`created_by`
+					)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [...])
+ 4 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:21:09 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' at line 13
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+					INSERT INTO `tbl_loans_ammortization`(
+						`loan_id`,
+						`member_id`,
+						`period`,
+						`payment_date`,
+						`beginning_balance`,
+						`interest`,
+						`principal`,
+						`payment`,
+						`ending_balance`,
+						`created_by`
+					)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+					INSERT INTO `tbl_loans_ammortization`(
+						`loan_id`,
+						`member_id`,
+						`period`,
+						`payment_date`,
+						`beginning_balance`,
+						`interest`,
+						`principal`,
+						`payment`,
+						`ending_balance`,
+						`created_by`
+					)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+					INSERT INTO `tbl_loans_ammortization`(
+						`loan_id`,
+						`member_id`,
+						`period`,
+						`payment_date`,
+						`beginning_balance`,
+						`interest`,
+						`principal`,
+						`payment`,
+						`ending_balance`,
+						`created_by`
+					)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+ 4 APPPATH\Models\LoanAvailmentModel.php(110): CodeIgniter\Database\BaseConnection->query('
+					INSERT INTO `tbl_loans_ammortization`(
+						`loan_id`,
+						`member_id`,
+						`period`,
+						`payment_date`,
+						`beginning_balance`,
+						`interest`,
+						`principal`,
+						`payment`,
+						`ending_balance`,
+						`created_by`
+					)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [...])
+ 5 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:30:39 --> TypeError: number_format(): Argument #1 ($num) must be of type float, string given
+[Method: GET, Route: myloanprofile]
+in APPPATH\Views\loan-availment\loan-profile-main.php on line 83.
+ 1 APPPATH\Views\loan-availment\loan-profile-main.php(83): number_format('', 2)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 5 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-24 10:32:28 --> mysqli_sql_exception: Unknown column 'amortization_id' in 'order clause' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n             ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n             ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n             ...')
+#3 C:\xampp\htdocs\sslais\app\Views\loan-availment\loan-profile-main.php(102): CodeIgniter\Database\BaseConnection->query('\r\n             ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('loan-availment/...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\LoanProfileController.php(24): view('loan-availment/...')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-03-24 10:32:28 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'amortization_id' in 'order clause'
+[Method: GET, Route: myloanprofile]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\loan-availment\loan-profile-main.php(102): CodeIgniter\Database\BaseConnection->query('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 5 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:32:28 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'amortization_id' in 'order clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 3 APPPATH\Views\loan-availment\loan-profile-main.php(102): CodeIgniter\Database\BaseConnection->query('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 7 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:32:28 --> [Caused by] mysqli_sql_exception: Unknown column 'amortization_id' in 'order clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 4 APPPATH\Views\loan-availment\loan-profile-main.php(102): CodeIgniter\Database\BaseConnection->query('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 8 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-24 10:35:43 --> mysqli_sql_exception: Unknown column 'l.balance' in 'field list' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n             ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n             ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n             ...')
+#3 C:\xampp\htdocs\sslais\app\Views\loan-availment\loan-profile-main.php(92): CodeIgniter\Database\BaseConnection->query('\r\n             ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('loan-availment/...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\LoanProfileController.php(24): view('loan-availment/...')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-03-24 10:35:43 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'l.balance' in 'field list'
+[Method: GET, Route: myloanprofile]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\loan-availment\loan-profile-main.php(92): CodeIgniter\Database\BaseConnection->query('
+                                SELECT m.member_id, m.first_name, m.last_name, 
+                                    COUNT(l.loan_id) AS total_loans,
+                                    SUM(l.balance) AS outstanding_balance
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id
+                            ')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 5 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:35:43 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'l.balance' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                                SELECT m.member_id, m.first_name, m.last_name, 
+                                    COUNT(l.loan_id) AS total_loans,
+                                    SUM(l.balance) AS outstanding_balance
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id
+                            ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                                SELECT m.member_id, m.first_name, m.last_name, 
+                                    COUNT(l.loan_id) AS total_loans,
+                                    SUM(l.balance) AS outstanding_balance
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id
+                            ')
+ 3 APPPATH\Views\loan-availment\loan-profile-main.php(92): CodeIgniter\Database\BaseConnection->query('
+                                SELECT m.member_id, m.first_name, m.last_name, 
+                                    COUNT(l.loan_id) AS total_loans,
+                                    SUM(l.balance) AS outstanding_balance
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id
+                            ')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 7 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 10:35:43 --> [Caused by] mysqli_sql_exception: Unknown column 'l.balance' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+                                SELECT m.member_id, m.first_name, m.last_name, 
+                                    COUNT(l.loan_id) AS total_loans,
+                                    SUM(l.balance) AS outstanding_balance
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id
+                            ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                                SELECT m.member_id, m.first_name, m.last_name, 
+                                    COUNT(l.loan_id) AS total_loans,
+                                    SUM(l.balance) AS outstanding_balance
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id
+                            ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                                SELECT m.member_id, m.first_name, m.last_name, 
+                                    COUNT(l.loan_id) AS total_loans,
+                                    SUM(l.balance) AS outstanding_balance
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id
+                            ')
+ 4 APPPATH\Views\loan-availment\loan-profile-main.php(92): CodeIgniter\Database\BaseConnection->query('
+                                SELECT m.member_id, m.first_name, m.last_name, 
+                                    COUNT(l.loan_id) AS total_loans,
+                                    SUM(l.balance) AS outstanding_balance
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id
+                            ')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 8 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 11:34:02 --> ParseError: syntax error, unexpected token "endforeach"
+[Method: GET, Route: myloanprofile]
+in APPPATH\Views\loan-availment\loan-profile-main.php on line 283.
+ 1 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 3 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:12:45 --> ErrorException: Undefined array key "loan_id"
+[Method: GET, Route: myloanprofile]
+in APPPATH\Views\loan-availment\loan-profile-main.php on line 266.
+ 1 APPPATH\Views\loan-availment\loan-profile-main.php(266): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "loan_id"', 'C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php', 266)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 5 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-24 13:14:45 --> mysqli_sql_exception: Unknown column 'amortization_id' in 'order clause' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n             ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n             ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n             ...')
+#3 C:\xampp\htdocs\sslais\app\Views\loan-availment\loan-profile-main.php(92): CodeIgniter\Database\BaseConnection->query('\r\n             ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('loan-availment/...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\LoanProfileController.php(24): view('loan-availment/...')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-03-24 13:14:45 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'amortization_id' in 'order clause'
+[Method: GET, Route: myloanprofile]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\loan-availment\loan-profile-main.php(92): CodeIgniter\Database\BaseConnection->query('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'4\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 5 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:14:45 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'amortization_id' in 'order clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'4\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'4\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 3 APPPATH\Views\loan-availment\loan-profile-main.php(92): CodeIgniter\Database\BaseConnection->query('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'4\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 7 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:14:45 --> [Caused by] mysqli_sql_exception: Unknown column 'amortization_id' in 'order clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'4\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'4\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'4\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 4 APPPATH\Views\loan-availment\loan-profile-main.php(92): CodeIgniter\Database\BaseConnection->query('
+                                SELECT ending_balance 
+                                FROM tbl_loans_ammortization 
+                                WHERE loan_id = \'4\' 
+                                ORDER BY amortization_id DESC 
+                                LIMIT 1
+                            ')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 8 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:19:24 --> Error: Call to undefined method CodeIgniter\Database\MySQLi\Connection::escape_str()
+[Method: GET, Route: myloanprofile]
+in APPPATH\Views\loan-availment\loan-profile-main.php on line 92.
+ 1 SYSTEMPATH\View\View.php(224): include()
+ 2 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 4 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:28:04 --> ParseError: syntax error, unexpected end of file
+[Method: GET, Route: myloanprofile]
+in APPPATH\Views\loan-availment\loan-profile-main.php on line 348.
+ 1 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 3 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-24 13:49:22 --> mysqli_sql_exception: Column 'status' cannot be null in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n\t\t\tINSERT INT...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n\t\t\tINSERT INT...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n\t\t\tINSERT INT...')
+#3 C:\xampp\htdocs\sslais\app\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('\r\n\t\t\tINSERT INT...', Array)
+#4 C:\xampp\htdocs\sslais\app\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-03-24 13:49:22 --> CodeIgniter\Database\Exceptions\DatabaseException: Column 'status' cannot be null
+[Method: POST, Route: myloanavailment]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 2 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:49:22 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Column 'status' cannot be null
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		')
+ 3 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 4 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:49:22 --> [Caused by] mysqli_sql_exception: Column 'status' cannot be null
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		')
+ 4 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 5 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-24 13:51:40 --> mysqli_sql_exception: Column 'status' cannot be null in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n\t\t\tINSERT INT...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n\t\t\tINSERT INT...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n\t\t\tINSERT INT...')
+#3 C:\xampp\htdocs\sslais\app\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('\r\n\t\t\tINSERT INT...', Array)
+#4 C:\xampp\htdocs\sslais\app\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-03-24 13:51:40 --> CodeIgniter\Database\Exceptions\DatabaseException: Column 'status' cannot be null
+[Method: POST, Route: myloanavailment]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 2 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:51:40 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Column 'status' cannot be null
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		')
+ 3 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 4 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 13:51:40 --> [Caused by] mysqli_sql_exception: Column 'status' cannot be null
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (\'3\', \'Auto Loan\', \'1000000\', \'10\', \'12\', \'2026-03-24\', \'2027-03-24\', NULL, \'2\', \'ADMIN-KYLE\')
+		')
+ 4 APPPATH\Models\LoanAvailmentModel.php(71): CodeIgniter\Database\BaseConnection->query('
+			INSERT INTO `tbl_loans`(
+				`member_id`,
+				`loan_type`,
+				`loan_amount`,
+				`interest_rate`,
+				`term_months`,
+				`start_date`,
+				`maturity_date`,
+				`status`,
+				`loan_comakers`,
+				`created_by`
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [...])
+ 5 APPPATH\Controllers\LoanAvailmentController.php(28): App\Models\LoanAvailmentModel->loanavailment_save()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanAvailmentController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanAvailmentController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 15:08:03 --> CodeIgniter\Database\Exceptions\DatabaseException: You must set the database table to be used with your query.
+[Method: POST, Route: myloanprofile]
+in SYSTEMPATH\Database\BaseConnection.php on line 941.
+ 1 SYSTEMPATH\Model.php(714): CodeIgniter\Database\BaseConnection->table(null)
+ 2 SYSTEMPATH\Model.php(920): CodeIgniter\Model->builder()
+ 3 APPPATH\Controllers\LoanProfileController.php(28): CodeIgniter\Model->__call('loanpayment_save', [])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-24 15:17:38 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE `ammortization_id` = '31'' at line 4 in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n\t\t\tUPDATE `tb...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n\t\t\tUPDATE `tb...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n\t\t\tUPDATE `tb...')
+#3 C:\xampp\htdocs\sslais\app\Models\LoanProfileModel.php(67): CodeIgniter\Database\BaseConnection->query('\r\n\t\t\tUPDATE `tb...', Array)
+#4 C:\xampp\htdocs\sslais\app\Controllers\LoanProfileController.php(28): App\Models\LoanProfileModel->loanpayment_save()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-03-24 15:17:38 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE `ammortization_id` = '31'' at line 4
+[Method: POST, Route: myloanprofile]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Models\LoanProfileModel.php(67): CodeIgniter\Database\BaseConnection->query('
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = ?,
+			WHERE `ammortization_id` = ?
+		', [...])
+ 2 APPPATH\Controllers\LoanProfileController.php(28): App\Models\LoanProfileModel->loanpayment_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 15:17:38 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE `ammortization_id` = '31'' at line 4
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = \'Paid\',
+			WHERE `ammortization_id` = \'31\'
+		')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = \'Paid\',
+			WHERE `ammortization_id` = \'31\'
+		')
+ 3 APPPATH\Models\LoanProfileModel.php(67): CodeIgniter\Database\BaseConnection->query('
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = ?,
+			WHERE `ammortization_id` = ?
+		', [...])
+ 4 APPPATH\Controllers\LoanProfileController.php(28): App\Models\LoanProfileModel->loanpayment_save()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 15:17:38 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE `ammortization_id` = '31'' at line 4
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = \'Paid\',
+			WHERE `ammortization_id` = \'31\'
+		', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = \'Paid\',
+			WHERE `ammortization_id` = \'31\'
+		')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = \'Paid\',
+			WHERE `ammortization_id` = \'31\'
+		')
+ 4 APPPATH\Models\LoanProfileModel.php(67): CodeIgniter\Database\BaseConnection->query('
+			UPDATE `tbl_loans_ammortization`
+			SET
+				`payment_status` = ?,
+			WHERE `ammortization_id` = ?
+		', [...])
+ 5 APPPATH\Controllers\LoanProfileController.php(28): App\Models\LoanProfileModel->loanpayment_save()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 15:19:08 --> CodeIgniter\HTTP\Exceptions\BadRequestException: The URI you submitted has disallowed characters: "myloanprofilemeaction=MAIN&loan_id=9"
+[Method: GET, Route: myloanprofilemeaction=MAIN&loan_id=9]
+in SYSTEMPATH\Router\Router.php on line 739.
+ 1 SYSTEMPATH\Router\Router.php(207): CodeIgniter\Router\Router->checkDisallowedChars('myloanprofilemeaction=MAIN&loan_id=9')
+ 2 SYSTEMPATH\CodeIgniter.php(832): CodeIgniter\Router\Router->handle('myloanprofilemeaction=MAIN&loan_id=9')
+ 3 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-24 15:22:25 --> CodeIgniter\HTTP\Exceptions\BadRequestException: The URI you submitted has disallowed characters: "myloanprofilemeaction=MAIN&loan_id=10"
+[Method: GET, Route: myloanprofilemeaction=MAIN&loan_id=10]
+in SYSTEMPATH\Router\Router.php on line 739.
+ 1 SYSTEMPATH\Router\Router.php(207): CodeIgniter\Router\Router->checkDisallowedChars('myloanprofilemeaction=MAIN&loan_id=10')
+ 2 SYSTEMPATH\CodeIgniter.php(832): CodeIgniter\Router\Router->handle('myloanprofilemeaction=MAIN&loan_id=10')
+ 3 SYSTEMPATH\CodeIgniter.php(455): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
