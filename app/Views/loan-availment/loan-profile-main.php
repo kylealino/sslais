@@ -406,248 +406,248 @@ echo view('templates/myheader.php');
                 </div>
             </div>
         </div>
-    <?php endif;?>
-    
-    <div class="card">				
-        <div class="card-body p-0">
-            <?php if(!empty($loan_id)):?>
-                <div class="row">
-                    <!-- LEFT: LOAN SUMMARY -->
-                    <div class="col-md-4">
-                        <!-- Loan Summary -->
-                        <div class="card mb-3">
-                            <div class="card-header fw-bold">Loan Summary</div>
-                            <div class="card-body">
+        <?php endif;?>
+        
+        <div class="card">				
+            <div class="card-body p-0">
+                <?php if(!empty($loan_id)):?>
+                    <div class="row">
+                        <!-- LEFT: LOAN SUMMARY -->
+                        <div class="col-md-4">
+                            <!-- Loan Summary -->
+                            <div class="card mb-3">
+                                <div class="card-header fw-bold">Loan Summary</div>
+                                <div class="card-body">
 
-                                <p><strong>Loan Type:</strong> <?= esc($loan_type); ?></p>
-                                <p><strong>Loan Amount:</strong> ₱<?= number_format((float)$loan_amount, 2); ?></p>
-                                <p><strong>Interest Rate:</strong> <?= number_format((float)$interest_rate, 2); ?>%</p>
-                                <p><strong>Term:</strong> <?= (int)$term_months; ?> months</p>
-                                <p><strong>Status:</strong> 
-                                    <span class="badge bg-warning"><?= esc($status); ?></span>
-                                </p>
+                                    <p><strong>Loan Type:</strong> <?= esc($loan_type); ?></p>
+                                    <p><strong>Loan Amount:</strong> ₱<?= number_format((float)$loan_amount, 2); ?></p>
+                                    <p><strong>Interest Rate:</strong> <?= number_format((float)$interest_rate, 2); ?>%</p>
+                                    <p><strong>Term:</strong> <?= (int)$term_months; ?> months</p>
+                                    <p><strong>Status:</strong> 
+                                        <span class="badge bg-warning"><?= esc($status); ?></span>
+                                    </p>
 
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Outstanding Balance -->
-                        <div class="card mb-3">
-                            <div class="card-header fw-bold">Outstanding Balance</div>
-                            <div class="card-body">
-                                <?php
-                                // Get the LATEST PAID amortization record
-                                $balanceQuery = $this->db->query("
-                                    SELECT ending_balance 
-                                    FROM tbl_loans_ammortization 
-                                    WHERE loan_id = ? 
-                                    AND payment_status = 'Paid'
-                                    ORDER BY ammortization_id DESC 
-                                    LIMIT 1
-                                ", [$loan_id])->getRowArray();
+                            <!-- Outstanding Balance -->
+                            <div class="card mb-3">
+                                <div class="card-header fw-bold">Outstanding Balance</div>
+                                <div class="card-body">
+                                    <?php
+                                    // Get the LATEST PAID amortization record
+                                    $balanceQuery = $this->db->query("
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization 
+                                        WHERE loan_id = ? 
+                                        AND payment_status = 'Paid'
+                                        ORDER BY ammortization_id DESC 
+                                        LIMIT 1
+                                    ", [$loan_id])->getRowArray();
 
-                                if(isset($balanceQuery['ending_balance'])) {
-                                    // If there are paid records, show the last paid ending balance
-                                    $outstanding = (float)$balanceQuery['ending_balance'];
-                                } else {
-                                    // If no payments made yet, show full loan amount
-                                    $outstanding = (float)$loan_amount;
-                                }
-                                ?>
-
-                                <h4 class="text-danger">₱<?= number_format($outstanding, 2); ?></h4>
-                            </div>
-                        </div>
-
-                        <!-- Co-Maker -->
-                        <div class="card">
-                            <div class="card-header fw-bold">Co-Maker</div>
-                            <div class="card-body">
-                                <?php
-                                foreach($members as $m){
-                                    if($m['member_id'] == $loan_comakers){
-                                        echo '<p>' . esc($m['first_name']) . ' ' . esc($m['last_name']) . '</p>';
+                                    if(isset($balanceQuery['ending_balance'])) {
+                                        // If there are paid records, show the last paid ending balance
+                                        $outstanding = (float)$balanceQuery['ending_balance'];
+                                    } else {
+                                        // If no payments made yet, show full loan amount
+                                        $outstanding = (float)$loan_amount;
                                     }
-                                }
-                                ?>
+                                    ?>
+
+                                    <h4 class="text-danger">₱<?= number_format($outstanding, 2); ?></h4>
+                                </div>
+                            </div>
+
+                            <!-- Co-Maker -->
+                            <div class="card">
+                                <div class="card-header fw-bold">Co-Maker</div>
+                                <div class="card-body">
+                                    <?php
+                                    foreach($members as $m){
+                                        if($m['member_id'] == $loan_comakers){
+                                            echo '<p>' . esc($m['first_name']) . ' ' . esc($m['last_name']) . '</p>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- RIGHT SIDE -->
-                    <div class="col-md-8">
-                        <!-- PAYMENT UI ONLY -->
-                        <div class="card mb-3">
-                            <div class="card-header fw-bold">Make Payment</div>
-                            <div class="card-body">
-                                <form action="<?=site_url();?>myloanprofile?meaction=LOAN-PAYMENT-SAVE" method="post" class="myloanprofile-validation">
-                                    <input type="hidden" name="loan_id" id="loan_id" value="<?= $loan_id; ?>">
-                                    <input type="hidden" name="member_id" id="member_id" value="<?= $member_id; ?>">
-                                    <input type="hidden" name="interest" id="interest">
-                                    <input type="hidden" name="principal" id="principal">
-                                    <input type="hidden" name="ammortization_id" id="ammortization_id">
-                                    
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
-                                            <label>Payment Date</label>
-                                            <input type="date" name="payment_date" id="payment_date" class="form-control form-control-sm" required>
-                                        </div>
+                        <!-- RIGHT SIDE -->
+                        <div class="col-md-8">
+                            <!-- PAYMENT UI ONLY -->
+                            <div class="card mb-3">
+                                <div class="card-header fw-bold">Make Payment</div>
+                                <div class="card-body">
+                                    <form action="<?=site_url();?>myloanprofile?meaction=LOAN-PAYMENT-SAVE" method="post" class="myloanprofile-validation">
+                                        <input type="hidden" name="loan_id" id="loan_id" value="<?= $loan_id; ?>">
+                                        <input type="hidden" name="member_id" id="member_id" value="<?= $member_id; ?>">
+                                        <input type="hidden" name="interest" id="interest">
+                                        <input type="hidden" name="principal" id="principal">
+                                        <input type="hidden" name="ammortization_id" id="ammortization_id">
+                                        
+                                        <div class="row mb-2">
+                                            <div class="col-md-6">
+                                                <label>Payment Date</label>
+                                                <input type="date" name="payment_date" id="payment_date" class="form-control form-control-sm" required>
+                                            </div>
 
-                                        <div class="col-md-6">
-                                            <label>Amount</label>
-                                            <input type="number" step="0.01" name="amount" id="total_payment" class="form-control form-control-sm" readonly style="background: #f8fafc;" required>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Display selected amortization info -->
-                                    <div class="row mb-2" id="selectedAmortizationInfo" style="display: none;">
-                                        <div class="col-12">
-                                            <div class="alert alert-info alert-sm p-2 mb-0" style="font-size: 0.75rem;">
-                                                <i class="ti ti-info-circle"></i> 
-                                                <strong>Selected Payment:</strong> Period <span id="info_period">-</span> | 
-                                                Principal: ₱<span id="info_principal">0.00</span> | 
-                                                Interest: ₱<span id="info_interest">0.00</span>
+                                            <div class="col-md-6">
+                                                <label>Amount</label>
+                                                <input type="number" step="0.01" name="amount" id="total_payment" class="form-control form-control-sm" readonly style="background: #f8fafc;" required>
                                             </div>
                                         </div>
-                                    </div>
+                                        
+                                        <!-- Display selected amortization info -->
+                                        <div class="row mb-2" id="selectedAmortizationInfo" style="display: none;">
+                                            <div class="col-12">
+                                                <div class="alert alert-info alert-sm p-2 mb-0" style="font-size: 0.75rem;">
+                                                    <i class="ti ti-info-circle"></i> 
+                                                    <strong>Selected Payment:</strong> Period <span id="info_period">-</span> | 
+                                                    Principal: ₱<span id="info_principal">0.00</span> | 
+                                                    Interest: ₱<span id="info_interest">0.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-success btn-sm" id="payButton" disabled>
-                                            <i class="ti ti-credit-card"></i> Pay Amortization
-                                        </button>
-                                    </div>
-                                </form>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-success btn-sm" id="payButton" disabled>
+                                                <i class="ti ti-credit-card"></i> Pay Amortization
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- AMORTIZATION TABLE -->
-                        <div class="card mb-3">
-                            <div class="card-header fw-bold">Amortization Schedule</div>
-                            <div class="card-body table-responsive">
-                                <table class="table table-bordered table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Period</th>
-                                            <th>Date</th>
-                                            <th>Beginning</th>
-                                            <th>Interest</th>
-                                            <th>Principal</th>
-                                            <th>Payment</th>
-                                            <th>Ending</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    $sched = $this->db->query("
-                                        SELECT * 
-                                        FROM tbl_loans_ammortization 
-                                        WHERE loan_id = '$loan_id'
-                                        ORDER BY period ASC
-                                    ")->getResultArray();
-
-                                    foreach($sched as $row):
-                                        $isPaid = isset($row['payment_status']) && $row['payment_status'] === 'Paid';
-                                    ?>
-                                        <tr class="<?= $isPaid ? 'table-success' : ''; ?>">
-                                            <td class="text-center"><?= (int)$row['period']; ?></td>
-                                            <td><?= date('m/d/Y', strtotime($row['payment_date'])); ?></td>
-                                            <td class="text-end">₱<?= number_format((float)$row['beginning_balance'], 2); ?></td>
-                                            <td class="text-end">₱<?= number_format((float)$row['interest'], 2); ?></td>
-                                            <td class="text-end">₱<?= number_format((float)$row['principal'], 2); ?></td>
-                                            <td class="text-end">₱<?= number_format((float)$row['payment'], 2); ?></td>
-                                            <td class="text-end">₱<?= number_format((float)$row['ending_balance'], 2); ?></td>
-                                            <td class="text-center">
-                                                <?php if($isPaid): ?>
-                                                    <span class="badge bg-success text-white"><i class="ti ti-flag"></i> Paid</span>
-                                                <?php else: ?>
-                                                    <span class="badge bg-secondary"><i class="ti ti-flag"></i> Unpaid</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php if(!$isPaid): ?>
-                                                    <button type="button" 
-                                                            class="btn btn-primary btn-sm select-payment" 
-                                                            data-period="<?= (int)$row['period']; ?>"
-                                                            data-ammortization-id="<?= (int)$row['ammortization_id']; ?>"
-                                                            data-payment-date="<?= date('Y-m-d', strtotime($row['payment_date'])); ?>"
-                                                            data-amount="<?= (float)$row['payment']; ?>"
-                                                            data-beginning-balance="<?= (float)$row['beginning_balance']; ?>"
-                                                            data-interest="<?= (float)$row['interest']; ?>"
-                                                            data-principal="<?= (float)$row['principal']; ?>"
-                                                            data-ending-balance="<?= (float)$row['ending_balance']; ?>"
-                                                            title="Select this payment">
-                                                        <i class="ti ti-credit-card"></i> Pay
-                                                    </button>
-                                                <?php else: ?>
-                                                    <span class="text-muted">Paid</span>
-                                                <?php endif; ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <!-- PAYMENT HISTORY UI -->
-                        <div class="card">
-                            <div class="card-header fw-bold">Payment History</div>
+                            <!-- AMORTIZATION TABLE -->
+                            <div class="card mb-3">
+                                <div class="card-header fw-bold">Amortization Schedule</div>
                                 <div class="card-body table-responsive">
-                                    <?php
-                                    $payments = $this->db->query("
-                                        SELECT 
-                                            payment_id,
-                                            loan_id,
-                                            member_id,
-                                            interest,
-                                            principal,
-                                            total_payment,
-                                            payment_date,
-                                            created_by,
-                                            created_at
-                                        FROM tbl_loans_payment
-                                        WHERE loan_id = ?
-                                        ORDER BY payment_date ASC
-                                    ", [$loan_id])->getResultArray();
-                                    ?>
-
                                     <table class="table table-bordered table-sm">
                                         <thead>
                                             <tr>
+                                                <th>Period</th>
                                                 <th>Date</th>
-                                                <th>Amount</th>
-                                                <th>Processed By</th>
+                                                <th>Beginning</th>
+                                                <th>Interest</th>
+                                                <th>Principal</th>
+                                                <th>Payment</th>
+                                                <th>Ending</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if(!empty($payments)): ?>
-                                                <?php foreach($payments as $pay): ?>
-                                                    <tr>
-                                                        <td><?= date('m/d/Y', strtotime($pay['payment_date'])); ?></td>
-                                                        <td>₱<?= number_format((float)$pay['total_payment'], 2); ?></td>
-                                                        <td><?= esc($pay['created_by']); ?></td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php else: ?>
-                                                <tr>
-                                                    <td colspan="3" class="text-center text-muted">
-                                                        No payments yet
-                                                    </td>
-                                                </tr>
-                                            <?php endif; ?>
+                                        <?php
+                                        $sched = $this->db->query("
+                                            SELECT * 
+                                            FROM tbl_loans_ammortization 
+                                            WHERE loan_id = '$loan_id'
+                                            ORDER BY period ASC
+                                        ")->getResultArray();
+
+                                        foreach($sched as $row):
+                                            $isPaid = isset($row['payment_status']) && $row['payment_status'] === 'Paid';
+                                        ?>
+                                            <tr class="<?= $isPaid ? 'table-success' : ''; ?>">
+                                                <td class="text-center"><?= (int)$row['period']; ?></td>
+                                                <td><?= date('m/d/Y', strtotime($row['payment_date'])); ?></td>
+                                                <td class="text-end">₱<?= number_format((float)$row['beginning_balance'], 2); ?></td>
+                                                <td class="text-end">₱<?= number_format((float)$row['interest'], 2); ?></td>
+                                                <td class="text-end">₱<?= number_format((float)$row['principal'], 2); ?></td>
+                                                <td class="text-end">₱<?= number_format((float)$row['payment'], 2); ?></td>
+                                                <td class="text-end">₱<?= number_format((float)$row['ending_balance'], 2); ?></td>
+                                                <td class="text-center">
+                                                    <?php if($isPaid): ?>
+                                                        <span class="badge bg-success text-white"><i class="ti ti-flag"></i> Paid</span>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-secondary"><i class="ti ti-flag"></i> Unpaid</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php if(!$isPaid): ?>
+                                                        <button type="button" 
+                                                                class="btn btn-primary btn-sm select-payment" 
+                                                                data-period="<?= (int)$row['period']; ?>"
+                                                                data-ammortization-id="<?= (int)$row['ammortization_id']; ?>"
+                                                                data-payment-date="<?= date('Y-m-d', strtotime($row['payment_date'])); ?>"
+                                                                data-amount="<?= (float)$row['payment']; ?>"
+                                                                data-beginning-balance="<?= (float)$row['beginning_balance']; ?>"
+                                                                data-interest="<?= (float)$row['interest']; ?>"
+                                                                data-principal="<?= (float)$row['principal']; ?>"
+                                                                data-ending-balance="<?= (float)$row['ending_balance']; ?>"
+                                                                title="Select this payment">
+                                                            <i class="ti ti-credit-card"></i> Pay
+                                                        </button>
+                                                    <?php else: ?>
+                                                        <span class="text-muted">Paid</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
                                         </tbody>
                                     </table>
-
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <!-- PAYMENT HISTORY UI -->
+                            <div class="card">
+                                <div class="card-header fw-bold">Payment History</div>
+                                    <div class="card-body table-responsive">
+                                        <?php
+                                        $payments = $this->db->query("
+                                            SELECT 
+                                                payment_id,
+                                                loan_id,
+                                                member_id,
+                                                interest,
+                                                principal,
+                                                total_payment,
+                                                payment_date,
+                                                created_by,
+                                                created_at
+                                            FROM tbl_loans_payment
+                                            WHERE loan_id = ?
+                                            ORDER BY payment_date ASC
+                                        ", [$loan_id])->getResultArray();
+                                        ?>
+
+                                        <table class="table table-bordered table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Amount</th>
+                                                    <th>Processed By</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if(!empty($payments)): ?>
+                                                    <?php foreach($payments as $pay): ?>
+                                                        <tr>
+                                                            <td><?= date('m/d/Y', strtotime($pay['payment_date'])); ?></td>
+                                                            <td>₱<?= number_format((float)$pay['total_payment'], 2); ?></td>
+                                                            <td><?= esc($pay['created_by']); ?></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="3" class="text-center text-muted">
+                                                            No payments yet
+                                                        </td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endif;?>
+                <?php endif;?>
+            </div>
         </div>
-    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

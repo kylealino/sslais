@@ -54,50 +54,77 @@ echo view('templates/myheader.php');
 ?>
 
 <div class="container-fluid">
-    <div class="row me-myaccount-outp-msg mx-0">
-    </div>
+    <div class="row me-myaccount-outp-msg mx-0"></div>
+
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
-    <div class="row mb-2 mt-0">
-        <h4 class="fw-semibold mb-8">Account Settings</h4>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a class="text-muted text-decoration-none" href="<?=site_url();?>"><i class="ti ti-home fs-5"></i></a>
-                </li>
-                <li class="breadcrumb-item" aria-current="page">Members Management</li>
-                <li class="breadcrumb-item" aria-current="page"><span class="form-label fw-bold">Account Settings</span></li>
-            </ol>
-        </nav>
+
+    <!-- HEADER -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <h4 class="fw-bold">Account Settings</h4>
+            <small class="text-muted">Manage your profile, password, and personal details</small>
+        </div>
     </div>
-    <div class="card">
+
+    <div class="card shadow-sm border-0">
         <div class="card-body">
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-account" role="tabpanel" aria-labelledby="pills-account-tab" tabindex="0">
-                    <div class="row">
-                        <div class="col-lg-6 d-flex align-items-stretch">
-                            <div class="card w-100 border position-relative overflow-hidden">
-                            <div class="card-body p-4">
-                                <h4 class="card-title">Change Profile</h4>
-                                <p class="card-subtitle mb-4">Change your profile picture from here</p>
-                                <div class="text-center">
-                                <img src="<?=base_url('assets/images/profile/user-1.jpg')?>" alt="flexy-img" class="img-fluid rounded-circle" width="120" height="120">
-                                <div class="d-flex align-items-center justify-content-center my-4 gap-6">
-                                    <button class="btn btn-primary">Upload</button>
-                                    <button class="btn bg-danger-subtle text-danger">Reset</button>
-                                </div>
-                                <p class="mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
-                                </div>
+
+            <div class="row g-4">
+
+                <!-- PROFILE CARD -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm text-center h-100">
+                        <div class="card-body">
+                            <h6 class="fw-semibold mb-3">Profile Photo</h6>
+
+                            <img src="<?=base_url('assets/images/profile/user-1.jpg')?>"
+                                class="rounded-circle border shadow-sm mb-3"
+                                width="120" height="120">
+
+                            <div class="d-flex justify-content-center gap-2">
+                                <button class="btn btn-sm btn-primary px-3">
+                                    <i class="ti ti-upload"></i> Upload
+                                </button>
+                                <button class="btn btn-sm btn-light text-danger px-3">
+                                    Reset
+                                </button>
                             </div>
-                            </div>
+
+                            <small class="text-muted d-block mt-2">
+                                JPG, PNG (Max: 800KB)
+                            </small>
                         </div>
-                        <div class="col-lg-6 d-flex align-items-stretch">
-                                <div class="card w-100 border position-relative overflow-hidden">
-                                <form action="<?=site_url();?>myaccount?meaction=ACCOUNT-SAVE" method="post" class="myaccount-validation">
-                                <div class="card-body p-4">
-                                    <h4 class="card-title">Change Password</h4>
-                                    <p class="card-subtitle mb-4">To change your password please confirm here</p>
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Current Password</label>
+                    </div>
+                </div>
+
+                <!-- PASSWORD CARD -->
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm h-100">
+                        <form action="<?=site_url();?>myaccount?meaction=ACCOUNT-SAVE" method="post" class="myaccount-validation">
+                            <div class="card-body">
+                                <h6 class="fw-semibold mb-3">Security Settings</h6>
+
+                                <!-- USER INFO (ADDED HERE) -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Username</label>
+                                        <input type="text" id="username" name="username"
+                                            value="<?=$username;?>" disabled
+                                            class="form-control form-control-sm bg-light"/>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Member No.</label>
+                                        <input type="text" id="member_no" name="member_no"
+                                            value="<?=$member_no;?>" disabled
+                                            class="form-control form-control-sm bg-light"/>
+                                    </div>
+                                </div>
+
+                                <!-- PASSWORD FIELDS -->
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Current Password</label>
                                         <div class="input-group input-group-sm">
                                             <input type="password" class="form-control" id="password" value="<?=$password;?>">
                                             <button class="btn btn-light" type="button" id="togglePassword">
@@ -105,77 +132,83 @@ echo view('templates/myheader.php');
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="exampleInputPassword2" class="form-label">New Password</label>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">New Password</label>
                                         <div class="input-group input-group-sm">
                                             <input type="password" class="form-control" id="newpassword" value="<?=$password;?>">
                                             <button class="btn btn-light" type="button" id="newtogglePassword">
-                                                <i class="ti ti-eye" id="toggleIcon"></i>
+                                                <i class="ti ti-eye"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card w-100 border position-relative overflow-hidden mb-0">
-                                <div class="card-body p-4">
-                                    <h4 class="card-title">Personal Details</h4>
-                                    <p class="card-subtitle mb-4">To change your personal detail , edit and save from here</p>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="mb-1">
-                                                <label for="exampleInputtext" class="form-label">Username</label>
-                                                <input type="text" id="username" name="username" value="<?=$username;?>" disabled class="username form-control form-control-sm"/>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label for="member_no" class="form-label">Member No.</label>
-                                                <input type="text" id="member_no" name="member_no" value="<?=$member_no;?>" disabled class="member_no form-control form-control-sm"/>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label for="first_name" class="form-label">First Name</label>
-                                                <input type="hidden" class="form-control form-control-sm" id="member_id" name="member_id" value="<?=$member_id;?>"/>
-                                                <input type="text" id="first_name" name="first_name" value="<?=$first_name;?>" class="first_name form-control form-control-sm"/>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label class="form-label">Last Name</label>
-                                                <input type="text" id="last_name" name="last_name" value="<?=$last_name;?>" class="last_name form-control form-control-sm"/>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label for="middle_name" class="form-label">Middle Name</label>
-                                                <input type="text" id="middle_name" name="middle_name" value="<?=$middle_name;?>" class="middle_name form-control form-control-sm"/>
-                                            </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                            <div class="mb-1">
-                                                <label for="contact_number" class="form-label">Contact Number</label>
-                                                <input type="text" id="contact_number" name="contact_number" value="<?=$contact_number;?>" class="contact_number form-control form-control-sm"/>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label for="email" class="form-label">Email</label>
-                                                <input type="text" id="email" name="email" value="<?=$email;?>" class="email form-control form-control-sm"/>
-                                            </div>
-                                            <div class="mb-1">
-                                                <label for="address" class="form-label">Address</label>
-                                                <textarea name="address" id="address" placeholder="" rows="5" class="address form-control form-control-sm"><?=$address;?></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="d-flex align-items-center justify-content-end mt-4 gap-6">
-                                                <button type="submit" class="btn bg-success-subtle text-success btn-sm"><i class="ti ti-brand-doctrine mt-1 fs-4 me-1"></i>
-                                                    Save
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
+
+                <!-- PERSONAL DETAILS -->
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h6 class="fw-semibold mb-3">Personal Information</h6>
+                            <div class="row g-3">
+                                <input type="hidden" id="member_id" name="member_id" value="<?=$member_id;?>"/>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" id="first_name" name="first_name"
+                                        value="<?=$first_name;?>"
+                                        class="form-control form-control-sm"/>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" id="last_name" name="last_name"
+                                        value="<?=$last_name;?>"
+                                        class="form-control form-control-sm"/>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Middle Name</label>
+                                    <input type="text" id="middle_name" name="middle_name"
+                                        value="<?=$middle_name;?>"
+                                        class="form-control form-control-sm"/>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Contact Number</label>
+                                    <input type="text" id="contact_number" name="contact_number"
+                                        value="<?=$contact_number;?>"
+                                        class="form-control form-control-sm"/>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="text" id="email" name="email"
+                                        value="<?=$email;?>"
+                                        class="form-control form-control-sm"/>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Address</label>
+                                    <textarea name="address" id="address" rows="3"
+                                        class="form-control form-control-sm"><?=$address;?></textarea>
+                                </div>
+
+                                <!-- SAVE BUTTON -->
+                                <div class="col-12 text-end mt-3">
+                                    <button type="submit" class="btn btn-success btn-sm px-4">
+                                        <i class="ti ti-device-floppy me-1"></i> Save Changes
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

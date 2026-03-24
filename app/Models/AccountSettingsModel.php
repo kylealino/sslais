@@ -29,7 +29,8 @@ class AccountSettingsModel extends Model
 		$password = $this->request->getPostGet('password');
 		$newpassword = $this->request->getPostGet('newpassword');
 		$hash_password = hash('sha512', $newpassword);
-
+		
+	
 
 		if (empty($last_name)) {
 			echo "
