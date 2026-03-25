@@ -1,0 +1,230 @@
+ERROR - 2026-03-25 16:49:50 --> mysqli_sql_exception: Unknown column 'l.recid' in 'order clause' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n             ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n             ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n             ...')
+#3 C:\xampp\htdocs\sslais\app\Views\loan-availment\loan-profile-main.php(351): CodeIgniter\Database\BaseConnection->query('\r\n             ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('loan-availment/...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\LoanProfileController.php(24): view('loan-availment/...')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-03-25 16:49:50 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'l.recid' in 'order clause'
+[Method: GET, Route: myloanprofile]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\loan-availment\loan-profile-main.php(351): CodeIgniter\Database\BaseConnection->query('
+                                SELECT 
+                                    m.member_id,
+                                    m.first_name,
+                                    m.last_name,
+                                    l.loan_id,
+                                    l.loan_amount,
+                                    COUNT(DISTINCT l.loan_id) AS total_loans,
+                                    COUNT(DISTINCT CASE WHEN l.loan_comakers IS NOT NULL THEN l.loan_id END) AS co_maker_count,
+                                    COALESCE((
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization a2 
+                                        WHERE a2.loan_id = l.loan_id 
+                                        AND a2.payment_status = \'Paid\'
+                                        ORDER BY a2.ammortization_id DESC 
+                                        LIMIT 1
+                                    ), l.loan_amount) AS total_outstanding
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.recid DESC
+                            ')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 5 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-25 16:49:50 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'l.recid' in 'order clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                                SELECT 
+                                    m.member_id,
+                                    m.first_name,
+                                    m.last_name,
+                                    l.loan_id,
+                                    l.loan_amount,
+                                    COUNT(DISTINCT l.loan_id) AS total_loans,
+                                    COUNT(DISTINCT CASE WHEN l.loan_comakers IS NOT NULL THEN l.loan_id END) AS co_maker_count,
+                                    COALESCE((
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization a2 
+                                        WHERE a2.loan_id = l.loan_id 
+                                        AND a2.payment_status = \'Paid\'
+                                        ORDER BY a2.ammortization_id DESC 
+                                        LIMIT 1
+                                    ), l.loan_amount) AS total_outstanding
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.recid DESC
+                            ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                                SELECT 
+                                    m.member_id,
+                                    m.first_name,
+                                    m.last_name,
+                                    l.loan_id,
+                                    l.loan_amount,
+                                    COUNT(DISTINCT l.loan_id) AS total_loans,
+                                    COUNT(DISTINCT CASE WHEN l.loan_comakers IS NOT NULL THEN l.loan_id END) AS co_maker_count,
+                                    COALESCE((
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization a2 
+                                        WHERE a2.loan_id = l.loan_id 
+                                        AND a2.payment_status = \'Paid\'
+                                        ORDER BY a2.ammortization_id DESC 
+                                        LIMIT 1
+                                    ), l.loan_amount) AS total_outstanding
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.recid DESC
+                            ')
+ 3 APPPATH\Views\loan-availment\loan-profile-main.php(351): CodeIgniter\Database\BaseConnection->query('
+                                SELECT 
+                                    m.member_id,
+                                    m.first_name,
+                                    m.last_name,
+                                    l.loan_id,
+                                    l.loan_amount,
+                                    COUNT(DISTINCT l.loan_id) AS total_loans,
+                                    COUNT(DISTINCT CASE WHEN l.loan_comakers IS NOT NULL THEN l.loan_id END) AS co_maker_count,
+                                    COALESCE((
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization a2 
+                                        WHERE a2.loan_id = l.loan_id 
+                                        AND a2.payment_status = \'Paid\'
+                                        ORDER BY a2.ammortization_id DESC 
+                                        LIMIT 1
+                                    ), l.loan_amount) AS total_outstanding
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.recid DESC
+                            ')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 7 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-25 16:49:50 --> [Caused by] mysqli_sql_exception: Unknown column 'l.recid' in 'order clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+                                SELECT 
+                                    m.member_id,
+                                    m.first_name,
+                                    m.last_name,
+                                    l.loan_id,
+                                    l.loan_amount,
+                                    COUNT(DISTINCT l.loan_id) AS total_loans,
+                                    COUNT(DISTINCT CASE WHEN l.loan_comakers IS NOT NULL THEN l.loan_id END) AS co_maker_count,
+                                    COALESCE((
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization a2 
+                                        WHERE a2.loan_id = l.loan_id 
+                                        AND a2.payment_status = \'Paid\'
+                                        ORDER BY a2.ammortization_id DESC 
+                                        LIMIT 1
+                                    ), l.loan_amount) AS total_outstanding
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.recid DESC
+                            ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                                SELECT 
+                                    m.member_id,
+                                    m.first_name,
+                                    m.last_name,
+                                    l.loan_id,
+                                    l.loan_amount,
+                                    COUNT(DISTINCT l.loan_id) AS total_loans,
+                                    COUNT(DISTINCT CASE WHEN l.loan_comakers IS NOT NULL THEN l.loan_id END) AS co_maker_count,
+                                    COALESCE((
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization a2 
+                                        WHERE a2.loan_id = l.loan_id 
+                                        AND a2.payment_status = \'Paid\'
+                                        ORDER BY a2.ammortization_id DESC 
+                                        LIMIT 1
+                                    ), l.loan_amount) AS total_outstanding
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.recid DESC
+                            ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                                SELECT 
+                                    m.member_id,
+                                    m.first_name,
+                                    m.last_name,
+                                    l.loan_id,
+                                    l.loan_amount,
+                                    COUNT(DISTINCT l.loan_id) AS total_loans,
+                                    COUNT(DISTINCT CASE WHEN l.loan_comakers IS NOT NULL THEN l.loan_id END) AS co_maker_count,
+                                    COALESCE((
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization a2 
+                                        WHERE a2.loan_id = l.loan_id 
+                                        AND a2.payment_status = \'Paid\'
+                                        ORDER BY a2.ammortization_id DESC 
+                                        LIMIT 1
+                                    ), l.loan_amount) AS total_outstanding
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.recid DESC
+                            ')
+ 4 APPPATH\Views\loan-availment\loan-profile-main.php(351): CodeIgniter\Database\BaseConnection->query('
+                                SELECT 
+                                    m.member_id,
+                                    m.first_name,
+                                    m.last_name,
+                                    l.loan_id,
+                                    l.loan_amount,
+                                    COUNT(DISTINCT l.loan_id) AS total_loans,
+                                    COUNT(DISTINCT CASE WHEN l.loan_comakers IS NOT NULL THEN l.loan_id END) AS co_maker_count,
+                                    COALESCE((
+                                        SELECT ending_balance 
+                                        FROM tbl_loans_ammortization a2 
+                                        WHERE a2.loan_id = l.loan_id 
+                                        AND a2.payment_status = \'Paid\'
+                                        ORDER BY a2.ammortization_id DESC 
+                                        LIMIT 1
+                                    ), l.loan_amount) AS total_outstanding
+                                FROM tbl_members m
+                                JOIN tbl_loans l ON l.member_id = m.member_id
+                                GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.recid DESC
+                            ')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\loan-availment\\loan-profile-main.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('loan-availment/loan-profile-main', [], true)
+ 8 APPPATH\Controllers\LoanProfileController.php(24): view('loan-availment/loan-profile-main')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\LoanProfileController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\LoanProfileController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

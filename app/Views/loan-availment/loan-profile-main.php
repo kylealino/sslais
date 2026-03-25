@@ -339,6 +339,7 @@ echo view('templates/myheader.php');
                         <table id="datatablesSimple" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th style="display:none;">Loan ID</th>
                                     <th>Member</th>
                                     <th>Total Loans</th>
                                     <th>Outstanding Balance</th>
@@ -368,6 +369,7 @@ echo view('templates/myheader.php');
                                 FROM tbl_members m
                                 JOIN tbl_loans l ON l.member_id = m.member_id
                                 GROUP BY m.member_id, m.first_name, m.last_name, l.loan_id, l.loan_amount
+                                ORDER BY l.loan_id DESC
                             ")->getResultArray();
                             
                             // Group by member to show one row per member
@@ -391,6 +393,7 @@ echo view('templates/myheader.php');
                             ?>
                             <?php foreach($membersGrouped as $member): ?>
                                 <tr>
+                                    <td style="display:none;"><?= (int)$member['loan_id']; ?></td>
                                     <td><?= esc($member['member_name']); ?></td>
                                     <td><?= (int)$member['total_loans']; ?></td>
                                     <td>₱<?= number_format((float)$member['total_outstanding'], 2); ?></td>
@@ -660,6 +663,10 @@ echo view('templates/myheader.php');
         $('#datatablesSimple').DataTable({
             pageLength: 5,
             lengthChange: false,
+            order: [[0, 'desc']], // sort by hidden loan_id
+            columnDefs: [
+                { targets: 0, visible: false } // hide loan_id column
+            ],
             language: {
                 search: "Search:"
             }

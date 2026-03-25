@@ -268,7 +268,7 @@ echo view('templates/myheader.php');
                             <div class="col-sm-4">Term:</div>
                             <div class="col-sm-8">
                                 <select name="term_months" id="term_months" class="form-control form-control-sm">
-                                <?php foreach([6,12,24,36,48,60] as $t): ?>
+                                <?php foreach([12,24,36,48,60] as $t): ?>
                                 <option value="<?=$t;?>" <?=($term_months==$t)?'selected':'';?>><?=$t;?> months</option>
                                 <?php endforeach; ?>
                                 </select>
@@ -287,7 +287,7 @@ echo view('templates/myheader.php');
                         <div class="row mb-2">
                             <div class="col-sm-4">Maturity Date:</div>
                             <div class="col-sm-8">
-                            <input type="date" name="maturity_date" id="maturity_date" value="<?=$maturity_date;?>" class="form-control form-control-sm">
+                            <input type="date" name="maturity_date" id="maturity_date" value="<?=$maturity_date;?>" disabled class="form-control form-control-sm">
                             </div>
                         </div>
 
@@ -433,59 +433,72 @@ echo view('templates/myheader.php');
 
 <script>
     __mysys_loanavailment_ent.__loanavailment_saving();
+
     document.getElementById('generateAmortization').addEventListener('click', function() {
 
-    // Collect form values
-    let loanAmount = parseFloat(document.querySelector('input[name="loan_amount"]').value);
-    let annualRate = parseFloat(document.querySelector('input[name="interest_rate"]').value);
-    let termMonths = parseInt(document.querySelector('select[name="term_months"]').value);
-    let startDate = new Date(document.querySelector('input[name="start_date"]').value);
+        // Collect form values
+        let loanAmount = parseFloat(document.querySelector('input[name="loan_amount"]').value);
+        let annualRate = parseFloat(document.querySelector('input[name="interest_rate"]').value);
+        let termMonths = parseInt(document.querySelector('select[name="term_months"]').value);
+        let startDate = new Date(document.querySelector('input[name="start_date"]').value);
 
-    
-    if (!loanAmount || !annualRate || !termMonths || isNaN(startDate)) {
-        showToast('Please fill all loan details first.', 'Oops');
-        table.classList.add('amortization-disabled');
-        return;
-    }
+        if (!loanAmount || !annualRate || !termMonths || isNaN(startDate)) {
+            showToast('Please fill all loan details first.', 'Oops');
+            table.classList.add('amortization-disabled');
+            return;
+        }
 
-    function showToast(message, type) {
-        console.log(type.toUpperCase() + ': ' + message);
+        // ✅ Compute maturity date
+        let maturityDate = new Date(startDate);
+        maturityDate.setMonth(maturityDate.getMonth() + termMonths - 1);
 
-         toastr.error(message);
+        // Format to YYYY-MM-DD
+        let formattedMaturity = maturityDate.toISOString().split('T')[0];
 
-    }
-    // Calculate monthly payment
-    let monthlyRate = annualRate / 12 / 100;
-    let payment = loanAmount * monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));
+        // Set input value
+        document.getElementById('maturity_date').value = formattedMaturity;
 
-    let balance = loanAmount;
+        function showToast(message, type) {
+            console.log(type.toUpperCase() + ': ' + message);
+            toastr.error(message);
+        }
 
-    // Clear previous table rows
-    let tbody = document.querySelector('#amortizationTable tbody');
-    tbody.innerHTML = '';
+        // Calculate monthly payment (UNCHANGED)
+        let monthlyRate = annualRate / 12 / 100;
+        let payment = loanAmount * monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));
 
-    // Generate rows
-    for (let period = 1; period <= termMonths; period++) {
-        let interest = balance * monthlyRate;
-        let principal = payment - interest;
-        let endingBalance = balance - principal;
+        let balance = loanAmount;
 
-        let row = `<tr>
-            <td>${period}</td>
-            <td>${startDate.toISOString().split('T')[0]}</td>
-            <td>${balance.toFixed(2)}</td>
-            <td>${interest.toFixed(2)}</td>
-            <td>${principal.toFixed(2)}</td>
-            <td>${payment.toFixed(2)}</td>
-            <td>${endingBalance.toFixed(2)}</td>
-        </tr>`;
+        // Clear previous table rows
+        let tbody = document.querySelector('#amortizationTable tbody');
+        tbody.innerHTML = '';
 
-        tbody.insertAdjacentHTML('beforeend', row);
+        // Generate rows
+        for (let period = 1; period <= termMonths; period++) {
 
-        balance = endingBalance;
-        startDate.setMonth(startDate.getMonth() + 1);
-    }
-});
+            let interest = balance * monthlyRate;
+            let principal = payment - interest;
+            let endingBalance = balance - principal;
+
+            // ✅ FIX: prevent -0.00 (NO change to computation)
+            let displayEndingBalance = (Math.abs(endingBalance) < 0.005) ? 0 : endingBalance;
+
+            let row = `<tr>
+                <td>${period}</td>
+                <td>${startDate.toISOString().split('T')[0]}</td>
+                <td>${balance.toFixed(2)}</td>
+                <td>${interest.toFixed(2)}</td>
+                <td>${principal.toFixed(2)}</td>
+                <td>${payment.toFixed(2)}</td>
+                <td>${displayEndingBalance.toFixed(2)}</td>
+            </tr>`;
+
+            tbody.insertAdjacentHTML('beforeend', row);
+
+            balance = endingBalance;
+            startDate.setMonth(startDate.getMonth() + 1);
+        }
+    });
 </script>
 <?php
     echo view('templates/myfooter.php');

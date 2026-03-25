@@ -41,18 +41,91 @@ class MembersManagementModel extends Model
 		// );
 		// die();
 
-		// if (empty($payee_name)) {
-		// 	echo "
-		// 	<script>
-		// 	toastr.error('Payee name is required!', 'Oops!', {
-		// 			progressBar: true,
-		// 			closeButton: true,
-		// 			timeOut:2000,
-		// 		});
-		// 	</script>
-		// 	";
-		// 	die();
-		// }
+		if (empty($member_no)) {
+			echo "
+			<script>
+			toastr.error('Member number is required!', 'Oops!', {
+					progressBar: true,
+					closeButton: true,
+					timeOut:2000,
+				});
+			</script>
+			";
+			die();
+		}
+
+		if (empty($last_name)) {
+			echo "
+			<script>
+			toastr.error('Last name is required!', 'Oops!', {
+					progressBar: true,
+					closeButton: true,
+					timeOut:2000,
+				});
+			</script>
+			";
+			die();
+		}
+		if (empty($first_name)) {
+			echo "
+			<script>
+			toastr.error('First name is required!', 'Oops!', {
+					progressBar: true,
+					closeButton: true,
+					timeOut:2000,
+				});
+			</script>
+			";
+			die();
+		}
+		if (empty($middle_name)) {
+			echo "
+			<script>
+			toastr.error('Middle name is required!', 'Oops!', {
+					progressBar: true,
+					closeButton: true,
+					timeOut:2000,
+				});
+			</script>
+			";
+			die();
+		}
+		if (empty($contact_number)) {
+			echo "
+			<script>
+			toastr.error('Contact number is required!', 'Oops!', {
+					progressBar: true,
+					closeButton: true,
+					timeOut:2000,
+				});
+			</script>
+			";
+			die();
+		}
+		if (empty($address)) {
+			echo "
+			<script>
+			toastr.error('Address is required!', 'Oops!', {
+					progressBar: true,
+					closeButton: true,
+					timeOut:2000,
+				});
+			</script>
+			";
+			die();
+		}
+		if (empty($email)) {
+			echo "
+			<script>
+			toastr.error('Email is required!', 'Oops!', {
+					progressBar: true,
+					closeButton: true,
+					timeOut:2000,
+				});
+			</script>
+			";
+			die();
+		}
 
 		if (empty($member_id)) {
 			$query = $this->db->query("
