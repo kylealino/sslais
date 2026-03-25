@@ -37,16 +37,17 @@ class MembersManagementController extends BaseController
 
         $membersdataquery = $this->db->query("
             SELECT
-                `member_id`,
-                `member_no`,
-                `first_name`,
-                `last_name`,
-                `middle_name`,
-                `address`,
-                `contact_number`,
-                `email`
+                a.`member_id`,
+                a.`member_no`,
+                a.`first_name`,
+                a.`last_name`,
+                a.`middle_name`,
+                a.`address`,
+                a.`contact_number`,
+                a.`email`,
+                (select loan_amount from tbl_loans where member_id = a.`member_id`) loan_amount
             FROM
-                `tbl_members`
+                `tbl_members` a
             ORDER BY
                 member_id DESC
         ");
