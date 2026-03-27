@@ -217,57 +217,57 @@ echo view('templates/myheader.php');
                 <div class="col-sm-6 d-flex align-items-center text-start">
                     <h6 class="mb-0 lh-base px-3 fw-semibold d-flex align-items-center">
                         <i class="ti ti-list fs-5 me-1"></i>
-                        <span class="pt-1">List</span>
+                        <span class="pt-1">Journal Entries</span>
                     </h6>
                 </div>
             </div>
-		</div>						
+        </div>						
         <div class="card-body p-0 px-4 py-2 my-2">
             <table id="datatablesSimple" class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
                         <th>Action</th>
-                        <th>Members Number</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Contact number</th>
-                        <th>Email</th>
-                        <th>Loan Count</th>
-                        <th>Loan Amount</th>
+                        <th>Journal No</th>
+                        <th>Posting Date</th>
+                        <th>Reference No</th>
+                        <th>Journal Type</th>
+                        <th>Remarks</th>
                         <th>Status</th>
+                        <th>Approved By</th>
                     </tr>
                 </thead>
                 <tbody class="align-middle">
-                    <?php if(!empty($membersdata)):
+                    <?php if(!empty($journaldata)):
                         
-                        foreach ($membersdata as $data):
-                            $member_id = $data['member_id'];
-                            $member_no = $data['member_no'];
-                            $first_name = $data['first_name'];
-                            $last_name = $data['last_name'];
-                            $middle_name = $data['middle_name'];
-                            $address = $data['address'];
-                            $contact_number = $data['contact_number'];
-                            $email = $data['email'];
-                            $loan_amount = $data['loan_amount'];
+                        foreach ($journaldata as $data):
+                            $journal_id   = $data['journal_id'];
+                            $journal_no   = $data['journal_no'];
+                            $posting_date = $data['posting_date'];
+                            $reference_no = $data['reference_no'];
+                            $journal_type = $data['journal_type'];
+                            $remarks      = $data['remarks'];
+                            $status       = $data['status'];
+                            $approved_by  = $data['approved_by'];
                     ?>
                     <tr>
                         <td class="text-center align-middle">
-                            <a class="text-info nav-icon-hover fs-6" href="mymembers?meaction=MAIN&member_id=<?= $member_id ?>" title="Edit Member">
-                                <i class="ti ti-pencil" aria-hidden="true"></i>
-                            </a>
-                            <a class="text-warning nav-icon-hover fs-6" href="mymembers?meaction=MAIN&member_id=<?= $member_id ?>" title="View loan">
-                                <i class="ti ti-file-dollar" aria-hidden="true"></i>
+                            <a class="text-info nav-icon-hover fs-6" href="myjournalentry?meaction=MAIN&journal_id=<?= $journal_id ?>" title="Edit Journal">
+                                <i class="ti ti-pencil"></i>
                             </a>
                         </td>
-                        <td class="text-center"><?=$member_no;?></td>
-                        <td class="text-center"><?=$last_name;?></td>
-                        <td class="text-center"><?=$first_name;?></td>
-                        <td class="text-center"><?=$contact_number;?></td>
-                        <td class="text-center"><?=$email;?></td>
-                        <td class="text-center">1</td>
-                        <td class="text-center"><?=number_format($loan_amount,2);?></td>
-                        <td class="text-center"><span class="status-pill status-active">Active</span></td>
+                        <td class="text-center"><?=$journal_no;?></td>
+                        <td class="text-center"><?=date('Y-m-d', strtotime($posting_date));?></td>
+                        <td class="text-center"><?=$reference_no;?></td>
+                        <td class="text-center"><?=$journal_type;?></td>
+                        <td class="text-center"><?=$remarks;?></td>
+                        <td class="text-center">
+                            <span class="status-pill 
+                                <?=($status=='Posted')?'status-active':(($status=='Draft')?'status-warning':'status-danger');?> 
+                            ">
+                                <?=$status;?>
+                            </span>
+                        </td>
+                        <td class="text-center"><?=$approved_by;?></td>
                     </tr>
                     <?php endforeach; endif;?>
                 </tbody>

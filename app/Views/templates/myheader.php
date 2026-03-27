@@ -429,7 +429,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
               <span class="hide-menu fs-2">ACCOUNTING</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>myors?meaction=MAIN" aria-expanded="false">
+              <a class="sidebar-link" href="<?=site_url();?>myjournalentry?meaction=MAIN" aria-expanded="false">
                 <span class="rounded-3">
                   <i class="ti ti-clipboard-text"></i>
                 </span>
@@ -445,7 +445,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>myorsapproval?meaction=MAIN" aria-expanded="false">
+              <a class="sidebar-link" href="<?=site_url();?>mycoa?meaction=MAIN" aria-expanded="false">
                 <span class="rounded-3">
                   <i class="ti ti-clipboard-check"></i>
                 </span>

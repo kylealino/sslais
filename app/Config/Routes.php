@@ -29,4 +29,11 @@ $routes->post('myloanavailment', 'LoanAvailmentController::index',['filter' => '
 $routes->get('myloanprofile', 'LoanProfileController::index',['filter' => 'myauthuser']);
 $routes->post('myloanprofile', 'LoanProfileController::index',['filter' => 'myauthuser']);
 
+//COA PROFILE - Coa profile module
+$routes->get('mycoa', 'COAController::index',['filter' => 'myauthuser']);
+$routes->post('mycoa', 'COAController::index',['filter' => 'myauthuser']);
+
+//JOURNAL PROFILE - Journal entry module
+$routes->get('myjournalentry', 'JournalEntryController::index',['filter' => 'myauthuser']);
+$routes->post('myjournalentry', 'JournalEntryController::index',['filter' => 'myauthuser']);
 
