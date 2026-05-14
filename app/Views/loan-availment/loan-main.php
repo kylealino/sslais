@@ -464,7 +464,9 @@ echo view('templates/myheader.php');
         }
 
         // Calculate monthly payment (UNCHANGED)
-        let monthlyRate = annualRate / 12 / 100;
+        let monthlyRate = annualRate / 1
+        
+        2 / 100;
         let payment = loanAmount * monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));
 
         let balance = loanAmount;

@@ -382,7 +382,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
             <!-- Members Management -->
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu fs-2">MEMBERS MANAGEMENT</span>
+              <span class="hide-menu fs-2">MEMBERS MANAGEMENTs</span>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="<?=site_url();?>myaccount?meaction=MAIN" aria-expanded="false">
