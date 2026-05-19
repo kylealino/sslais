@@ -4,16 +4,16 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class JournalEntryController  extends BaseController
+class JournalEntryController extends BaseController
 {
     public function __construct()
-	{
-		$this->request = \Config\Services::request();
+    {
+        $this->request = \Config\Services::request();
         $this->myjournalentry = model('App\Models\JournalEntryModel');
         $this->db = \Config\Database::connect();
         $this->session = session();
         $this->cuser = $this->session->get('__xsys_myuserzicas__');
-	}
+    }
 
     public function index() {
         
@@ -25,16 +25,13 @@ class JournalEntryController  extends BaseController
                 break;
 
             case 'JOURNAL-ENTRY-SAVE': 
-                $this->myjournalentry->journalentry_save();
-                return redirect()->to('myjournalentry?meaction=MAIN');
+                $result = $this->myjournalentry->journalentry_save();
+                return $this->response->setJSON($result);
                 break;
-            
-
         }
     }
 
     private function loadJournalsView() {
-
         $journaldataquery = $this->db->query("
             SELECT
                 `journal_id`,
@@ -58,5 +55,4 @@ class JournalEntryController  extends BaseController
             'journaldata' => $journaldata
         ]);
     }
-
 }

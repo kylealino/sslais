@@ -1,0 +1,257 @@
+ERROR - 2026-05-19 13:19:05 --> Error connecting to the database: mysqli_sql_exception: Unknown database 'sslais' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'sslais', 3306, '', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\xampp\htdocs\sslais\app\Controllers\MyLogIn.php(56): CodeIgniter\Database\BaseConnection->query('select `usernam...')
+#4 C:\xampp\htdocs\sslais\app\Controllers\MyLogIn.php(24): App\Controllers\MyLogIn->Verify_User('ADMIN-KYLE')
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MyLogIn->auth()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MyLogIn))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Unknown database 'sslais' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(421): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\xampp\htdocs\sslais\app\Controllers\MyLogIn.php(56): CodeIgniter\Database\BaseConnection->query('select `usernam...')
+#3 C:\xampp\htdocs\sslais\app\Controllers\MyLogIn.php(24): App\Controllers\MyLogIn->Verify_User('ADMIN-KYLE')
+#4 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MyLogIn->auth()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MyLogIn))
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#8 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#9 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#10 {main}
+CRITICAL - 2026-05-19 13:19:05 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Unknown database 'sslais'
+[Method: POST, Route: mylogin-auth]
+in SYSTEMPATH\Database\BaseConnection.php on line 467.
+ 1 SYSTEMPATH\Database\BaseConnection.php(620): CodeIgniter\Database\BaseConnection->initialize()
+ 2 APPPATH\Controllers\MyLogIn.php(56): CodeIgniter\Database\BaseConnection->query('select `username`,`hash_password` FROM myua_user where username = \'ADMIN-KYLE\' limit 1 ')
+ 3 APPPATH\Controllers\MyLogIn.php(24): App\Controllers\MyLogIn->Verify_User('ADMIN-KYLE')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MyLogIn->auth()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MyLogIn))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-19 14:20:26 --> mysqli_sql_exception: Unknown column 'updated_at' in 'field list' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n             ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n             ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n             ...')
+#3 C:\xampp\htdocs\sslais\app\Models\AccountSettingsModel.php(78): CodeIgniter\Database\BaseConnection->query('\r\n             ...', Array)
+#4 C:\xampp\htdocs\sslais\app\Controllers\AccountSettingsController.php(28): App\Models\AccountSettingsModel->account_save()
+#5 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\AccountSettingsController->index()
+#6 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AccountSettingsController))
+#7 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 {main}
+CRITICAL - 2026-05-19 14:20:26 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'field list'
+[Method: POST, Route: myaccount]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Models\AccountSettingsModel.php(78): CodeIgniter\Database\BaseConnection->query('
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = ?,
+                    `first_name` = ?,
+                    `middle_name` = ?,
+                    `contact_number` = ?,
+                    `address` = ?,
+                    `email` = ?,
+                    `updated_at` = NOW()
+                WHERE `member_id` = ?
+            ', [...])
+ 2 APPPATH\Controllers\AccountSettingsController.php(28): App\Models\AccountSettingsModel->account_save()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AccountSettingsController->index()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AccountSettingsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-05-19 14:20:26 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = \'ALIÑO\',
+                    `first_name` = \'KYLE ANDRAE\',
+                    `middle_name` = \'POSADAS\',
+                    `contact_number` = \'09158018602\',
+                    `address` = \'123 address hehe caloocan city rararrara\',
+                    `email` = \'kylealino@gmail.com\',
+                    `updated_at` = NOW()
+                WHERE `member_id` = \'1\'
+            ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = \'ALIÑO\',
+                    `first_name` = \'KYLE ANDRAE\',
+                    `middle_name` = \'POSADAS\',
+                    `contact_number` = \'09158018602\',
+                    `address` = \'123 address hehe caloocan city rararrara\',
+                    `email` = \'kylealino@gmail.com\',
+                    `updated_at` = NOW()
+                WHERE `member_id` = \'1\'
+            ')
+ 3 APPPATH\Models\AccountSettingsModel.php(78): CodeIgniter\Database\BaseConnection->query('
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = ?,
+                    `first_name` = ?,
+                    `middle_name` = ?,
+                    `contact_number` = ?,
+                    `address` = ?,
+                    `email` = ?,
+                    `updated_at` = NOW()
+                WHERE `member_id` = ?
+            ', [...])
+ 4 APPPATH\Controllers\AccountSettingsController.php(28): App\Models\AccountSettingsModel->account_save()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AccountSettingsController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AccountSettingsController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-05-19 14:20:26 --> [Caused by] mysqli_sql_exception: Unknown column 'updated_at' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = \'ALIÑO\',
+                    `first_name` = \'KYLE ANDRAE\',
+                    `middle_name` = \'POSADAS\',
+                    `contact_number` = \'09158018602\',
+                    `address` = \'123 address hehe caloocan city rararrara\',
+                    `email` = \'kylealino@gmail.com\',
+                    `updated_at` = NOW()
+                WHERE `member_id` = \'1\'
+            ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = \'ALIÑO\',
+                    `first_name` = \'KYLE ANDRAE\',
+                    `middle_name` = \'POSADAS\',
+                    `contact_number` = \'09158018602\',
+                    `address` = \'123 address hehe caloocan city rararrara\',
+                    `email` = \'kylealino@gmail.com\',
+                    `updated_at` = NOW()
+                WHERE `member_id` = \'1\'
+            ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = \'ALIÑO\',
+                    `first_name` = \'KYLE ANDRAE\',
+                    `middle_name` = \'POSADAS\',
+                    `contact_number` = \'09158018602\',
+                    `address` = \'123 address hehe caloocan city rararrara\',
+                    `email` = \'kylealino@gmail.com\',
+                    `updated_at` = NOW()
+                WHERE `member_id` = \'1\'
+            ')
+ 4 APPPATH\Models\AccountSettingsModel.php(78): CodeIgniter\Database\BaseConnection->query('
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = ?,
+                    `first_name` = ?,
+                    `middle_name` = ?,
+                    `contact_number` = ?,
+                    `address` = ?,
+                    `email` = ?,
+                    `updated_at` = NOW()
+                WHERE `member_id` = ?
+            ', [...])
+ 5 APPPATH\Controllers\AccountSettingsController.php(28): App\Models\AccountSettingsModel->account_save()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\AccountSettingsController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AccountSettingsController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-19 16:17:06 --> mysqli_sql_exception: Table 'dmis.tbl_chart_of_accounts' doesn't exist in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT account_...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT account_...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT account_...')
+#3 C:\xampp\htdocs\sslais\app\Views\accounting\journal-entry-main.php(45): CodeIgniter\Database\BaseConnection->query('SELECT account_...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('accounting/jour...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\JournalEntryController.php(54): view('accounting/jour...', Array)
+#8 C:\xampp\htdocs\sslais\app\Controllers\JournalEntryController.php(24): App\Controllers\JournalEntryController->loadJournalsView()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\JournalEntryController->index()
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\JournalEntryController))
+#11 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2026-05-19 16:17:06 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'dmis.tbl_chart_of_accounts' doesn't exist
+[Method: GET, Route: myjournalentry]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\accounting\journal-entry-main.php(45): CodeIgniter\Database\BaseConnection->query('SELECT account_code, account_name FROM tbl_chart_of_accounts WHERE is_active = 1 ORDER BY account_code')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\accounting\\journal-entry-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('accounting/journal-entry-main', [], true)
+ 5 APPPATH\Controllers\JournalEntryController.php(54): view('accounting/journal-entry-main', [...])
+ 6 APPPATH\Controllers\JournalEntryController.php(24): App\Controllers\JournalEntryController->loadJournalsView()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\JournalEntryController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\JournalEntryController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-05-19 16:17:06 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'dmis.tbl_chart_of_accounts' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT account_code, account_name FROM tbl_chart_of_accounts WHERE is_active = 1 ORDER BY account_code')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT account_code, account_name FROM tbl_chart_of_accounts WHERE is_active = 1 ORDER BY account_code')
+ 3 APPPATH\Views\accounting\journal-entry-main.php(45): CodeIgniter\Database\BaseConnection->query('SELECT account_code, account_name FROM tbl_chart_of_accounts WHERE is_active = 1 ORDER BY account_code')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\accounting\\journal-entry-main.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('accounting/journal-entry-main', [], true)
+ 7 APPPATH\Controllers\JournalEntryController.php(54): view('accounting/journal-entry-main', [...])
+ 8 APPPATH\Controllers\JournalEntryController.php(24): App\Controllers\JournalEntryController->loadJournalsView()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\JournalEntryController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\JournalEntryController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-05-19 16:17:06 --> [Caused by] mysqli_sql_exception: Table 'dmis.tbl_chart_of_accounts' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT account_code, account_name FROM tbl_chart_of_accounts WHERE is_active = 1 ORDER BY account_code', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT account_code, account_name FROM tbl_chart_of_accounts WHERE is_active = 1 ORDER BY account_code')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT account_code, account_name FROM tbl_chart_of_accounts WHERE is_active = 1 ORDER BY account_code')
+ 4 APPPATH\Views\accounting\journal-entry-main.php(45): CodeIgniter\Database\BaseConnection->query('SELECT account_code, account_name FROM tbl_chart_of_accounts WHERE is_active = 1 ORDER BY account_code')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\accounting\\journal-entry-main.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('accounting/journal-entry-main', [], true)
+ 8 APPPATH\Controllers\JournalEntryController.php(54): view('accounting/journal-entry-main', [...])
+ 9 APPPATH\Controllers\JournalEntryController.php(24): App\Controllers\JournalEntryController->loadJournalsView()
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\JournalEntryController->index()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\JournalEntryController))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-05-19 16:32:50 --> ParseError: Unmatched '}'
+[Method: GET, Route: mycoa]
+in APPPATH\Views\accounting\coa-main.php on line 697.
+ 1 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('accounting/coa-main', [], true)
+ 3 APPPATH\Controllers\COAController.php(24): view('accounting/coa-main')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\COAController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\COAController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

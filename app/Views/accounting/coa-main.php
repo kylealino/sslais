@@ -27,84 +27,228 @@ echo view('templates/myheader.php');
 ?>
 
 <style>
-    /* Professional Chart of Accounts - Clean & Elegant */
-    
-    /* Status Pills - Professional */
+    :root {
+        --navy-dark: #0a1a3a;
+        --navy-medium: #1a2e5a;
+        --gold-primary: #d4af37;
+        --gold-dark: #b8960c;
+        --gold-light: #f5e6a3;
+        --gold-soft: #fef7e0;
+        --white-bg: #ffffff;
+        --gray-50: #f8f9fa;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-400: #94a3b8;
+        --gray-500: #64748b;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --success: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+    }
+
+    body {
+        background: var(--gray-50);
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Attendance Card Style - Matching Other Modules */
+    .attendance-card {
+        background: var(--white-bg);
+        border-radius: 20px;
+        border: 1px solid var(--gray-200);
+        transition: all 0.3s ease;
+    }
+
+    .attendance-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 20px -12px rgba(0,0,0,0.1);
+        border-color: var(--gray-300);
+    }
+
+    .attendance-card .card-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .attendance-value {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--gray-800);
+    }
+
+    .attendance-icon {
+        font-size: 42px;
+        opacity: 0.12;
+        color: var(--gold-primary);
+    }
+
+    .attendance-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+    }
+
+    .attendance-sub {
+        font-size: 11px;
+        color: var(--gray-400);
+        margin-top: 6px;
+    }
+
+    /* Status Pills */
     .status-pill {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 3px 10px;
+        padding: 4px 12px;
         font-size: 11px;
-        font-weight: 500;
+        font-weight: 600;
         border-radius: 30px;
         letter-spacing: 0.3px;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
+
     .status-pill::before {
         content: '';
-        width: 5px;
-        height: 5px;
+        width: 6px;
+        height: 6px;
         border-radius: 50%;
     }
-    
+
     .status-active {
-        background: #e8f5e9;
-        color: #2e7d32;
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
     }
-    .status-active::before {
-        background: #2e7d32;
-    }
-    
+    .status-active::before { background: #10b981; }
+
     .status-inactive {
-        background: #ffebee;
-        color: #c62828;
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
     }
-    .status-inactive::before {
-        background: #c62828;
-    }
-    
-    /* Account Type Badges - Subtle */
+    .status-inactive::before { background: #ef4444; }
+
+    /* Account Type Badges */
     .type-badge {
         display: inline-flex;
         align-items: center;
-        padding: 2px 10px;
+        padding: 4px 12px;
         font-size: 10px;
-        font-weight: 500;
+        font-weight: 600;
         border-radius: 30px;
         letter-spacing: 0.3px;
-        font-family: 'Inter', monospace;
     }
-    .type-asset { background: #e3f2fd; color: #1565c0; }
-    .type-liability { background: #fff3e0; color: #ef6c00; }
-    .type-equity { background: #e8f5e9; color: #2e7d32; }
-    .type-revenue { background: #e0f2f1; color: #00897b; }
-    .type-expense { background: #fbe9e7; color: #d84315; }
-    
-    /* Edit Mode Badge */
-    .edit-mode-badge {
-        background: #f5f5f5;
-        color: #1976d2;
-        font-size: 0.7rem;
-        padding: 0.3rem 1rem;
-        border-radius: 30px;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1.25rem;
-        font-weight: 500;
+    .type-asset { background: #dbeafe; color: #1e40af; }
+    .type-liability { background: #fed7aa; color: #9a3412; }
+    .type-equity { background: #dcfce7; color: #166534; }
+    .type-revenue { background: #d1fae5; color: #065f46; }
+    .type-expense { background: #fee2e2; color: #991b1b; }
+
+    /* Cards */
+    .card {
+        border: 1px solid var(--gray-200);
+        border-radius: 20px;
+        background: var(--white-bg);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    
-    /* Account Tree - Clean Professional */
+
+    .card-header {
+        background: var(--white-bg);
+        border-bottom: 1px solid var(--gray-200);
+        padding: 16px 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    /* Form Controls */
+    .form-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--gray-600);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-bottom: 6px;
+    }
+
+    .form-control, .form-select {
+        border: 1.5px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 13px;
+        transition: all 0.2s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--gold-primary);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        outline: none;
+    }
+
+    /* Buttons */
+    .btn-save {
+        background: var(--gold-primary);
+        border: none;
+        border-radius: 10px;
+        padding: 8px 24px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--navy-dark);
+        transition: all 0.2s;
+    }
+
+    .btn-save:hover {
+        background: var(--gold-dark);
+        transform: translateY(-1px);
+        color: white;
+    }
+
+    .btn-update {
+        background: var(--navy-dark);
+        border: none;
+        border-radius: 10px;
+        padding: 8px 24px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.2s;
+    }
+
+    .btn-update:hover {
+        background: var(--navy-medium);
+        transform: translateY(-1px);
+    }
+
+    .btn-outline-secondary {
+        background: transparent;
+        border: 1.5px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 6px 20px;
+        font-size: 12px;
+        transition: all 0.2s;
+    }
+
+    .btn-outline-secondary:hover {
+        border-color: var(--gold-primary);
+        color: var(--gold-dark);
+    }
+
+    /* Account Tree */
     .account-tree {
         font-size: 0.875rem;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
     .account-item {
         margin-bottom: 0;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid var(--gray-100);
     }
     
     .account-item:last-child {
@@ -112,8 +256,8 @@ echo view('templates/myheader.php');
     }
     
     .account-card {
-        background: #fff;
-        padding: 0.7rem 1rem;
+        background: var(--white-bg);
+        padding: 12px 16px;
         transition: all 0.2s ease;
         display: flex;
         justify-content: space-between;
@@ -124,33 +268,31 @@ echo view('templates/myheader.php');
     }
     
     .account-card:hover {
-        background: #fafafa;
-        border-left-color: #1976d2;
-        padding-left: 1rem;
+        background: var(--gold-soft);
+        border-left-color: var(--gold-primary);
     }
     
     .account-info {
         display: flex;
         align-items: center;
-        gap: 1.25rem;
+        gap: 1rem;
         flex-wrap: wrap;
     }
     
     .account-code {
-        font-family: 'SF Mono', 'Courier New', monospace;
-        font-weight: 500;
-        font-size: 0.75rem;
-        background: #f5f5f5;
-        padding: 0.2rem 0.6rem;
-        border-radius: 4px;
-        color: #1976d2;
-        letter-spacing: 0.3px;
+        font-family: monospace;
+        font-weight: 600;
+        font-size: 12px;
+        background: var(--gray-50);
+        padding: 4px 10px;
+        border-radius: 6px;
+        color: var(--gold-dark);
     }
     
     .account-name {
         font-weight: 500;
-        color: #2c3e50;
-        font-size: 0.85rem;
+        color: var(--gray-700);
+        font-size: 13px;
     }
     
     .account-actions {
@@ -167,11 +309,11 @@ echo view('templates/myheader.php');
     .action-icon {
         background: none;
         border: none;
-        padding: 0.3rem;
+        padding: 6px;
         cursor: pointer;
-        color: #7f8c8d;
+        color: var(--gray-500);
         transition: all 0.2s ease;
-        border-radius: 4px;
+        border-radius: 6px;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
@@ -179,11 +321,11 @@ echo view('templates/myheader.php');
     }
     
     .action-icon:hover {
-        color: #1976d2;
-        background: #e3f2fd;
+        color: var(--gold-dark);
+        background: var(--gold-soft);
     }
-    
-    /* Filter Buttons - Clean */
+
+    /* Filter Buttons */
     .filter-group {
         display: flex;
         gap: 0.5rem;
@@ -191,104 +333,98 @@ echo view('templates/myheader.php');
     }
     
     .filter-btn {
-        padding: 0.25rem 1rem;
-        font-size: 0.7rem;
+        padding: 5px 16px;
+        font-size: 11px;
         border-radius: 30px;
-        border: 1px solid #e0e0e0;
-        background: #fff;
-        color: #5f6368;
+        border: 1px solid var(--gray-200);
+        background: var(--white-bg);
+        color: var(--gray-600);
         cursor: pointer;
         transition: all 0.2s ease;
         font-weight: 500;
     }
     
     .filter-btn.active {
-        background: #1976d2;
-        border-color: #1976d2;
-        color: #fff;
+        background: var(--gold-primary);
+        border-color: var(--gold-primary);
+        color: var(--navy-dark);
     }
     
     .filter-btn:hover:not(.active) {
-        background: #f5f5f5;
-        border-color: #bdbdbd;
+        background: var(--gold-soft);
+        border-color: var(--gold-primary);
+        color: var(--gold-dark);
     }
-    
-    /* Stats Cards - Minimal Professional */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .stat-card {
-        background: #fff;
-        border: 1px solid #e8e8e8;
-        border-radius: 12px;
-        padding: 1rem 0.75rem;
-        text-align: center;
-        transition: all 0.2s ease;
-    }
-    
-    .stat-card:hover {
-        border-color: #d0d0d0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-    
-    .stat-number {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #1a2c3e;
-        margin-bottom: 0.25rem;
-        font-family: 'Inter', monospace;
-    }
-    
-    .stat-label {
-        font-size: 0.65rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #7f8c8d;
+
+    /* Edit Mode Badge */
+    .edit-mode-badge {
+        background: var(--gold-soft);
+        color: var(--gold-dark);
+        font-size: 11px;
+        padding: 6px 16px;
+        border-radius: 30px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
         font-weight: 500;
     }
-    
-    /* Card Header - Consistent */
-    .card-header {
-        background: #fff;
-        border-bottom: 1px solid #e8e8e8;
-    }
-    
-    /* Form Elements */
-    .form-control-sm, .form-select-sm {
-        border-color: #e0e0e0;
-        font-size: 0.8rem;
-    }
-    
-    .form-control-sm:focus, .form-select-sm:focus {
-        border-color: #1976d2;
-        box-shadow: 0 0 0 2px rgba(25,118,210,0.1);
-    }
-    
+
     /* Breadcrumb */
     .breadcrumb {
-        font-size: 0.75rem;
+        background: transparent;
+        padding: 0;
+        margin-bottom: 1rem;
     }
-    
-    /* Indentation Helper */
-    .account-item {
-        position: relative;
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: var(--gray-500);
+        font-size: 12px;
     }
-    
-    /* Connector lines for better hierarchy (optional) */
-    .account-item:not([style*="padding-left: 0px"]) .account-card::before {
-        content: '';
-        position: absolute;
-        left: 12px;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-        background: #e8e8e8;
-        transform: translateX(-50%);
-        pointer-events: none;
+
+    .breadcrumb-item.active {
+        color: var(--gold-dark);
+        font-weight: 600;
+    }
+
+    /* Stats Cards Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 24px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        .account-info {
+            gap: 0.5rem;
+        }
+        .account-code {
+            font-size: 10px;
+        }
+        .account-name {
+            font-size: 11px;
+        }
+        .filter-group {
+            margin-top: 10px;
+        }
+        .btn-save, .btn-update, .btn-outline-secondary {
+            width: 100%;
+            margin-top: 5px;
+        }
     }
 </style>
 
@@ -298,69 +434,82 @@ echo view('templates/myheader.php');
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
     
     <!-- Page Header -->
-    <div class="row mb-3 mt-0">
+    <div class="row mb-2 mt-2">
         <div class="col-12">
-            <h4 class="fw-semibold mb-1" style="color: #1a2c3e;">Chart of Accounts</h4>
+            <h4 class="fw-semibold my-3">Chart of Accounts</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="<?=site_url();?>"><i class="ti ti-home fs-5"></i></a>
+                        <a class="text-muted text-decoration-none" href="<?=site_url();?>mydashboard">
+                            <i class="ti ti-home fs-5"></i>
+                        </a>
                     </li>
-                    <li class="breadcrumb-item" aria-current="page">Accounting</li>
-                    <li class="breadcrumb-item active fw-semibold" aria-current="page">Chart of Accounts</li>
+                    <li class="breadcrumb-item">Accounting</li>
+                    <li class="breadcrumb-item active">Chart of Accounts</li>
                 </ol>
             </nav>
         </div>
     </div>
     
-    <!-- Stats Overview -->
+    <!-- Stats Overview - Attendance Card Style -->
     <?php
-    // Get stats from database
     $totalAccountsQuery = $this->db->query("SELECT COUNT(*) as total FROM tbl_coa")->getRowArray();
     $activeAccountsQuery = $this->db->query("SELECT COUNT(*) as total FROM tbl_coa WHERE is_active = 1")->getRowArray();
     $assetCountQuery = $this->db->query("SELECT COUNT(*) as total FROM tbl_coa WHERE account_type = 'Asset'")->getRowArray();
     $expenseCountQuery = $this->db->query("SELECT COUNT(*) as total FROM tbl_coa WHERE account_type = 'Expense'")->getRowArray();
     ?>
     <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-number"><?= number_format($totalAccountsQuery['total'] ?? 0); ?></div>
-            <div class="stat-label">Total Accounts</div>
+        <div class="attendance-card">
+            <div class="card-body">
+                <div>
+                    <div class="attendance-label">Total Accounts</div>
+                    <div class="attendance-value"><?= number_format($totalAccountsQuery['total'] ?? 0); ?></div>
+                    <div class="attendance-sub">All accounts</div>
+                </div>
+                <i class="ti ti-chart-bar attendance-icon"></i>
+            </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-number"><?= number_format($activeAccountsQuery['total'] ?? 0); ?></div>
-            <div class="stat-label">Active</div>
+        <div class="attendance-card">
+            <div class="card-body">
+                <div>
+                    <div class="attendance-label">Active</div>
+                    <div class="attendance-value"><?= number_format($activeAccountsQuery['total'] ?? 0); ?></div>
+                    <div class="attendance-sub">Active accounts</div>
+                </div>
+                <i class="ti ti-circle-check attendance-icon"></i>
+            </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-number"><?= number_format($assetCountQuery['total'] ?? 0); ?></div>
-            <div class="stat-label">Assets</div>
+        <div class="attendance-card">
+            <div class="card-body">
+                <div>
+                    <div class="attendance-label">Assets</div>
+                    <div class="attendance-value"><?= number_format($assetCountQuery['total'] ?? 0); ?></div>
+                    <div class="attendance-sub">Asset accounts</div>
+                </div>
+                <i class="ti ti-wallet attendance-icon"></i>
+            </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-number"><?= number_format($expenseCountQuery['total'] ?? 0); ?></div>
-            <div class="stat-label">Expenses</div>
+        <div class="attendance-card">
+            <div class="card-body">
+                <div>
+                    <div class="attendance-label">Expenses</div>
+                    <div class="attendance-value"><?= number_format($expenseCountQuery['total'] ?? 0); ?></div>
+                    <div class="attendance-sub">Expense accounts</div>
+                </div>
+                <i class="ti ti-shopping-cart attendance-icon"></i>
+            </div>
         </div>
     </div>
     
     <!-- Add/Edit Account Card -->
     <div class="card">
-        <div class="card-header p-2">
-            <div class="row align-items-center">
-                <div class="col-sm-6 d-flex align-items-center text-start">
-                    <h6 class="mb-0 lh-base px-3 fw-semibold d-flex align-items-center" style="color: #1a2c3e;">
-                        <i class="ti ti-pencil fs-5 me-2" style="color: #1976d2;"></i>
-                        <span class="pt-1"><?= !empty($account_id) ? 'Edit Account' : 'Add New Account'; ?></span>
-                    </h6>
-                </div>
-                <div class="col-sm-6 text-end pe-3">
-                    <?php if(!empty($account_id)): ?>
-                        <a href="<?= site_url('mycoa?meaction=MAIN'); ?>" class="btn btn-outline-secondary btn-sm">
-                            <i class="ti ti-plus"></i> Add New
-                        </a>
-                    <?php endif; ?>
-                </div>
-            </div>
+        <div class="card-header">
+            <h6 class="fw-semibold mb-0">
+                <i class="ti ti-pencil me-2" style="color: var(--gold-primary);"></i>
+                <?= !empty($account_id) ? 'Edit Account' : 'Add New Account'; ?>
+            </h6>
         </div>
-        
-        <div class="card-body p-0 px-4 py-3 my-1">
+        <div class="card-body">
             <?php if(!empty($account_id)): ?>
                 <div class="edit-mode-badge">
                     <i class="ti ti-edit fs-6"></i>
@@ -368,119 +517,99 @@ echo view('templates/myheader.php');
                 </div>
             <?php endif; ?>
             
-            <form action="<?=site_url();?>mycoa?meaction=COA-SAVE" method="post" class="mycoa-validation">
+            <form class="mycoa-validation" id="coaForm">
                 <input type="hidden" name="account_id" id="account_id" value="<?= $account_id; ?>">
+                
                 <div class="row">
                     <!-- LEFT COLUMN -->
-                    <div class="col-sm-6">
-                        <div class="row mb-3 mt-1">
-                            <div class="col-sm-4"><span class="text-secondary" style="font-size: 0.75rem;">Account Code:</span></div>
-                            <div class="col-sm-8">
-                                <input type="text" name="account_code" id="account_code" class="form-control form-control-sm" value="<?= $account_code; ?>" placeholder="e.g., 1010" required>
-                            </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Account Code</label>
+                            <input type="text" name="account_code" id="account_code" class="form-control form-control-sm" value="<?= $account_code; ?>" placeholder="e.g., 1010" required>
                         </div>
-
-                        <div class="row mb-3">
-                            <div class="col-sm-4"><span class="text-secondary" style="font-size: 0.75rem;">Account Name:</span></div>
-                            <div class="col-sm-8">
-                                <input type="text" name="account_name" id="account_name" class="form-control form-control-sm" value="<?= $account_name; ?>" placeholder="e.g., Cash on Hand" required>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Account Name</label>
+                            <input type="text" name="account_name" id="account_name" class="form-control form-control-sm" value="<?= $account_name; ?>" placeholder="e.g., Cash on Hand" required>
                         </div>
-
-                        <div class="row mb-3">
-                            <div class="col-sm-4"><span class="text-secondary" style="font-size: 0.75rem;">Account Type:</span></div>
-                            <div class="col-sm-8">
-                                <select name="account_type" id="account_type" class="form-select form-select-sm" required>
-                                    <option value="">Select Type</option>
-                                    <option value="Asset" <?= $account_type == 'Asset' ? 'selected' : ''; ?>>Asset</option>
-                                    <option value="Liability" <?= $account_type == 'Liability' ? 'selected' : ''; ?>>Liability</option>
-                                    <option value="Equity" <?= $account_type == 'Equity' ? 'selected' : ''; ?>>Equity</option>
-                                    <option value="Revenue" <?= $account_type == 'Revenue' ? 'selected' : ''; ?>>Revenue</option>
-                                    <option value="Expense" <?= $account_type == 'Expense' ? 'selected' : ''; ?>>Expense</option>
-                                </select>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Account Type</label>
+                            <select name="account_type" id="account_type" class="form-select form-select-sm" required>
+                                <option value="">Select Type</option>
+                                <option value="Asset" <?= $account_type == 'Asset' ? 'selected' : ''; ?>>Asset</option>
+                                <option value="Liability" <?= $account_type == 'Liability' ? 'selected' : ''; ?>>Liability</option>
+                                <option value="Equity" <?= $account_type == 'Equity' ? 'selected' : ''; ?>>Equity</option>
+                                <option value="Revenue" <?= $account_type == 'Revenue' ? 'selected' : ''; ?>>Revenue</option>
+                                <option value="Expense" <?= $account_type == 'Expense' ? 'selected' : ''; ?>>Expense</option>
+                            </select>
                         </div>
                     </div>
 
                     <!-- RIGHT COLUMN -->
-                    <div class="col-sm-6">
-                        <div class="row mb-3 mt-1">
-                            <div class="col-sm-4"><span class="text-secondary" style="font-size: 0.75rem;">Parent Account:</span></div>
-                            <div class="col-sm-8">
-                                <select name="parent_code" id="parent_code" class="form-select form-select-sm">
-                                    <option value="">— None (Main Account) —</option>
-                                    <?php
-                                    $parents = $this->db->query("SELECT account_code, account_name FROM tbl_coa WHERE account_code != '$account_code' OR account_code IS NULL ORDER BY account_code")->getResultArray();
-                                    foreach($parents as $p) {
-                                        $selected = ($parent_code == $p['account_code']) ? 'selected' : '';
-                                        echo '<option value="' . $p['account_code'] . '" ' . $selected . '>' . $p['account_code'] . ' - ' . $p['account_name'] . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Parent Account</label>
+                            <select name="parent_code" id="parent_code" class="form-select form-select-sm">
+                                <option value="">— None (Main Account) —</option>
+                                <?php
+                                $parents = $this->db->query("SELECT account_code, account_name FROM tbl_coa WHERE account_code != '$account_code' OR account_code IS NULL ORDER BY account_code")->getResultArray();
+                                foreach($parents as $p) {
+                                    $selected = ($parent_code == $p['account_code']) ? 'selected' : '';
+                                    echo '<option value="' . $p['account_code'] . '" ' . $selected . '>' . $p['account_code'] . ' - ' . $p['account_name'] . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
-
-                        <div class="row mb-3">
-                            <div class="col-sm-4"><span class="text-secondary" style="font-size: 0.75rem;">Status:</span></div>
-                            <div class="col-sm-8">
-                                <select name="is_active" id="is_active" class="form-select form-select-sm">
-                                    <option value="1" <?= $is_active == '1' ? 'selected' : ''; ?>>Active</option>
-                                    <option value="0" <?= $is_active == '0' ? 'selected' : ''; ?>>Inactive</option>
-                                </select>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="is_active" id="is_active" class="form-select form-select-sm">
+                                <option value="1" <?= $is_active == '1' ? 'selected' : ''; ?>>Active</option>
+                                <option value="0" <?= $is_active == '0' ? 'selected' : ''; ?>>Inactive</option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
                 <!-- BUTTONS -->
-                <div class="row mt-3 mb-2">
-                    <div class="col-sm-12 text-end">
-                        <?php if(!empty($account_id)): ?>
-                            <a href="<?= site_url('mycoa?meaction=MAIN'); ?>" class="btn btn-outline-secondary btn-sm">
-                                <i class="ti ti-x"></i> Cancel
-                            </a>
-                        <?php endif; ?>
-                        <button type="submit" class="btn bg-<?= empty($account_id) ? 'success' : 'info' ?>-subtle text-<?= empty($account_id) ? 'success' : 'info' ?> btn-sm">
-                            <i class="ti ti-device-floppy mt-1 fs-4 me-1"></i>
-                            <?= empty($account_id) ? 'Save Account' : 'Update Account'; ?>
-                        </button>
-                    </div>
+                <div class="text-end mt-3">
+                    <?php if(!empty($account_id)): ?>
+                        <a href="<?= site_url('mycoa?meaction=MAIN'); ?>" class="btn-outline-secondary btn-sm me-2">
+                            <i class="ti ti-x"></i> Cancel
+                        </a>
+                    <?php endif; ?>
+                    <button type="submit" class="<?= empty($account_id) ? 'btn-save' : 'btn-update' ?>">
+                        <i class="ti ti-device-floppy me-1"></i>
+                        <?= empty($account_id) ? 'Save Account' : 'Update Account'; ?>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Chart of Accounts Structure Card -->
-    <div class="card mt-3">
-        <div class="card-header p-2">
-            <div class="row align-items-center">
-                <div class="col-sm-6 d-flex align-items-center text-start">
-                    <h6 class="mb-0 lh-base px-3 fw-semibold d-flex align-items-center" style="color: #1a2c3e;">
-                        <i class="ti ti-list-tree fs-5 me-2" style="color: #1976d2;"></i>
-                        <span class="pt-1">Chart of Accounts Structure</span>
-                    </h6>
-                </div>
-                <div class="col-sm-6 text-end pe-3">
-                    <div class="filter-group">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="Asset">Assets</button>
-                        <button class="filter-btn" data-filter="Liability">Liabilities</button>
-                        <button class="filter-btn" data-filter="Equity">Equity</button>
-                        <button class="filter-btn" data-filter="Revenue">Revenue</button>
-                        <button class="filter-btn" data-filter="Expense">Expenses</button>
-                    </div>
+    <div class="card mt-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h6 class="fw-semibold mb-0">
+                    <i class="ti ti-list-tree me-2" style="color: var(--gold-primary);"></i>
+                    Chart of Accounts Structure
+                </h6>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="Asset">Assets</button>
+                    <button class="filter-btn" data-filter="Liability">Liabilities</button>
+                    <button class="filter-btn" data-filter="Equity">Equity</button>
+                    <button class="filter-btn" data-filter="Revenue">Revenue</button>
+                    <button class="filter-btn" data-filter="Expense">Expenses</button>
                 </div>
             </div>
         </div>
         
-        <div class="card-body p-0 px-3 py-2">
+        <div class="card-body p-0">
             <div class="account-tree" id="accountTree">
                 <?php
-                // Get all accounts with proper null checks
                 $query = $this->db->query("SELECT * FROM tbl_coa ORDER BY account_code ASC");
                 $accounts = $query->getResultArray();
                 
-                // Build tree structure
                 $tree = [];
                 foreach ($accounts as $row) {
                     $parentKey = isset($row['parent_code']) && !empty($row['parent_code']) ? $row['parent_code'] : null;
@@ -540,7 +669,6 @@ echo view('templates/myheader.php');
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="<?=base_url('assets/js/accounting/mycoa.js?v=2');?>"></script>
-<script src="<?=base_url('assets/js/mysysapps.js');?>"></script>
 
 <script>
 $(document).ready(function() {
@@ -560,7 +688,6 @@ $(document).ready(function() {
     });
     
     <?php if(!empty($account_id)): ?>
-        // Scroll to form on page load when editing
         setTimeout(function() {
             $('html, body').animate({
                 scrollTop: $('.card').offset().top - 20

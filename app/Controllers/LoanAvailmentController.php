@@ -4,16 +4,16 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class LoanAvailmentController  extends BaseController
+class LoanAvailmentController extends BaseController
 {
     public function __construct()
-	{
-		$this->request = \Config\Services::request();
+    {
+        $this->request = \Config\Services::request();
         $this->myloanavailment = model('App\Models\LoanAvailmentModel');
         $this->db = \Config\Database::connect();
         $this->session = session();
         $this->cuser = $this->session->get('__xsys_myuserzicas__');
-	}
+    }
 
     public function index() {
         
@@ -25,12 +25,9 @@ class LoanAvailmentController  extends BaseController
                 break;
 
             case 'LOAN-AVAILMENT-SAVE': 
-                $this->myloanavailment->loanavailment_save();
-                return redirect()->to('myloanavailment?meaction=MAIN');
+                $result = $this->myloanavailment->loanavailment_save();
+                return $this->response->setJSON($result);
                 break;
-            
-
         }
     }
-
-}
+}   

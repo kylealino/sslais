@@ -4,16 +4,16 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class COAController  extends BaseController
+class COAController extends BaseController
 {
     public function __construct()
-	{
-		$this->request = \Config\Services::request();
+    {
+        $this->request = \Config\Services::request();
         $this->mycoa = model('App\Models\COAModel');
         $this->db = \Config\Database::connect();
         $this->session = session();
         $this->cuser = $this->session->get('__xsys_myuserzicas__');
-	}
+    }
 
     public function index() {
         
@@ -25,12 +25,9 @@ class COAController  extends BaseController
                 break;
 
             case 'COA-SAVE': 
-                $this->mycoa->coa_save();
-                return redirect()->to('mycoa?meaction=MAIN');
+                $result = $this->mycoa->coa_save();
+                return $this->response->setJSON($result);
                 break;
-            
-
         }
     }
-
 }

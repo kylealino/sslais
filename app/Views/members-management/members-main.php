@@ -3,212 +3,460 @@ $this->request = \Config\Services::request();
 $this->db = \Config\Database::connect();
 $member_id = $this->request->getPostGet('member_id');
 
-$member_no = "";
-$first_name = "";
-$last_name = "";
-$middle_name = "";
-$address = "";
-$contact_number = "";
-$email = "";
-$username = "";
-$password = "";
+// Get member data if editing
+$member_data = [];
+if(!empty($member_id)) {
+    $query = $this->db->query("SELECT * FROM tbl_members WHERE member_id = ?", [$member_id]);
+    $member_data = $query->getRowArray();
+}
+
+// Default values
+$member_no = $member_data['member_no'] ?? "";
+$first_name = $member_data['first_name'] ?? "";
+$last_name = $member_data['last_name'] ?? "";
+$middle_name = $member_data['middle_name'] ?? "";
+$address = $member_data['address'] ?? "";
+$contact_number = $member_data['contact_number'] ?? "";
+$email = $member_data['email'] ?? "";
+$username = $member_data['username'] ?? "";
+$password = $member_data['password'] ?? "";
 
 // New fields from the membership profile update form
-$date_of_birth = "";
-$place_of_birth = "";
-$age = "";
-$civil_status = "";
-$gender = "";
-$tin = "";
-$gsis_number = "";
+$date_of_birth = $member_data['date_of_birth'] ?? "";
+$place_of_birth = $member_data['place_of_birth'] ?? "";
+$age = $member_data['age'] ?? "";
+$civil_status = $member_data['civil_status'] ?? "";
+$gender = $member_data['gender'] ?? "";
+$tin = $member_data['tin'] ?? "";
+$gsis_number = $member_data['gsis_number'] ?? "";
 
-$permanent_street = "";
-$permanent_barangay = "";
-$permanent_city = "";
-$permanent_province = "";
-$permanent_zip = "";
+$permanent_street = $member_data['permanent_street'] ?? "";
+$permanent_barangay = $member_data['permanent_barangay'] ?? "";
+$permanent_city = $member_data['permanent_city'] ?? "";
+$permanent_province = $member_data['permanent_province'] ?? "";
+$permanent_zip = $member_data['permanent_zip'] ?? "";
 
-$present_street = "";
-$present_barangay = "";
-$present_city = "";
-$present_province = "";
-$present_zip = "";
+$present_street = $member_data['present_street'] ?? "";
+$present_barangay = $member_data['present_barangay'] ?? "";
+$present_city = $member_data['present_city'] ?? "";
+$present_province = $member_data['present_province'] ?? "";
+$present_zip = $member_data['present_zip'] ?? "";
 
-$home_phone = "";
-$office_phone = "";
+$home_phone = $member_data['home_phone'] ?? "";
+$office_phone = $member_data['office_phone'] ?? "";
 
-$department_agency = "";
-$position = "";
-$salary_grade = "";
+$department_agency = $member_data['department_agency'] ?? "";
+$position = $member_data['position'] ?? "";
+$salary_grade = $member_data['salary_grade'] ?? "";
 
-$beneficiary1_name = "";
-$beneficiary1_address = "";
-$beneficiary1_contact = "";
-$beneficiary1_relationship = "";
-$beneficiary2_name = "";
-$beneficiary2_address = "";
-$beneficiary2_contact = "";
-$beneficiary2_relationship = "";
-
-if(!empty($member_id) || !is_null($member_id)) { 
-    $query = $this->db->query("
-    SELECT
-        `member_id`,
-        `member_no`,
-        `first_name`,
-        `last_name`,
-        `middle_name`,
-        `address`,
-        `contact_number`,
-        `email`,
-        `username`,
-        `password`,
-        `date_of_birth`,
-        `place_of_birth`,
-        `age`,
-        `civil_status`,
-        `gender`,
-        `tin`,
-        `gsis_number`,
-        `permanent_street`,
-        `permanent_barangay`,
-        `permanent_city`,
-        `permanent_province`,
-        `permanent_zip`,
-        `present_street`,
-        `present_barangay`,
-        `present_city`,
-        `present_province`,
-        `present_zip`,
-        `home_phone`,
-        `office_phone`,
-        `department_agency`,
-        `position`,
-        `salary_grade`,
-        `beneficiary1_name`,
-        `beneficiary1_address`,
-        `beneficiary1_contact`,
-        `beneficiary1_relationship`,
-        `beneficiary2_name`,
-        `beneficiary2_address`,
-        `beneficiary2_contact`,
-        `beneficiary2_relationship`,
-        `created_by`,
-        `created_at`
-    FROM
-        `tbl_members`
-    WHERE
-        `member_id` = '$member_id'"
-    );
-
-    $data = $query->getRowArray();
-    if($data) {
-        $member_no = $data['member_no'];
-        $first_name = $data['first_name'];
-        $last_name = $data['last_name'];
-        $middle_name = $data['middle_name'];
-        $address = $data['address'];
-        $contact_number = $data['contact_number'];
-        $email = $data['email'];
-        $username = $data['username'];
-        $password = $data['password'];
-        
-        $date_of_birth = $data['date_of_birth'];
-        $place_of_birth = $data['place_of_birth'];
-        $age = $data['age'];
-        $civil_status = $data['civil_status'];
-        $gender = $data['gender'];
-        $tin = $data['tin'];
-        $gsis_number = $data['gsis_number'];
-        
-        $permanent_street = $data['permanent_street'];
-        $permanent_barangay = $data['permanent_barangay'];
-        $permanent_city = $data['permanent_city'];
-        $permanent_province = $data['permanent_province'];
-        $permanent_zip = $data['permanent_zip'];
-        
-        $present_street = $data['present_street'];
-        $present_barangay = $data['present_barangay'];
-        $present_city = $data['present_city'];
-        $present_province = $data['present_province'];
-        $present_zip = $data['present_zip'];
-        
-        $home_phone = $data['home_phone'];
-        $office_phone = $data['office_phone'];
-        
-        $department_agency = $data['department_agency'];
-        $position = $data['position'];
-        $salary_grade = $data['salary_grade'];
-        
-        $beneficiary1_name = $data['beneficiary1_name'];
-        $beneficiary1_address = $data['beneficiary1_address'];
-        $beneficiary1_contact = $data['beneficiary1_contact'];
-        $beneficiary1_relationship = $data['beneficiary1_relationship'];
-        $beneficiary2_name = $data['beneficiary2_name'];
-        $beneficiary2_address = $data['beneficiary2_address'];
-        $beneficiary2_contact = $data['beneficiary2_contact'];
-        $beneficiary2_relationship = $data['beneficiary2_relationship'];
-    }
-}
+$beneficiary1_name = $member_data['beneficiary1_name'] ?? "";
+$beneficiary1_address = $member_data['beneficiary1_address'] ?? "";
+$beneficiary1_contact = $member_data['beneficiary1_contact'] ?? "";
+$beneficiary1_relationship = $member_data['beneficiary1_relationship'] ?? "";
+$beneficiary2_name = $member_data['beneficiary2_name'] ?? "";
+$beneficiary2_address = $member_data['beneficiary2_address'] ?? "";
+$beneficiary2_contact = $member_data['beneficiary2_contact'] ?? "";
+$beneficiary2_relationship = $member_data['beneficiary2_relationship'] ?? "";
 
 echo view('templates/myheader.php');
 ?>
+
 <style>
-.status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 50px;
-    letter-spacing: 0.3px;
-}
+    :root {
+        --navy-dark: #0a1a3a;
+        --navy-medium: #1a2e5a;
+        --navy-light: #2a3e6a;
+        --gold-primary: #d4af37;
+        --gold-dark: #b8960c;
+        --gold-light: #f5e6a3;
+        --gold-soft: #fef7e0;
+        --white-bg: #ffffff;
+        --gray-50: #f8f9fa;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-400: #94a3b8;
+        --gray-500: #64748b;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --success: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --info: #3b82f6;
+    }
 
-.status-pill::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-}
+    body {
+        background: var(--gray-50);
+        font-family: 'Inter', sans-serif;
+    }
 
-.status-active {
-    background: rgba(25, 135, 84, 0.1);
-    color: #198754;
-}
-.status-active::before {
-    background: #198754;
-}
+    /* Status Pill */
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 30px;
+        letter-spacing: 0.3px;
+    }
 
-.status-inactive {
-    background: rgba(13, 110, 253, 0.1);
-    color: #0d6efd;
-}
-.status-inactive::before {
-    background: #0d6efd;
-}
+    .status-pill::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+    }
 
-.form-section {
-    border-bottom: 1px solid #e9ecef;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-}
-.form-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-.form-section h6 {
-    font-weight: 600;
-    margin-bottom: 18px;
-    color: #2c3e50;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-}
-.section-title-icon {
-    width: 28px;
-    display: inline-block;
-}
+    .status-active {
+        background: #ecfdf5;
+        color: #10b981;
+    }
+    .status-active::before {
+        background: #10b981;
+    }
+
+    /* Form Sections */
+    .form-section {
+        border-bottom: 1px solid var(--gray-200);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    .form-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    .form-section h6 {
+        font-weight: 600;
+        margin-bottom: 18px;
+        color: var(--navy-dark);
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        border-left: 3px solid var(--gold-primary);
+        padding-left: 12px;
+    }
+
+    /* Cards */
+    .card {
+        border: 1px solid var(--gray-200);
+        border-radius: 20px;
+        background: var(--white-bg);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+        background: var(--white-bg);
+        border-bottom: 1px solid var(--gray-200);
+        padding: 16px 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    /* Form Controls */
+    .form-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--gray-600);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-bottom: 4px;
+    }
+
+    .form-control, .form-select {
+        border: 1.5px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 13px;
+        transition: all 0.2s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--gold-primary);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        outline: none;
+    }
+
+    /* Buttons */
+    .btn-save {
+        background: var(--gold-primary);
+        border: none;
+        border-radius: 10px;
+        padding: 8px 24px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--navy-dark);
+        transition: all 0.2s;
+    }
+
+    .btn-save:hover {
+        background: var(--gold-dark);
+        transform: translateY(-1px);
+        color: white;
+    }
+
+    .btn-update {
+        background: var(--navy-dark);
+        border: none;
+        border-radius: 10px;
+        padding: 8px 24px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.2s;
+    }
+
+    .btn-update:hover {
+        background: var(--navy-medium);
+        transform: translateY(-1px);
+    }
+
+    .btn-light-custom {
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 8px 16px;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .btn-light-custom:hover {
+        background: var(--gold-soft);
+        border-color: var(--gold-primary);
+        color: var(--gold-dark);
+    }
+
+    /* Action Icons */
+    .nav-icon-hover {
+        transition: all 0.2s;
+        display: inline-block;
+        font-size: 18px;
+    }
+
+    .nav-icon-hover:hover {
+        transform: scale(1.1);
+        color: var(--gold-primary) !important;
+    }
+
+    /* ============================================= */
+    /* DATATABLES - PROPER PADDING & STYLING */
+    /* ============================================= */
+    .dataTables_wrapper {
+        font-family: 'Inter', sans-serif;
+        padding: 0 10px;
+    }
+    
+    /* Table container */
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    /* Main table styling */
+    .table.dataTable {
+        width: 100% !important;
+        margin: 0 !important;
+        border-collapse: collapse;
+    }
+    
+    /* Table header cells */
+    .table.dataTable thead th {
+        padding: 14px 12px !important;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--navy-dark);
+        border-bottom: 2px solid var(--gold-primary);
+        text-align: center;
+        background: var(--gray-50);
+    }
+    
+    /* Table body cells */
+    .table.dataTable tbody td {
+        padding: 12px 12px !important;
+        font-size: 13px;
+        color: var(--gray-700);
+        vertical-align: middle;
+        text-align: center;
+        border-bottom: 1px solid var(--gray-100);
+    }
+    
+    /* Action column specific - less padding */
+    .table.dataTable tbody td:first-child {
+        padding: 8px 8px !important;
+    }
+    
+    /* Hover effect */
+    .table.dataTable tbody tr:hover td {
+        background: var(--gold-soft);
+    }
+    
+    /* Search input styling */
+    .dataTables_filter {
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+    
+    .dataTables_filter label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--gray-600);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+    
+    .dataTables_filter input {
+        border: 1.5px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 8px 14px;
+        width: 250px;
+        font-size: 13px;
+        transition: all 0.2s;
+    }
+    
+    .dataTables_filter input:focus {
+        border-color: var(--gold-primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+    
+    /* Pagination styling */
+    .dataTables_paginate {
+        margin-top: 20px;
+        padding: 0 10px;
+    }
+    
+    .dataTables_paginate .paginate_button {
+        padding: 8px 14px !important;
+        margin: 0 3px !important;
+        border-radius: 8px !important;
+        border: 1px solid var(--gray-200) !important;
+        background: var(--white-bg) !important;
+        color: var(--gray-600) !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    
+    .dataTables_paginate .paginate_button.current {
+        background: var(--gold-primary) !important;
+        border-color: var(--gold-primary) !important;
+        color: var(--navy-dark) !important;
+    }
+    
+    .dataTables_paginate .paginate_button:hover {
+        background: var(--gold-soft) !important;
+        border-color: var(--gold-primary) !important;
+        color: var(--gold-dark) !important;
+    }
+    
+    /* Info text */
+    .dataTables_info {
+        padding: 0 10px;
+        margin-top: 20px;
+        font-size: 12px;
+        color: var(--gray-500);
+    }
+    
+    /* Length menu */
+    .dataTables_length {
+        padding: 0 10px;
+        margin-bottom: 20px;
+    }
+    
+    .dataTables_length label {
+        font-size: 12px;
+        color: var(--gray-600);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .dataTables_length select {
+        border: 1.5px solid var(--gray-200);
+        border-radius: 8px;
+        padding: 5px 8px;
+        margin: 0 5px;
+        font-size: 12px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .table.dataTable thead th,
+        .table.dataTable tbody td {
+            padding: 8px 8px !important;
+            font-size: 11px;
+        }
+        
+        .dataTables_filter input {
+            width: 180px;
+        }
+        
+        .dataTables_paginate .paginate_button {
+            padding: 5px 10px !important;
+            font-size: 10px !important;
+        }
+        
+        .dataTables_filter label {
+            justify-content: center;
+        }
+        
+        .dataTables_length label {
+            justify-content: center;
+        }
+        
+        .dataTables_info {
+            text-align: center;
+        }
+        
+        .dataTables_paginate {
+            text-align: center;
+            float: none !important;
+        }
+        
+        .dataTables_info {
+            float: none !important;
+            margin-bottom: 15px;
+        }
+    }
+    
+    /* Loading overlay */
+    .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.9);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Breadcrumb */
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: var(--gray-500);
+        font-size: 12px;
+    }
+
+    .breadcrumb-item.active {
+        color: var(--gold-dark);
+        font-weight: 600;
+    }
 </style>
 
 <div class="container-fluid">
@@ -216,103 +464,104 @@ echo view('templates/myheader.php');
     </div>
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
     
-    <div class="row mb-2 mt-0">
-        <h4 class="fw-semibold mb-8">List of Members</h4>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a class="text-muted text-decoration-none" href="<?=site_url();?>"><i class="ti ti-home fs-5"></i></a>
-                </li>
-                <li class="breadcrumb-item" aria-current="page">Members Management</li>
-                <li class="breadcrumb-item" aria-current="page"><span class="form-label fw-bold">List of Members</span></li>
-            </ol>
-        </nav>
+    <div class="row mb-2">
+        <div class="col-12">
+            <h4 class="fw-semibold my-3">List of Members</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="<?=site_url();?>mydashboard">
+                            <i class="ti ti-home fs-5"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">Members Management</li>
+                    <li class="breadcrumb-item active">List of Members</li>
+                </ol>
+            </nav>
+        </div>
     </div>
     
+    <!-- Member Form Card -->
     <div class="card">
-        <div class="card-header p-1">
-            <div class="row">
-                <div class="col-sm-6 d-flex align-items-center text-start">
-                    <h6 class="mb-0 lh-base px-3 fw-semibold d-flex align-items-center">
-                        <i class="ti ti-pencil fs-5 me-1"></i>
-                        <span class="pt-1"><?= empty($member_id) ? 'Add new member' : 'Edit Member' ?></span>
-                    </h6>
-                </div>
-            </div>
-        </div>						
-        <div class="card-body p-0 px-4 py-3 my-2">
-            <form action="<?=site_url();?>mymembers?meaction=MEMBERS-SAVE" method="post" class="mymembers-validation" id="memberForm">
-                <input type="hidden" class="form-control form-control-sm" id="member_id" name="member_id" value="<?=$member_id;?>"/>
+        <div class="card-header">
+            <h6 class="fw-semibold mb-0">
+                <i class="ti ti-user-plus me-2" style="color: var(--gold-primary);"></i>
+                <?= empty($member_id) ? 'Add New Member' : 'Edit Member' ?>
+            </h6>
+        </div>
+        <div class="card-body">
+            <form class="mymembers-validation" id="memberForm">
+                <input type="hidden" id="member_id" name="member_id" value="<?=$member_id;?>"/>
                 
                 <!-- I. Member Information -->
                 <div class="form-section">
-                    <h6><span class="section-title-icon"><i class="ti ti-user me-2"></i></span> I. Member Information</h6>
+                    <h6><i class="ti ti-user me-2"></i> I. Member Information</h6>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Member No.:</label>
+                                    <label class="form-label">Member No.:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="member_no" name="member_no" value="<?=$member_no;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="member_no" name="member_no" value="<?=$member_no;?>" class="form-control form-control-sm" required>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Last Name:</label>
+                                    <label class="form-label">Last Name:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="last_name" name="last_name" value="<?=$last_name;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="last_name" name="last_name" value="<?=$last_name;?>" class="form-control form-control-sm" required>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">First Name:</label>
+                                    <label class="form-label">First Name:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="first_name" name="first_name" value="<?=$first_name;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="first_name" name="first_name" value="<?=$first_name;?>" class="form-control form-control-sm" required>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Middle Name:</label>
+                                    <label class="form-label">Middle Name:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="middle_name" name="middle_name" value="<?=$middle_name;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="middle_name" name="middle_name" value="<?=$middle_name;?>" class="form-control form-control-sm" required>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Date of Birth:</label>
+                                    <label class="form-label">Date of Birth:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="date" id="date_of_birth" name="date_of_birth" value="<?=$date_of_birth;?>" class="form-control form-control-sm"/>
+                                    <input type="date" id="date_of_birth" name="date_of_birth" value="<?=$date_of_birth;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Place of Birth:</label>
+                                    <label class="form-label">Place of Birth:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="place_of_birth" name="place_of_birth" value="<?=$place_of_birth;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="place_of_birth" name="place_of_birth" value="<?=$place_of_birth;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Age:</label>
+                                    <label class="form-label">Age:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="number" id="age" name="age" value="<?=$age;?>" class="form-control form-control-sm"/>
+                                    <input type="number" id="age" name="age" value="<?=$age;?>" class="form-control form-control-sm" readonly>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Civil Status:</label>
+                                    <label class="form-label">Civil Status:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <select id="civil_status" name="civil_status" class="form-control form-control-sm">
+                                    <select id="civil_status" name="civil_status" class="form-select form-select-sm">
                                         <option value="">Select</option>
                                         <option value="Single" <?= $civil_status == 'Single' ? 'selected' : '' ?>>Single</option>
                                         <option value="Married" <?= $civil_status == 'Married' ? 'selected' : '' ?>>Married</option>
@@ -321,12 +570,12 @@ echo view('templates/myheader.php');
                                     </select>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Gender:</label>
+                                    <label class="form-label">Gender:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <select id="gender" name="gender" class="form-control form-control-sm">
+                                    <select id="gender" name="gender" class="form-select form-select-sm">
                                         <option value="">Select</option>
                                         <option value="Male" <?= $gender == 'Male' ? 'selected' : '' ?>>Male</option>
                                         <option value="Female" <?= $gender == 'Female' ? 'selected' : '' ?>>Female</option>
@@ -334,20 +583,20 @@ echo view('templates/myheader.php');
                                     </select>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">TIN:</label>
+                                    <label class="form-label">TIN:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="tin" name="tin" value="<?=$tin;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="tin" name="tin" value="<?=$tin;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">GSIS Number:</label>
+                                    <label class="form-label">GSIS Number:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="gsis_number" name="gsis_number" value="<?=$gsis_number;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="gsis_number" name="gsis_number" value="<?=$gsis_number;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
@@ -356,43 +605,43 @@ echo view('templates/myheader.php');
                 
                 <!-- II. Contact Information -->
                 <div class="form-section">
-                    <h6><span class="section-title-icon"><i class="ti ti-phone me-2"></i></span> II. Contact Information</h6>
+                    <h6><i class="ti ti-phone me-2"></i> II. Contact Information</h6>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Permanent Address:</label>
+                                    <label class="form-label">Permanent Address:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="permanent_street" name="permanent_street" placeholder="Street" value="<?=$permanent_street;?>" class="form-control form-control-sm mb-1"/>
-                                    <input type="text" id="permanent_barangay" name="permanent_barangay" placeholder="Barangay" value="<?=$permanent_barangay;?>" class="form-control form-control-sm mb-1"/>
-                                    <input type="text" id="permanent_city" name="permanent_city" placeholder="City/Municipality" value="<?=$permanent_city;?>" class="form-control form-control-sm mb-1"/>
-                                    <div class="row g-1">
+                                    <input type="text" name="permanent_street" placeholder="Street" value="<?=$permanent_street;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="permanent_barangay" placeholder="Barangay" value="<?=$permanent_barangay;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="permanent_city" placeholder="City/Municipality" value="<?=$permanent_city;?>" class="form-control form-control-sm mb-2">
+                                    <div class="row g-2">
                                         <div class="col-7">
-                                            <input type="text" id="permanent_province" name="permanent_province" placeholder="Province" value="<?=$permanent_province;?>" class="form-control form-control-sm"/>
+                                            <input type="text" name="permanent_province" placeholder="Province" value="<?=$permanent_province;?>" class="form-control form-control-sm">
                                         </div>
                                         <div class="col-5">
-                                            <input type="text" id="permanent_zip" name="permanent_zip" placeholder="Zip Code" value="<?=$permanent_zip;?>" class="form-control form-control-sm"/>
+                                            <input type="text" name="permanent_zip" placeholder="Zip Code" value="<?=$permanent_zip;?>" class="form-control form-control-sm">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Present Address:</label>
+                                    <label class="form-label">Present Address:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="present_street" name="present_street" placeholder="Street" value="<?=$present_street;?>" class="form-control form-control-sm mb-1"/>
-                                    <input type="text" id="present_barangay" name="present_barangay" placeholder="Barangay" value="<?=$present_barangay;?>" class="form-control form-control-sm mb-1"/>
-                                    <input type="text" id="present_city" name="present_city" placeholder="City/Municipality" value="<?=$present_city;?>" class="form-control form-control-sm mb-1"/>
-                                    <div class="row g-1">
+                                    <input type="text" name="present_street" placeholder="Street" value="<?=$present_street;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="present_barangay" placeholder="Barangay" value="<?=$present_barangay;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="present_city" placeholder="City/Municipality" value="<?=$present_city;?>" class="form-control form-control-sm mb-2">
+                                    <div class="row g-2">
                                         <div class="col-7">
-                                            <input type="text" id="present_province" name="present_province" placeholder="Province" value="<?=$present_province;?>" class="form-control form-control-sm"/>
+                                            <input type="text" name="present_province" placeholder="Province" value="<?=$present_province;?>" class="form-control form-control-sm">
                                         </div>
                                         <div class="col-5">
-                                            <input type="text" id="present_zip" name="present_zip" placeholder="Zip Code" value="<?=$present_zip;?>" class="form-control form-control-sm"/>
+                                            <input type="text" name="present_zip" placeholder="Zip Code" value="<?=$present_zip;?>" class="form-control form-control-sm">
                                         </div>
                                     </div>
                                 </div>
@@ -401,38 +650,38 @@ echo view('templates/myheader.php');
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Mobile Number:</label>
+                                    <label class="form-label">Mobile Number:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="contact_number" name="contact_number" value="<?=$contact_number;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="contact_number" name="contact_number" value="<?=$contact_number;?>" class="form-control form-control-sm" required>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Email Address:</label>
+                                    <label class="form-label">Email Address:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="email" id="email" name="email" value="<?=$email;?>" class="form-control form-control-sm"/>
+                                    <input type="email" id="email" name="email" value="<?=$email;?>" class="form-control form-control-sm" required>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Home Phone No.:</label>
+                                    <label class="form-label">Home Phone No.:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="home_phone" name="home_phone" value="<?=$home_phone;?>" class="form-control form-control-sm"/>
+                                    <input type="text" name="home_phone" value="<?=$home_phone;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Office Phone No.:</label>
+                                    <label class="form-label">Office Phone No.:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="office_phone" name="office_phone" value="<?=$office_phone;?>" class="form-control form-control-sm"/>
+                                    <input type="text" name="office_phone" value="<?=$office_phone;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
@@ -441,15 +690,15 @@ echo view('templates/myheader.php');
                 
                 <!-- III. Employment Information -->
                 <div class="form-section">
-                    <h6><span class="section-title-icon"><i class="ti ti-briefcase me-2"></i></span> III. Employment Information</h6>
+                    <h6><i class="ti ti-briefcase me-2"></i> III. Employment Information</h6>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-5">
-                                    <label class="form-label fw-semibold small">Department/Agency:</label>
+                                    <label class="form-label">Department/Agency:</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <select id="department_agency" name="department_agency" class="form-control form-control-sm">
+                                    <select name="department_agency" class="form-select form-select-sm">
                                         <option value="">Select</option>
                                         <option value="DOST-FNRI" <?= $department_agency == 'DOST-FNRI' ? 'selected' : '' ?>>DOST-FNRI</option>
                                         <option value="DOST-ITDI" <?= $department_agency == 'DOST-ITDI' ? 'selected' : '' ?>>DOST-ITDI</option>
@@ -458,22 +707,22 @@ echo view('templates/myheader.php');
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-5">
-                                    <label class="form-label fw-semibold small">Position:</label>
+                                    <label class="form-label">Position:</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input type="text" id="position" name="position" value="<?=$position;?>" class="form-control form-control-sm"/>
+                                    <input type="text" name="position" value="<?=$position;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-5">
-                                    <label class="form-label fw-semibold small">Salary Grade:</label>
+                                    <label class="form-label">Salary Grade:</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input type="text" id="salary_grade" name="salary_grade" value="<?=$salary_grade;?>" class="form-control form-control-sm"/>
+                                    <input type="text" name="salary_grade" value="<?=$salary_grade;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
@@ -482,79 +731,27 @@ echo view('templates/myheader.php');
                 
                 <!-- IV. Contact Person(s)/Beneficiaries -->
                 <div class="form-section">
-                    <h6><span class="section-title-icon"><i class="ti ti-users me-2"></i></span> IV. Contact Person(s)/Beneficiaries</h6>
+                    <h6><i class="ti ti-users me-2"></i> IV. Contact Person(s)/Beneficiaries</h6>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="bg-light p-2 rounded mb-2">
-                                <label class="form-label fw-semibold small mb-2">Beneficiary 1</label>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <label class="form-label small">Full Name:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="beneficiary1_name" name="beneficiary1_name" value="<?=$beneficiary1_name;?>" class="form-control form-control-sm"/>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <label class="form-label small">Address:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="beneficiary1_address" name="beneficiary1_address" value="<?=$beneficiary1_address;?>" class="form-control form-control-sm"/>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <label class="form-label small">Contact No.:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="beneficiary1_contact" name="beneficiary1_contact" value="<?=$beneficiary1_contact;?>" class="form-control form-control-sm"/>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <label class="form-label small">Relationship:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="beneficiary1_relationship" name="beneficiary1_relationship" value="<?=$beneficiary1_relationship;?>" class="form-control form-control-sm"/>
-                                    </div>
+                            <div class="bg-light p-3 rounded mb-2">
+                                <label class="form-label fw-semibold mb-2">Beneficiary 1</label>
+                                <div class="mb-2">
+                                    <input type="text" name="beneficiary1_name" placeholder="Full Name" value="<?=$beneficiary1_name;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="beneficiary1_address" placeholder="Address" value="<?=$beneficiary1_address;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="beneficiary1_contact" placeholder="Contact No." value="<?=$beneficiary1_contact;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="beneficiary1_relationship" placeholder="Relationship" value="<?=$beneficiary1_relationship;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="bg-light p-2 rounded mb-2">
-                                <label class="form-label fw-semibold small mb-2">Beneficiary 2</label>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <label class="form-label small">Full Name:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="beneficiary2_name" name="beneficiary2_name" value="<?=$beneficiary2_name;?>" class="form-control form-control-sm"/>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <label class="form-label small">Address:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="beneficiary2_address" name="beneficiary2_address" value="<?=$beneficiary2_address;?>" class="form-control form-control-sm"/>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <label class="form-label small">Contact No.:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="beneficiary2_contact" name="beneficiary2_contact" value="<?=$beneficiary2_contact;?>" class="form-control form-control-sm"/>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4">
-                                        <label class="form-label small">Relationship:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="beneficiary2_relationship" name="beneficiary2_relationship" value="<?=$beneficiary2_relationship;?>" class="form-control form-control-sm"/>
-                                    </div>
+                            <div class="bg-light p-3 rounded mb-2">
+                                <label class="form-label fw-semibold mb-2">Beneficiary 2</label>
+                                <div class="mb-2">
+                                    <input type="text" name="beneficiary2_name" placeholder="Full Name" value="<?=$beneficiary2_name;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="beneficiary2_address" placeholder="Address" value="<?=$beneficiary2_address;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="beneficiary2_contact" placeholder="Contact No." value="<?=$beneficiary2_contact;?>" class="form-control form-control-sm mb-2">
+                                    <input type="text" name="beneficiary2_relationship" placeholder="Relationship" value="<?=$beneficiary2_relationship;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
@@ -563,26 +760,26 @@ echo view('templates/myheader.php');
                 
                 <!-- V. Login Information -->
                 <div class="form-section">
-                    <h6><span class="section-title-icon"><i class="ti ti-lock me-2"></i></span> V. Login Information</h6>
+                    <h6><i class="ti ti-lock me-2"></i> V. Login Information</h6>
                     <div class="row">
                         <div class="col-md-5">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Username:</label>
+                                    <label class="form-label">Username:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" id="username" name="username" value="<?=$username;?>" class="form-control form-control-sm"/>
+                                    <input type="text" id="username" name="username" value="<?=$username;?>" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <div class="row mb-2">
+                            <div class="row mb-3">
                                 <div class="col-sm-4">
-                                    <label class="form-label fw-semibold small">Password:</label>
+                                    <label class="form-label">Password:</label>
                                 </div>
                                 <div class="col-sm-8">
                                     <div class="input-group input-group-sm">
-                                        <input type="password" id="password" name="password" value="<?=$password;?>" class="form-control"/>
+                                        <input type="password" id="password" name="password" value="<?=$password;?>" class="form-control">
                                         <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                             <i class="ti ti-eye" id="toggleIcon"></i>
                                         </button>
@@ -593,117 +790,125 @@ echo view('templates/myheader.php');
                     </div>
                 </div>
                 
-                <div class="row mt-3 mb-2">  
+                <div class="row mt-4">
                     <div class="col-sm-12 text-end">
-                        <button type="submit" class="btn bg-<?= empty($member_id) ? 'success' : 'info' ?>-subtle text-<?= empty($member_id) ? 'success' : 'info' ?> btn-sm">
-                            <i class="ti ti-brand-doctrine mt-1 fs-4 me-1"></i>
-                            <?= empty($member_id) ? 'Save' : 'Update' ?>
+                        <button type="submit" class="<?= empty($member_id) ? 'btn-save' : 'btn-update' ?>">
+                            <i class="ti ti-device-floppy me-1"></i>
+                            <?= empty($member_id) ? 'Save Member' : 'Update Member' ?>
                         </button>
+                        <a href="<?=site_url();?>mymembers?meaction=MAIN" class="btn btn-light border ms-2" style="border-radius: 10px;">Cancel</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Member List Card -->
     <div class="card mt-4">
-        <div class="card-header p-1">
-            <div class="row">
-                <div class="col-sm-6 d-flex align-items-center text-start">
-                    <h6 class="mb-0 lh-base px-3 fw-semibold d-flex align-items-center">
-                        <i class="ti ti-list fs-5 me-1"></i>
-                        <span class="pt-1">Member List</span>
-                    </h6>
-                </div>
+        <div class="card-header">
+            <h6 class="fw-semibold mb-0">
+                <i class="ti ti-list me-2" style="color: var(--gold-primary);"></i>
+                Member List
+            </h6>
+        </div>
+        <div class="card-body p-3">
+            <div class="table-responsive">
+                <table id="datatablesSimple" class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th width="80">Action</th>
+                            <th>Member No.</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Contact No.</th>
+                            <th>Email</th>
+                            <th>Loan Count</th>
+                            <th>Loan Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(!empty($membersdata)):
+                            foreach ($membersdata as $data):
+                                $mid = $data['member_id'];
+                                $member_no = $data['member_no'];
+                                $first_name = $data['first_name'];
+                                $last_name = $data['last_name'];
+                                $contact_number = $data['contact_number'];
+                                $email = $data['email'];
+                                $loan_count = $data['loan_count'];
+                                $loan_amount = $data['loan_amount'];
+                        ?>
+                        <tr>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a class="text-primary nav-icon-hover" href="mymembers?meaction=MAIN&member_id=<?= $mid ?>" title="Edit Member">
+                                        <i class="ti ti-pencil"></i>
+                                    </a>
+                                    <button class="btn btn-sm text-warning p-0 border-0 bg-transparent" 
+                                            onclick="__mysys_members_ent.__showPdfInModal('<?= base_url('mymembers?meaction=MEMBERS-PRINT&member_id='.$mid) ?>')" 
+                                            title="Print Members Profile">
+                                        <i class="ti ti-printer"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="text-center"><?=$member_no;?></td>
+                            <td class="text-center"><?=$last_name;?></td>
+                            <td class="text-center"><?=$first_name;?></td>
+                            <td class="text-center"><?=$contact_number;?></td>
+                            <td class="text-center"><?=$email;?></td>
+                            <td class="text-center"><?=$loan_count;?></td>
+                            <td class="text-center">₱<?=number_format($loan_amount,2);?></td>
+                            <td class="text-center"><span class="status-pill status-active">Active</span></td>
+                        </tr>
+                        <?php endforeach; endif;?>
+                    </tbody>
+                </table>
             </div>
-        </div>						
-        <div class="card-body p-0 px-4 py-2 my-2">
-            <table id="datatablesSimple" class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Action</th>
-                        <th>Member No.</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Contact No.</th>
-                        <th>Email</th>
-                        <th>Loan Count</th>
-                        <th>Loan Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody class="align-middle">
-                    <?php if(!empty($membersdata)):
-                        foreach ($membersdata as $data):
-                            $member_id = $data['member_id'];
-                            $member_no = $data['member_no'];
-                            $first_name = $data['first_name'];
-                            $last_name = $data['last_name'];
-                            $middle_name = $data['middle_name'];
-                            $address = $data['address'];
-                            $contact_number = $data['contact_number'];
-                            $email = $data['email'];
-                            $loan_count = $data['loan_count'];
-                            $loan_amount = $data['loan_amount'];
-                    ?>
-                    <tr>
-                        <td class="text-center align-middle">
-                            <div class="d-flex text-warning justify-content-center gap-2">
-                                <a class="text-info nav-icon-hover fs-6 me-2" href="mymembers?meaction=MAIN&member_id=<?= $member_id ?>" title="Edit Member">
-                                    <i class="ti ti-pencil" aria-hidden="true"></i>
-                                </a>
-                                <button class="btn btn-sm fs-6 text-warning p-0 border-0 bg-transparent" 
-                                        onclick="__mysys_members_ent.__showPdfInModal('<?= base_url('mymembers?meaction=MEMBERS-PRINT&member_id='.$member_id) ?>')" 
-                                        title="Print Members Profile" >
-                                <i class="ti ti-printer"></i>
-                                </button>
-                            </div>
-                        </td>
-                        <td class="text-center"><?=$member_no;?></td>
-                        <td class="text-center"><?=$last_name;?></td>
-                        <td class="text-center"><?=$first_name;?></td>
-                        <td class="text-center"><?=$contact_number;?></td>
-                        <td class="text-center"><?=$email;?></td>
-                        <td class="text-center"><?=$loan_count;?></td>
-                        <td class="text-center"><?=$loan_amount?></td>
-                        <td class="text-center"><span class="status-pill status-active">Active</span></td>
-                    </tr>
-                    <?php endforeach; endif;?>
-                </tbody>
-             </table>
         </div>
     </div>
 </div>
+
+<!-- PDF Modal -->
 <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="pdfModalLabel">Membership Profile Preview</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <iframe id="pdfFrame" src="" style="width: 100%; height: 80vh;" frameborder="0"></iframe>
-        </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">Membership Profile Preview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdfFrame" src="" style="width: 100%; height: 80vh;" frameborder="0"></iframe>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="<?=base_url('assets/js/members-management/mymembers.js?v=4');?>"></script>
-<script src="<?=base_url('assets/js/mysysapps.js');?>"></script>
 
 <script>
-__mysys_members_ent.__members_saving();
 $(document).ready(function () {
     $('#datatablesSimple').DataTable({
-        pageLength: 5,
-        lengthChange: false,
+        pageLength: 10,
+        lengthChange: true,
+        order: [[1, 'asc']],
         language: {
-            search: "Search:"
-        }
+            search: "Search Member:",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            infoEmpty: "No entries found",
+            lengthMenu: "Show _MENU_ entries"
+        },
+        columnDefs: [
+            { className: "text-center", targets: [0, 1, 2, 3, 4, 5, 6, 7, 8] }
+        ],
+        autoWidth: false,
+        responsive: true
     });
 });
 
-document.getElementById('togglePassword').addEventListener('click', function () {
+// Toggle Password Visibility
+document.getElementById('togglePassword')?.addEventListener('click', function () {
     const input = document.getElementById('password');
     const icon = document.getElementById('toggleIcon');
     if (input.type === 'password') {
@@ -718,7 +923,7 @@ document.getElementById('togglePassword').addEventListener('click', function () 
 });
 
 // Auto-calculate age from date of birth
-document.getElementById('date_of_birth').addEventListener('change', function() {
+document.getElementById('date_of_birth')?.addEventListener('change', function() {
     const dob = new Date(this.value);
     if (dob) {
         const today = new Date();

@@ -7,14 +7,13 @@ use CodeIgniter\Controller;
 class MembersManagementController extends BaseController
 {
     public function __construct()
-	{
-		$this->request = \Config\Services::request();
+    {
+        $this->request = \Config\Services::request();
         $this->mymembers = model('App\Models\MembersManagementModel');
         $this->db = \Config\Database::connect();
         $this->session = session();
-        $this->db = \Config\Database::connect();
         $this->cuser = $this->session->get('__xsys_myuserzicas__');
-	}
+    }
 
     public function index() {
         
@@ -26,14 +25,13 @@ class MembersManagementController extends BaseController
                 break;
 
             case 'MEMBERS-SAVE': 
-                $this->mymembers->members_save();
-                return redirect()->to('mymembers?meaction=MAIN');
+                $result = $this->mymembers->members_save();
+                return $this->response->setJSON($result);
                 break;
 
             case 'MEMBERS-PRINT':
-				return view('members-management/members-profile-pdf');
-				break;
-            
+                return view('members-management/members-profile-pdf');
+                break;
         }
     }
 
@@ -73,10 +71,17 @@ class MembersManagementController extends BaseController
         ");
         $membersdata = $membersdataquery->getResultArray();
         
+        // Get member data for edit
+        $member_data = [];
+        if(!empty($member_id)) {
+            $member_query = $this->db->query("SELECT * FROM tbl_members WHERE member_id = ?", [$member_id]);
+            $member_data = $member_query->getRowArray();
+        }
+        
         return view('members-management/members-main', [
             'membersdata' => $membersdata,
+            'member_data' => $member_data,
+            'member_id' => $member_id
         ]);
     }
-    
-    
 }

@@ -4,226 +4,105 @@ use CodeIgniter\Model;
 
 class AccountSettingsModel extends Model
 {
-
     protected $db;
 
     public function __construct(){
         parent::__construct();
         $this->session = session();
         $this->request = \Config\Services::request();
-		$this->db = \Config\Database::connect();
-		$this->cuser = $this->session->get('__xsys_myuserzicas__');
-        
+        $this->db = \Config\Database::connect();
+        $this->cuser = $this->session->get('__xsys_myuserzicas__');
     }
 
-	public function account_save() { 
-		$member_id = $this->request->getPostGet('member_id');
-		$member_no = $this->request->getPostGet('member_no');
-		$last_name = $this->request->getPostGet('last_name');
-		$first_name = $this->request->getPostGet('first_name');
-		$middle_name = $this->request->getPostGet('middle_name');
-		$contact_number = $this->request->getPostGet('contact_number');
-		$address = $this->request->getPostGet('address');
-		$email = $this->request->getPostGet('email');
-		$username = $this->request->getPostGet('username');
-		$password = $this->request->getPostGet('password');
-		$newpassword = $this->request->getPostGet('newpassword');
-		$hash_password = hash('sha512', $newpassword);
-		
-	
+    public function account_save() { 
+        $member_id = $this->request->getPostGet('member_id');
+        $member_no = $this->request->getPostGet('member_no');
+        $last_name = $this->request->getPostGet('last_name');
+        $first_name = $this->request->getPostGet('first_name');
+        $middle_name = $this->request->getPostGet('middle_name');
+        $contact_number = $this->request->getPostGet('contact_number');
+        $address = $this->request->getPostGet('address');
+        $email = $this->request->getPostGet('email');
+        $username = $this->request->getPostGet('username');
+        $password = $this->request->getPostGet('password');
+        $newpassword = $this->request->getPostGet('newpassword');
+        $hash_password = hash('sha512', $newpassword);
+        
+        // Validation
+        if (empty($last_name)) {
+            return ['status' => 'error', 'message' => 'Last name is required!'];
+        }
+        if (empty($first_name)) {
+            return ['status' => 'error', 'message' => 'First name is required!'];
+        }
+        if (empty($middle_name)) {
+            return ['status' => 'error', 'message' => 'Middle name is required!'];
+        }
+        if (empty($contact_number)) {
+            return ['status' => 'error', 'message' => 'Contact number is required!'];
+        }
+        if (empty($address)) {
+            return ['status' => 'error', 'message' => 'Address is required!'];
+        }
+        if (empty($email)) {
+            return ['status' => 'error', 'message' => 'Email is required!'];
+        }
 
-		if (empty($last_name)) {
-			echo "
-			<script>
-			toastr.error('Last name is required!', 'Oops!', {
-					progressBar: true,
-					closeButton: true,
-					timeOut:2000,
-				});
-			</script>
-			";
-			die();
-		}
-		if (empty($first_name)) {
-			echo "
-			<script>
-			toastr.error('First name is required!', 'Oops!', {
-					progressBar: true,
-					closeButton: true,
-					timeOut:2000,
-				});
-			</script>
-			";
-			die();
-		}
-		if (empty($middle_name)) {
-			echo "
-			<script>
-			toastr.error('Middle name is required!', 'Oops!', {
-					progressBar: true,
-					closeButton: true,
-					timeOut:2000,
-				});
-			</script>
-			";
-			die();
-		}
-		if (empty($contact_number)) {
-			echo "
-			<script>
-			toastr.error('Contact number is required!', 'Oops!', {
-					progressBar: true,
-					closeButton: true,
-					timeOut:2000,
-				});
-			</script>
-			";
-			die();
-		}
-		if (empty($address)) {
-			echo "
-			<script>
-			toastr.error('Address is required!', 'Oops!', {
-					progressBar: true,
-					closeButton: true,
-					timeOut:2000,
-				});
-			</script>
-			";
-			die();
-		}
 		if (empty($email)) {
-			echo "
-			<script>
-			toastr.error('Email is required!', 'Oops!', {
-					progressBar: true,
-					closeButton: true,
-					timeOut:2000,
-				});
-			</script>
-			";
-			die();
+            return ['status' => 'error', 'message' => 'Email is required!'];
+        }
+
+		if (empty($newpassword)) {
+			$query = $this->db->query("
+				UPDATE `tbl_members`
+				SET
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?
+				WHERE `member_id` = ?
+			", [
+				$last_name,
+				$first_name,
+				$middle_name,
+				$contact_number,
+				$address,
+				$email,
+				$member_id
+			]);
+		}else{
+			$query = $this->db->query("
+				UPDATE `tbl_members`
+				SET
+					`last_name` = ?,
+					`first_name` = ?,
+					`middle_name` = ?,
+					`contact_number` = ?,
+					`address` = ?,
+					`email` = ?,
+					`password` = ?,
+					`hash_password` = ?
+				WHERE `member_id` = ?
+			", [
+				$last_name,
+				$first_name,
+				$middle_name,
+				$contact_number,
+				$address,
+				$email,
+				$newpassword,
+				$hash_password,
+				$member_id
+			]);
 		}
 
-		if ($password !== $newpassword) {
-			echo "
-			<script>
-			toastr.error('Current password and New password do not match!', 'Oops!', {
-					progressBar: true,
-					closeButton: true,
-					timeOut:2000,
-				});
-			</script>
-			";
-			die();
-		}
-		
-		$query = $this->db->query("
-			UPDATE `tbl_members`
-			SET
-				`member_no` = ?,
-				`last_name` = ?,
-				`first_name` = ?,
-				`middle_name` = ?,
-				`contact_number` = ?,
-				`address` = ?,
-				`email` = ?,
-				`username` = ?,
-				`password` = ?,
-				`hash_password` = ?,
-				`created_by` = ?
-			WHERE `member_id` = ?
-		", [
-			$member_no,
-			$last_name,
-			$first_name,
-			$middle_name,
-			$contact_number,
-			$address,
-			$email,
-			$username,
-			$password,
-			$hash_password,
-			$this->cuser,
-			$member_id
-		]);
-
-		$status = "Member Updated successfully";
-		$color = "info";
-	
-		
-		if ($query) {
-			// Echo JavaScript to show the toast and then redirect
-			echo "
-			<script>
-				toastr.$color('{$status}!', 'Well Done!', {
-						progressBar: true,
-						closeButton: true,
-						timeOut:2500,
-					});
-				setTimeout(function() {
-						window.location.href = 'myaccount?meaction=MAIN'; // Redirect to MAIN view
-					}, 2500); // 2-second delay for user to see the toast
-			</script>
-			";
-			exit; // Stop further PHP execution after the toast
-		} else {
-			// If there's an error, show an alert message
-			echo "<script type='text/javascript'>
-					alert('An error occurred while executing the query.');
-				  </script>";
-			exit;
-		}
-	}
-	
-	public function payee_delete() { 
-		$recid = $this->request->getPostGet('recid');
-
-		$accessquery = $this->db->query("
-			SELECT `recid`FROM tbl_user_access WHERE `username` = '{$this->cuser}' AND `access_code` = '5004' AND `is_active` = '1'
-		");
-		if ($accessquery->getNumRows() == 0) {
-			echo "
-			<script>
-			toastr.error('Deleting Access Denied! Please Contact the Administrator.', 'Oops!', {
-					progressBar: true,
-					closeButton: true,
-					timeOut:2000,
-				});
-			</script>
-			";
-			die();
-		}
-
-
-		$query = $this->db->query("
-			DELETE FROM `tbl_payee` WHERE `recid` = '$recid'
-		");
-		$status = "Payee deleted successfully";
-		
-		if ($query) {
-			// Echo JavaScript to show the toast and then redirect
-			echo "
-			<script>
-				toastr.warning('{$status}!', 'Well Done!', {
-						progressBar: true,
-						closeButton: true,
-						timeOut:2500,
-					});
-				setTimeout(function() {
-						window.location.href = 'mypayee?meaction=MAIN'; // Redirect to MAIN view
-					}, 2500); // 2-second delay for user to see the toast
-			</script>
-			";
-			exit; // Stop further PHP execution after the toast
-		} else {
-			// If there's an error, show an alert message
-			echo "<script type='text/javascript'>
-					alert('An error occurred while executing the query.');
-				  </script>";
-			exit;
-		}
-	}
-	
-} //end main class
-?>
+        
+        if ($query) {
+            return ['status' => 'success', 'message' => 'Account Updated Successfully!'];
+        } else {
+            return ['status' => 'error', 'message' => 'An error occurred while updating.'];
+        }
+    }
+}

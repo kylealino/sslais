@@ -6,138 +6,155 @@ echo view('templates/myheader.php');
 ?>
 
 <style>
-    /* Professional Report Styles - Matching Other Modules */
-    .report-card {
-        border: none;
-        border-radius: 12px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-        overflow: hidden;
-        margin-bottom: 1.5rem;
+    :root {
+        --navy-dark: #0a1a3a;
+        --navy-medium: #1a2e5a;
+        --gold-primary: #d4af37;
+        --gold-dark: #b8960c;
+        --gold-light: #f5e6a3;
+        --gold-soft: #fef7e0;
+        --white-bg: #ffffff;
+        --gray-50: #f8f9fa;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-400: #94a3b8;
+        --gray-500: #64748b;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --success: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --info: #3b82f6;
     }
-    
-    .report-header {
-        background: #fff;
-        border-bottom: 1px solid #eef2f6;
-        padding: 1rem 1.5rem;
+
+    body {
+        background: var(--gray-50);
+        font-family: 'Inter', sans-serif;
     }
-    
-    .report-header h6 {
-        font-size: 0.95rem;
+
+    /* Cards */
+    .card {
+        border: 1px solid var(--gray-200);
+        border-radius: 20px;
+        background: var(--white-bg);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+        background: var(--white-bg);
+        border-bottom: 1px solid var(--gray-200);
+        padding: 14px 20px;
+    }
+
+    .card-header h6 {
+        font-size: 14px;
         font-weight: 600;
-        color: #1e293b;
+        color: var(--navy-dark);
         margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
     }
-    
-    .report-header h6 i {
-        color: #4361ee;
-        font-size: 1rem;
+
+    .card-body {
+        padding: 20px;
     }
-    
-    .report-body {
-        padding: 1.5rem;
-    }
-    
-    /* Report Type Selector - Like Filter Buttons */
+
+    /* Report Type Selector - Filter Buttons Style */
     .report-type-selector {
         display: flex;
-        gap: 0.5rem;
+        gap: 10px;
         flex-wrap: wrap;
-        margin-bottom: 1.5rem;
+        margin-bottom: 24px;
     }
     
     .report-type-btn {
-        padding: 0.35rem 1rem;
-        font-size: 0.75rem;
-        border-radius: 20px;
-        border: 1px solid #e2e8f0;
-        background: #fff;
-        color: #64748b;
+        padding: 6px 20px;
+        font-size: 12px;
+        border-radius: 30px;
+        border: 1px solid var(--gray-200);
+        background: var(--white-bg);
+        color: var(--gray-600);
         cursor: pointer;
         transition: all 0.2s ease;
         font-weight: 500;
     }
     
     .report-type-btn.active {
-        background: #4361ee;
-        border-color: #4361ee;
-        color: #fff;
+        background: var(--gold-primary);
+        border-color: var(--gold-primary);
+        color: var(--navy-dark);
     }
     
     .report-type-btn:hover:not(.active) {
-        background: #f8fafc;
-        border-color: #cbd5e1;
+        background: var(--gold-soft);
+        border-color: var(--gold-primary);
+        color: var(--gold-dark);
     }
-    
-    /* Date Controls - Matching Form Styles */
+
+    /* Date Controls */
     .date-controls {
-        background: #fff;
-        border: 1px solid #eef2f6;
-        border-radius: 10px;
-        padding: 1rem;
-        margin-bottom: 1.5rem;
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 24px;
     }
     
     .date-controls .form-label {
-        font-size: 0.7rem;
+        font-size: 11px;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        color: #64748b;
-        margin-bottom: 0.25rem;
+        color: var(--gray-500);
+        margin-bottom: 6px;
         display: block;
     }
     
     .date-controls .form-control-sm {
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 0.5rem 0.75rem;
-        font-size: 0.875rem;
+        border: 1.5px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 13px;
         transition: all 0.2s ease;
+        width: 100%;
     }
     
     .date-controls .form-control-sm:focus {
-        border-color: #4361ee;
-        box-shadow: 0 0 0 3px rgba(67,97,238,0.1);
+        border-color: var(--gold-primary);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         outline: none;
     }
     
-    /* Generate Button - Matching Module Buttons */
+    /* Generate Button */
     .btn-generate {
-        background: #4361ee;
+        background: var(--gold-primary);
         border: none;
-        color: #fff;
-        padding: 0.5rem 1.25rem;
-        font-size: 0.8125rem;
-        font-weight: 500;
-        border-radius: 8px;
+        color: var(--navy-dark);
+        padding: 8px 24px;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 10px;
         transition: all 0.2s ease;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 8px;
         cursor: pointer;
     }
     
     .btn-generate:hover {
-        background: #2e4ad0;
+        background: var(--gold-dark);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(67,97,238,0.15);
-    }
-    
-    .btn-generate i {
-        font-size: 0.875rem;
+        color: white;
     }
     
     /* PDF Viewer */
     .pdf-viewer {
         width: 100%;
-        height: 550px;
-        border: 1px solid #eef2f6;
-        border-radius: 10px;
+        height: 600px;
+        border: 1px solid var(--gray-200);
+        border-radius: 16px;
         position: relative;
-        background: #fafbfc;
+        background: var(--gray-50);
         overflow: hidden;
     }
     
@@ -158,57 +175,67 @@ echo view('templates/myheader.php');
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: #fafbfc;
-        color: #94a3b8;
+        background: var(--gray-50);
+        color: var(--gray-400);
         text-align: center;
     }
     
     .pdf-placeholder i {
-        font-size: 3rem;
-        margin-bottom: 1rem;
+        font-size: 64px;
+        margin-bottom: 16px;
         opacity: 0.5;
+        color: var(--gold-primary);
     }
     
     .pdf-placeholder p {
-        font-size: 0.875rem;
-        margin-bottom: 0.25rem;
-        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 4px;
+        color: var(--gray-500);
     }
     
     .pdf-placeholder small {
-        font-size: 0.7rem;
-        color: #94a3b8;
+        font-size: 11px;
+        color: var(--gray-400);
     }
-    
+
+    /* Breadcrumb */
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: var(--gray-500);
+        font-size: 12px;
+    }
+
+    .breadcrumb-item.active {
+        color: var(--gold-dark);
+        font-weight: 600;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
-        .report-body {
-            padding: 1rem;
+        .card-body {
+            padding: 16px;
         }
-        
         .report-type-selector {
             justify-content: center;
         }
-        
         .report-type-btn {
             flex: 1;
             text-align: center;
         }
-        
         .date-controls .row {
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 12px;
         }
-        
-        .date-controls .col-sm-4 {
-            width: 100%;
-        }
-        
         .btn-generate {
             width: 100%;
             justify-content: center;
         }
-        
         .pdf-viewer {
             height: 400px;
         }
@@ -216,44 +243,41 @@ echo view('templates/myheader.php');
 </style>
 
 <div class="container-fluid">
-    <!-- Page Header - Same as Other Modules -->
-    <div class="row mb-2 mt-0">
-        <h4 class="fw-semibold mb-8">Accounting Reports</h4>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a class="text-muted text-decoration-none" href="<?=site_url();?>"><i class="ti ti-home fs-5"></i></a>
-                </li>
-                <li class="breadcrumb-item" aria-current="page">Accounting</li>
-                <li class="breadcrumb-item" aria-current="page"><span class="form-label fw-bold">Reports</span></li>
-            </ol>
-        </nav>
+    <!-- Page Header -->
+    <div class="row mb-2 mt-2">
+        <div class="col-12">
+            <h4 class="fw-semibold my-3">Accounting Reports</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="<?=site_url();?>mydashboard">
+                            <i class="ti ti-home fs-5"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">Accounting</li>
+                    <li class="breadcrumb-item active">Financial Reports</li>
+                </ol>
+            </nav>
+        </div>
     </div>
     
-    <!-- Main Report Card - Same Card Style as Other Modules -->
+    <!-- Main Report Card -->
     <div class="card">
-        <div class="card-header p-1">
-            <div class="row">
-                <div class="col-sm-6 d-flex align-items-center text-start">
-                    <h6 class="mb-0 lh-base px-3 fw-semibold d-flex align-items-center">
-                        <i class="ti ti-file-report fs-5 me-1"></i>
-                        <span class="pt-1">Financial Reports</span>
-                    </h6>
-                </div>
-                <div class="col-sm-6 text-end pe-3">
-                    <!-- Optional: Additional actions can go here -->
-                </div>
-            </div>
+        <div class="card-header">
+            <h6>
+                <i class="ti ti-file-report me-2" style="color: var(--gold-primary);"></i>
+                Financial Reports
+            </h6>
         </div>
         
-        <div class="card-body p-0 px-4 py-3 my-1">
+        <div class="card-body">
             <!-- Report Type Selector -->
             <div class="report-type-selector">
                 <button class="report-type-btn active" data-report="cash-receipts">
-                    <i class="ti ti-credit-card"></i> Cash Receipts
+                    <i class="ti ti-receipt"></i> Cash Receipts
                 </button>
                 <button class="report-type-btn" data-report="cash-disbursement">
-                    <i class="ti ti-wallet"></i> Cash Disbursement
+                    <i class="ti ti-cash-banknote"></i> Cash Disbursement
                 </button>
                 <button class="report-type-btn" data-report="balance-sheet">
                     <i class="ti ti-report-money"></i> Balance Sheet
@@ -261,12 +285,12 @@ echo view('templates/myheader.php');
                 <button class="report-type-btn" data-report="income-statement">
                     <i class="ti ti-chart-line"></i> Income Statement
                 </button>
-                <button class="report-type-btn" data-report="cash-flow">
-                    <i class="ti ti-arrows-transfer-up-down"></i> Cash Flow
+                <button class="report-type-btn" data-report="trial-balance">
+                    <i class="ti ti-scale"></i> Trial Balance
                 </button>
             </div>
             
-            <!-- Date Controls - Dynamic -->
+            <!-- Date Controls -->
             <div id="dateControls">
                 <!-- Populated by JavaScript -->
             </div>
@@ -296,13 +320,13 @@ $(document).ready(function() {
             title: 'Cash Receipts Journal',
             url: '<?= base_url('myaccountingreport?meaction=cash-receipts')?>',
             type: 'range',
-            icon: 'ti ti-credit-card'
+            icon: 'ti ti-receipt'
         },
         'cash-disbursement': {
             title: 'Cash Disbursement Journal',
             url: '<?= base_url('myaccountingreport?meaction=cash-disbursement')?>',
             type: 'range',
-            icon: 'ti ti-wallet'
+            icon: 'ti ti-cash-banknote'
         },
         'balance-sheet': {
             title: 'Balance Sheet',
@@ -316,11 +340,11 @@ $(document).ready(function() {
             type: 'range',
             icon: 'ti ti-chart-line'
         },
-        'cash-flow': {
-            title: 'Cash Flow Statement',
-            url: '<?= base_url('myaccountingreport?meaction=cash-flow')?>',
+        'trial-balance': {
+            title: 'Trial Balance',
+            url: '<?= base_url('myaccountingreport?meaction=trial-balance')?>',
             type: 'range',
-            icon: 'ti ti-arrows-transfer-up-down'
+            icon: 'ti ti-scale'
         }
     };
     
@@ -332,23 +356,23 @@ $(document).ready(function() {
         let html = `
             <div class="date-controls">
                 <div class="row g-3 align-items-end">
-                    <div class="col-sm-4">
-                        <label class="form-label">${isRange ? 'From Date' : 'Report Date'}</label>
+                    <div class="col-md-4">
+                        <label class="form-label">${isRange ? 'FROM DATE' : 'REPORT DATE'}</label>
                         <input type="date" id="dateFrom" class="form-control form-control-sm">
                     </div>
         `;
         
         if (isRange) {
             html += `
-                    <div class="col-sm-4">
-                        <label class="form-label">To Date</label>
+                    <div class="col-md-4">
+                        <label class="form-label">TO DATE</label>
                         <input type="date" id="dateTo" class="form-control form-control-sm">
                     </div>
             `;
         }
         
         html += `
-                    <div class="col-sm-4">
+                    <div class="col-md-4">
                         <button class="btn-generate" onclick="generateReport()">
                             <i class="ti ti-printer"></i>
                             Generate Report
@@ -382,11 +406,11 @@ $(document).ready(function() {
             const toDate = $('#dateTo').val();
             
             if (!fromDate || !toDate) {
-                alert('Please select both from and to dates');
+                alert('Please select both FROM and TO dates');
                 return;
             }
             
-            fullUrl += '&date_from=' + fromDate + '&date_to=' + toDate;
+            fullUrl += '&from_date=' + fromDate + '&to_date=' + toDate;
         } else {
             const date = $('#dateFrom').val();
             
@@ -395,7 +419,7 @@ $(document).ready(function() {
                 return;
             }
             
-            fullUrl += '&date=' + date;
+            fullUrl += '&as_of_date=' + date;
         }
         
         // Load PDF

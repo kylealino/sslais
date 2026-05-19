@@ -27,7 +27,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
 
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Navy_Yellow_Theme" data-layout="vertical">
+<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Navy_Gold_White_Theme" data-layout="vertical">
 
 <head>
   <!-- Required meta tags -->
@@ -40,49 +40,39 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
   <!-- Core Css -->
   <link rel="stylesheet" href="<?=base_url('assets/css/styles.css')?>" />
   
-  <!-- Navy Blue & Yellow Theme Override -->
+  <!-- Navy Blue, Gold & White Theme - Clean, No Table Borders -->
   <style>
     :root {
       --navy-dark: #0a1a3a;
       --navy-medium: #1a2e5a;
       --navy-light: #2a3e6a;
-      --gold-primary: #f5b342;
-      --gold-light: #f5c542;
-      --gold-soft: #ffd966;
+      --gold-primary: #d4af37;
+      --gold-dark: #b8960c;
+      --gold-light: #f5e6a3;
+      --gold-soft: #fef7e0;
+      --white-bg: #ffffff;
+      --white-off: #f8f9fa;
+      --gray-light: #e9ecef;
+      --gray-medium: #6c757d;
+      --gray-dark: #495057;
+      --text-dark: #1e2a3a;
     }
     
-    /* Override Bootstrap Primary Colors */
-    [data-color-theme="Navy_Yellow_Theme"] {
-      --bs-primary: var(--navy-dark) !important;
-      --bs-primary-rgb: 10, 26, 58 !important;
-      --bs-primary-bg-subtle: rgba(10, 26, 58, 0.1) !important;
-      --bs-primary-text-emphasis: var(--navy-dark) !important;
-      --bs-primary-border-subtle: rgba(10, 26, 58, 0.2) !important;
-      
-      /* Yellow/Gold as Success */
-      --bs-success: var(--gold-primary) !important;
-      --bs-success-rgb: 245, 179, 66 !important;
-      --bs-success-bg-subtle: rgba(245, 179, 66, 0.1) !important;
-      
-      /* Link Colors */
-      --bs-link-color: var(--navy-dark) !important;
-      --bs-link-hover-color: var(--gold-primary) !important;
-    }
-    
-    /* Sidebar Styling */
+    /* Sidebar Styling - NAVY BLUE */
     .left-sidebar {
       background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-medium) 100%) !important;
-      border-right: 1px solid rgba(245, 180, 66, 0.2) !important;
+      border-right: 1px solid rgba(212, 175, 55, 0.15) !important;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
     }
     
     .brand-logo {
-      background: rgba(255, 255, 255, 0.05) !important;
-      border-bottom: 1px solid rgba(245, 180, 66, 0.2) !important;
+      background: rgba(0, 0, 0, 0.15) !important;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
     }
     
     .brand-logo a {
       color: white !important;
-      font-weight: 600;
+      font-weight: 700;
     }
     
     .brand-logo img {
@@ -102,12 +92,12 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
     }
     
     .sidebar-nav ul .sidebar-item .sidebar-link {
-      color: rgba(255, 255, 255, 0.8) !important;
+      color: rgba(255, 255, 255, 0.85) !important;
       transition: all 0.3s ease;
     }
     
     .sidebar-nav ul .sidebar-item .sidebar-link:hover {
-      background: rgba(245, 180, 66, 0.15) !important;
+      background: rgba(212, 175, 55, 0.15) !important;
       color: var(--gold-primary) !important;
     }
     
@@ -126,11 +116,11 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
     }
     
     .sidebar-nav ul .sidebar-item .sidebar-link i {
-      color: rgba(255, 255, 255, 0.6) !important;
+      color: rgba(255, 255, 255, 0.7) !important;
       font-size: 1.2rem;
     }
     
-    /* Scrollbar Styling */
+    /* Scrollbar Styling - Navy Sidebar */
     .left-sidebar.with-vertical::-webkit-scrollbar {
       width: 4px;
     }
@@ -145,49 +135,78 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
     }
     
     .left-sidebar.with-vertical::-webkit-scrollbar-thumb:hover {
-      background: var(--gold-light);
+      background: var(--gold-dark);
     }
     
-    /* Header/Topbar Styling */
+    /* Header/Topbar Styling - Clean */
     .topbar {
-      background: white !important;
-      border-bottom: 2px solid var(--gold-primary) !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      background: var(--white-bg) !important;
+      border-bottom: 1px solid var(--gray-light) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    
+    /* Remove gold border from nav icons */
+    .nav-icon-hover-bg {
+      background: transparent !important;
+      border: none !important;
     }
     
     .nav-icon-hover-bg:hover {
-      background-color: rgba(245, 180, 66, 0.1) !important;
+      background-color: var(--gold-soft) !important;
     }
     
     .nav-icon-hover-bg:hover i {
       color: var(--gold-primary) !important;
     }
     
-    /* User Profile Dropdown */
+    .nav-icon-hover-bg i {
+      color: var(--navy-dark) !important;
+      font-size: 1.2rem;
+    }
+    
+    /* User Profile - No Gold Border */
+    .user-profile-img {
+      border: none !important;
+    }
+    
+    .user-profile-img img {
+      border: 2px solid var(--white-bg);
+    }
+    
+    /* Dropdown Menu */
     .dropdown-menu {
-      border: 1px solid rgba(245, 180, 66, 0.2) !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+      border: 1px solid var(--gray-light) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    }
+    
+    .dropdown-item {
+      transition: all 0.2s ease;
     }
     
     .dropdown-item:hover {
-      background-color: rgba(245, 180, 66, 0.1) !important;
+      background-color: var(--gold-soft) !important;
       color: var(--navy-dark) !important;
+      padding-left: 2rem !important;
     }
     
     .border-bottom {
-      border-bottom: 1px solid rgba(245, 180, 66, 0.2) !important;
+      border-bottom: 1px solid var(--gray-light) !important;
     }
     
     /* Buttons */
     .btn-outline-primary {
-      border-color: var(--navy-dark) !important;
-      color: var(--navy-dark) !important;
+      border: 2px solid var(--gold-primary) !important;
+      color: var(--gold-dark) !important;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      background: transparent;
     }
     
     .btn-outline-primary:hover {
-      background-color: var(--navy-dark) !important;
-      color: white !important;
-      border-color: var(--navy-dark) !important;
+      background-color: var(--gold-primary) !important;
+      color: var(--navy-dark) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
     }
     
     .btn-primary {
@@ -199,17 +218,6 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
     .btn-primary:hover {
       background-color: var(--navy-medium) !important;
       border-color: var(--navy-medium) !important;
-    }
-    
-    .btn-success {
-      background-color: var(--gold-primary) !important;
-      border-color: var(--gold-primary) !important;
-      color: var(--navy-dark) !important;
-    }
-    
-    .btn-success:hover {
-      background-color: var(--gold-light) !important;
-      border-color: var(--gold-light) !important;
     }
     
     /* Text Colors */
@@ -225,10 +233,19 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
       color: var(--gold-primary) !important;
     }
     
+    /* Body Background - FLAT WHITE */
+    body {
+      background: var(--white-bg) !important;
+    }
+    
+    .body-wrapper {
+      background: var(--white-bg) !important;
+    }
+    
     /* Form Controls */
     .form-control:focus {
       border-color: var(--gold-primary) !important;
-      box-shadow: 0 0 0 0.2rem rgba(245, 180, 66, 0.25) !important;
+      box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25) !important;
     }
     
     .form-check-input:checked {
@@ -236,29 +253,102 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
       border-color: var(--navy-dark) !important;
     }
     
-    /* Cards */
+    /* Cards - Clean, No Top Border, Just Shadow */
     .card {
-      border: 1px solid rgba(245, 180, 66, 0.1) !important;
+      border: 1px solid var(--gray-light) !important;
+      border-radius: 16px !important;
+      background: var(--white-bg) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     
     .card-header {
-      background-color: rgba(245, 180, 66, 0.05) !important;
-      border-bottom: 1px solid rgba(245, 180, 66, 0.2) !important;
+      background-color: var(--white-off) !important;
+      border-bottom: 1px solid var(--gray-light) !important;
     }
     
-    /* Tables */
+    /* TABLES - CLEAN, NO BORDERS, JUST HOVER */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
     .table thead th {
-      color: var(--navy-dark) !important;
-      border-bottom: 2px solid var(--gold-primary) !important;
+      color: var(--navy-dark);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--gray-light);
+      background: transparent;
     }
     
-    .table tbody tr:hover {
-      background-color: rgba(245, 180, 66, 0.05) !important;
+    .table tbody td {
+      padding: 12px 12px;
+      font-size: 13px;
+      color: var(--gray-700);
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+    
+    .table tbody tr:hover td {
+      background-color: var(--gold-soft);
+    }
+    
+    /* DataTables specific */
+    .dataTables_wrapper {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .dataTables_filter {
+      float: right;
+      margin-bottom: 20px;
+    }
+    
+    .dataTables_filter input {
+      border: 1.5px solid var(--gray-light);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 13px;
+    }
+    
+    .dataTables_filter input:focus {
+      border-color: var(--gold-primary);
+      outline: none;
+    }
+    
+    .dataTables_paginate {
+      float: right;
+      margin-top: 20px;
+    }
+    
+    .dataTables_paginate .paginate_button {
+      padding: 6px 12px !important;
+      margin: 0 3px !important;
+      border-radius: 8px !important;
+      border: 1px solid var(--gray-light) !important;
+      background: var(--white-bg) !important;
+      color: var(--gray-medium) !important;
+      font-size: 12px !important;
+    }
+    
+    .dataTables_paginate .paginate_button.current {
+      background: var(--gold-primary) !important;
+      border-color: var(--gold-primary) !important;
+      color: var(--navy-dark) !important;
+    }
+    
+    .dataTables_info {
+      float: left;
+      font-size: 12px;
+      color: var(--gray-medium);
+      margin-top: 20px;
     }
     
     /* Badges */
     .badge.bg-primary {
       background-color: var(--navy-dark) !important;
+      color: white !important;
     }
     
     .badge.bg-success {
@@ -266,30 +356,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
       color: var(--navy-dark) !important;
     }
     
-    /* Custom Scrollbar */
-    .left-sidebar.with-vertical {
-      height: 100vh;
-      overflow-y: auto;
-    }
-
-    .left-sidebar.with-vertical::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .left-sidebar.with-vertical::-webkit-scrollbar-track {
-      background: var(--navy-light);
-    }
-
-    .left-sidebar.with-vertical::-webkit-scrollbar-thumb {
-      background: var(--gold-primary);
-      border-radius: 4px;
-    }
-    
-    .left-sidebar.with-vertical::-webkit-scrollbar-thumb:hover {
-      background: var(--gold-light);
-    }
-    
-    /* Active Menu Item */
+    /* Active Menu Item - Navy Sidebar with Gold */
     .sidebar-item.active > .sidebar-link {
       background: var(--gold-primary) !important;
       color: var(--navy-dark) !important;
@@ -299,45 +366,31 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
       color: var(--navy-dark) !important;
     }
     
-    /* Logout Button */
-    .btn-outline-primary {
-      border: 2px solid var(--navy-dark) !important;
-      color: var(--navy-dark) !important;
-      font-weight: 600;
-      transition: all 0.3s ease;
+    /* Scrollbar for sidebar */
+    .left-sidebar.with-vertical {
+      height: 100vh;
+      overflow-y: auto;
     }
     
-    .btn-outline-primary:hover {
-      background-color: var(--navy-dark) !important;
-      color: white !important;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(10, 26, 58, 0.3);
+    /* Page Wrapper Background */
+    .page-wrapper {
+      background: var(--white-bg) !important;
     }
     
-    /* User Profile Section */
-    .user-profile-img {
-      border: 2px solid var(--gold-primary);
-      border-radius: 50%;
-      padding: 2px;
+    /* Dashboard Cards */
+    .stat-card {
+      border-top: 3px solid var(--gold-primary) !important;
     }
     
-    .user-profile-img img {
-      border: 2px solid white;
+    /* Section Cards */
+    .section-card {
+      border-top: 2px solid var(--gold-primary) !important;
     }
     
-    /* Dropdown Menu Items */
-    .dropdown-item {
-      transition: all 0.2s ease;
-    }
-    
-    .dropdown-item:hover {
-      background-color: rgba(245, 180, 66, 0.1) !important;
-      padding-left: 2rem !important;
-    }
-    
-    /* Simplebar Scrollbar */
-    .simplebar-scrollbar:before {
-      background: var(--gold-primary) !important;
+    /* Quick Actions */
+    .quick-action:hover {
+      background: var(--gold-soft) !important;
+      border-color: var(--gold-primary) !important;
     }
   </style>
 </head>
@@ -382,7 +435,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
             <!-- Members Management -->
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu fs-2">MEMBERS MANAGEMENTs</span>
+              <span class="hide-menu fs-2">MEMBERS MANAGEMENTS</span>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="<?=site_url();?>myaccount?meaction=MAIN" aria-expanded="false">
@@ -437,17 +490,9 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>mysubsidiary?meaction=MAIN" aria-expanded="false">
-                <span class="rounded-3">
-                  <i class="ti ti-clipboard-check"></i>
-                </span>
-                <span class="hide-menu fs-2">Subsidiary Ledger</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
               <a class="sidebar-link" href="<?=site_url();?>mycoa?meaction=MAIN" aria-expanded="false">
                 <span class="rounded-3">
-                  <i class="ti ti-clipboard-check"></i>
+                  <i class="ti ti-list-check"></i>
                 </span>
                 <span class="hide-menu fs-2">Chart of Accounts</span>
               </a>
@@ -467,7 +512,6 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
               </a>
             </li> 
 
-
           </ul>
         </nav>
       </div>
@@ -475,7 +519,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
     <!--  Sidebar End -->
     
     <div class="page-wrapper">
-      <!--  Header Start -->
+      <!--  Header Start - NO YELLOW BORDERS -->
       <header class="topbar">
         <div class="with-vertical">
           <!-- Start Vertical Layout Header -->
