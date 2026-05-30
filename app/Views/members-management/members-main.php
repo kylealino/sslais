@@ -58,6 +58,26 @@ $beneficiary2_address = $member_data['beneficiary2_address'] ?? "";
 $beneficiary2_contact = $member_data['beneficiary2_contact'] ?? "";
 $beneficiary2_relationship = $member_data['beneficiary2_relationship'] ?? "";
 
+// Get documents for this member
+$doc_by_type = [];
+if(!empty($member_id)) {
+    $doc_query = $this->db->query("SELECT * FROM tbl_member_documents WHERE member_id = ? AND status = 'active'", [$member_id]);
+    $member_documents = $doc_query->getResultArray();
+    foreach($member_documents as $doc) {
+        $doc_by_type[$doc['document_type']] = $doc;
+    }
+}
+
+// Helper function to format file size
+function format_file_size($bytes) {
+    if ($bytes >= 1048576) {
+        return round($bytes / 1048576, 2) . ' MB';
+    } elseif ($bytes >= 1024) {
+        return round($bytes / 1024, 2) . ' KB';
+    }
+    return $bytes . ' bytes';
+}
+
 echo view('templates/myheader.php');
 ?>
 
@@ -118,18 +138,18 @@ echo view('templates/myheader.php');
         background: #10b981;
     }
 
-    /* Form Sections */
-    .form-section {
+    /* Form Sections inside Tabs */
+    .tab-pane .form-section {
         border-bottom: 1px solid var(--gray-200);
         padding-bottom: 20px;
         margin-bottom: 20px;
     }
-    .form-section:last-child {
+    .tab-pane .form-section:last-child {
         border-bottom: none;
         margin-bottom: 0;
         padding-bottom: 0;
     }
-    .form-section h6 {
+    .tab-pane .form-section h6 {
         font-weight: 600;
         margin-bottom: 18px;
         color: var(--navy-dark);
@@ -137,6 +157,132 @@ echo view('templates/myheader.php');
         letter-spacing: 0.5px;
         border-left: 3px solid var(--gold-primary);
         padding-left: 12px;
+    }
+
+    /* Document Upload Grid */
+    .documents-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 20px;
+        margin-top: 15px;
+    }
+    
+    .document-card {
+        background: var(--white-bg);
+        border: 1px solid var(--gray-200);
+        border-radius: 16px;
+        padding: 16px;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+    
+    .document-card:hover {
+        border-color: var(--gold-primary);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .document-card .doc-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--gold-soft);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+    
+    .document-card .doc-icon i {
+        font-size: 20px;
+        color: var(--gold-primary);
+    }
+    
+    .document-card .doc-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--navy-dark);
+        margin-bottom: 4px;
+    }
+    
+    .document-card .doc-purpose {
+        font-size: 11px;
+        color: var(--gray-500);
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+    
+    .document-card .doc-badge {
+        display: inline-block;
+        background: var(--gray-100);
+        font-size: 9px;
+        padding: 2px 8px;
+        border-radius: 30px;
+        font-weight: 600;
+        color: var(--gray-600);
+        margin-bottom: 12px;
+    }
+    
+    .document-card .doc-badge.required {
+        background: #fee2e2;
+        color: var(--danger);
+    }
+    
+    .document-card .doc-badge.optional {
+        background: #e0f2fe;
+        color: var(--info);
+    }
+    
+    .document-card .existing-file {
+        font-size: 11px;
+        background: var(--gray-50);
+        padding: 8px 10px;
+        border-radius: 10px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .document-card .existing-file i {
+        color: var(--success);
+        font-size: 14px;
+    }
+    
+    .document-card .existing-file a {
+        color: var(--info);
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .document-card .existing-file a:hover {
+        text-decoration: underline;
+    }
+    
+    .document-card .existing-file .file-info {
+        font-size: 10px;
+        color: var(--gray-500);
+        margin-top: 2px;
+    }
+    
+    .document-card input[type="file"] {
+        font-size: 11px;
+        padding: 6px 0;
+    }
+    
+    .document-card input[type="file"]::file-selector-button {
+        background: var(--gray-100);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        padding: 5px 12px;
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .document-card input[type="file"]::file-selector-button:hover {
+        background: var(--gold-soft);
+        border-color: var(--gold-primary);
     }
 
     /* Cards */
@@ -214,6 +360,22 @@ echo view('templates/myheader.php');
         background: var(--navy-medium);
         transform: translateY(-1px);
     }
+    
+    .btn-document-upload {
+        background: var(--success);
+        border: none;
+        border-radius: 10px;
+        padding: 8px 24px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.2s;
+    }
+    
+    .btn-document-upload:hover {
+        background: #0d9488;
+        transform: translateY(-1px);
+    }
 
     .btn-light-custom {
         background: var(--gray-50);
@@ -243,6 +405,90 @@ echo view('templates/myheader.php');
         color: var(--gold-primary) !important;
     }
 
+    /* Tab Navigation Styling */
+    .nav-tabs {
+        border-bottom: 2px solid var(--gray-200);
+        padding: 0 20px;
+        background: var(--white-bg);
+        border-radius: 20px 20px 0 0;
+        flex-wrap: wrap;
+    }
+    .nav-tabs .nav-link {
+        border: none;
+        color: var(--gray-600);
+        font-weight: 500;
+        font-size: 13px;
+        padding: 12px 20px;
+        margin-right: 5px;
+        transition: all 0.2s;
+        position: relative;
+    }
+    .nav-tabs .nav-link i {
+        margin-right: 8px;
+        font-size: 16px;
+    }
+    .nav-tabs .nav-link:hover {
+        color: var(--gold-primary);
+        background: transparent;
+        border: none;
+    }
+    .nav-tabs .nav-link.active {
+        color: var(--gold-primary);
+        background: transparent;
+        border: none;
+        font-weight: 600;
+    }
+    .nav-tabs .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--gold-primary);
+    }
+    .tab-content {
+        padding: 25px 20px;
+        background: var(--white-bg);
+        border-radius: 0 0 20px 20px;
+    }
+    
+    /* Info Alert */
+    .info-alert {
+        background: var(--gold-soft);
+        border-left: 4px solid var(--gold-primary);
+        padding: 12px 16px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+    .info-alert i {
+        color: var(--gold-primary);
+        margin-right: 10px;
+    }
+    .info-alert span {
+        font-size: 12px;
+        color: var(--gray-700);
+    }
+    
+    /* Document Status Badge */
+    .doc-status-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 20px;
+        background: var(--gray-100);
+    }
+    .doc-status-badge.uploaded {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    .doc-status-badge.missing {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
     /* ============================================= */
     /* DATATABLES - PROPER PADDING & STYLING */
     /* ============================================= */
@@ -251,19 +497,16 @@ echo view('templates/myheader.php');
         padding: 0 10px;
     }
     
-    /* Table container */
     .table-responsive {
         overflow-x: auto;
     }
     
-    /* Main table styling */
     .table.dataTable {
         width: 100% !important;
         margin: 0 !important;
         border-collapse: collapse;
     }
     
-    /* Table header cells */
     .table.dataTable thead th {
         padding: 14px 12px !important;
         font-size: 12px;
@@ -274,7 +517,6 @@ echo view('templates/myheader.php');
         background: var(--gray-50);
     }
     
-    /* Table body cells */
     .table.dataTable tbody td {
         padding: 12px 12px !important;
         font-size: 13px;
@@ -284,17 +526,14 @@ echo view('templates/myheader.php');
         border-bottom: 1px solid var(--gray-100);
     }
     
-    /* Action column specific - less padding */
     .table.dataTable tbody td:first-child {
         padding: 8px 8px !important;
     }
     
-    /* Hover effect */
     .table.dataTable tbody tr:hover td {
         background: var(--gold-soft);
     }
     
-    /* Search input styling */
     .dataTables_filter {
         margin-bottom: 20px;
         padding: 0 10px;
@@ -325,7 +564,6 @@ echo view('templates/myheader.php');
         box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
     }
     
-    /* Pagination styling */
     .dataTables_paginate {
         margin-top: 20px;
         padding: 0 10px;
@@ -356,7 +594,6 @@ echo view('templates/myheader.php');
         color: var(--gold-dark) !important;
     }
     
-    /* Info text */
     .dataTables_info {
         padding: 0 10px;
         margin-top: 20px;
@@ -364,7 +601,6 @@ echo view('templates/myheader.php');
         color: var(--gray-500);
     }
     
-    /* Length menu */
     .dataTables_length {
         padding: 0 10px;
         margin-bottom: 20px;
@@ -386,7 +622,6 @@ echo view('templates/myheader.php');
         font-size: 12px;
     }
     
-    /* Responsive adjustments */
     @media (max-width: 768px) {
         .table.dataTable thead th,
         .table.dataTable tbody td {
@@ -424,9 +659,20 @@ echo view('templates/myheader.php');
             float: none !important;
             margin-bottom: 15px;
         }
+        
+        .nav-tabs .nav-link {
+            padding: 8px 12px;
+            font-size: 11px;
+        }
+        .nav-tabs .nav-link i {
+            font-size: 12px;
+        }
+        
+        .documents-grid {
+            grid-template-columns: 1fr;
+        }
     }
     
-    /* Loading overlay */
     .preloader {
         position: fixed;
         top: 0;
@@ -440,7 +686,6 @@ echo view('templates/myheader.php');
         align-items: center;
     }
     
-    /* Breadcrumb */
     .breadcrumb {
         background: transparent;
         padding: 0;
@@ -486,303 +731,454 @@ echo view('templates/myheader.php');
         <div class="card-header">
             <h6 class="fw-semibold mb-0">
                 <i class="ti ti-user-plus me-2" style="color: var(--gold-primary);"></i>
-                <?= empty($member_id) ? 'Add New Member' : 'Edit Member' ?>
+                <?= empty($member_id) ? 'Add New Member' : 'Edit Member Information' ?>
             </h6>
         </div>
-        <div class="card-body">
+        <div class="card-body p-0">
             <form class="mymembers-validation" id="memberForm">
                 <input type="hidden" id="member_id" name="member_id" value="<?=$member_id;?>"/>
                 
-                <!-- I. Member Information -->
-                <div class="form-section">
-                    <h6><i class="ti ti-user me-2"></i> I. Member Information</h6>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Member No.:</label>
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs" id="memberTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="basic-info-tab" data-bs-toggle="tab" data-bs-target="#basic-info" type="button" role="tab" aria-controls="basic-info" aria-selected="true">
+                            <i class="ti ti-user"></i> Basic Information
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-info-tab" data-bs-toggle="tab" data-bs-target="#contact-info" type="button" role="tab" aria-controls="contact-info" aria-selected="false">
+                            <i class="ti ti-phone"></i> Contact
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="employment-tab" data-bs-toggle="tab" data-bs-target="#employment" type="button" role="tab" aria-controls="employment" aria-selected="false">
+                            <i class="ti ti-briefcase"></i> Employment
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="beneficiaries-tab" data-bs-toggle="tab" data-bs-target="#beneficiaries" type="button" role="tab" aria-controls="beneficiaries" aria-selected="false">
+                            <i class="ti ti-users"></i> Beneficiaries
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="login-info-tab" data-bs-toggle="tab" data-bs-target="#login-info" type="button" role="tab" aria-controls="login-info" aria-selected="false">
+                            <i class="ti ti-lock"></i> Login
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Tab Content -->
+                <div class="tab-content" id="memberTabsContent">
+                    <!-- Basic Information Tab -->
+                    <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
+                        <div class="form-section">
+                            <h6><i class="ti ti-id me-2"></i> Personal Details</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Member No.:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="member_no" name="member_no" value="<?=$member_no;?>" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Last Name:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="last_name" name="last_name" value="<?=$last_name;?>" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">First Name:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="first_name" name="first_name" value="<?=$first_name;?>" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Middle Name:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="middle_name" name="middle_name" value="<?=$middle_name;?>" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="member_no" name="member_no" value="<?=$member_no;?>" class="form-control form-control-sm" required>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Last Name:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="last_name" name="last_name" value="<?=$last_name;?>" class="form-control form-control-sm" required>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">First Name:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="first_name" name="first_name" value="<?=$first_name;?>" class="form-control form-control-sm" required>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Middle Name:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="middle_name" name="middle_name" value="<?=$middle_name;?>" class="form-control form-control-sm" required>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Date of Birth:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="date" id="date_of_birth" name="date_of_birth" value="<?=$date_of_birth;?>" class="form-control form-control-sm">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Place of Birth:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="place_of_birth" name="place_of_birth" value="<?=$place_of_birth;?>" class="form-control form-control-sm">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Date of Birth:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="date" id="date_of_birth" name="date_of_birth" value="<?=$date_of_birth;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Place of Birth:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="place_of_birth" name="place_of_birth" value="<?=$place_of_birth;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Age:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="number" id="age" name="age" value="<?=$age;?>" class="form-control form-control-sm" readonly>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Age:</label>
+                        
+                        <div class="form-section">
+                            <h6><i class="ti ti-info-circle me-2"></i> Demographic Information</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Civil Status:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="civil_status" name="civil_status" class="form-select form-select-sm">
+                                                <option value="">Select</option>
+                                                <option value="Single" <?= $civil_status == 'Single' ? 'selected' : '' ?>>Single</option>
+                                                <option value="Married" <?= $civil_status == 'Married' ? 'selected' : '' ?>>Married</option>
+                                                <option value="Widowed" <?= $civil_status == 'Widowed' ? 'selected' : '' ?>>Widowed</option>
+                                                <option value="Divorced" <?= $civil_status == 'Divorced' ? 'selected' : '' ?>>Divorced</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Gender:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select id="gender" name="gender" class="form-select form-select-sm">
+                                                <option value="">Select</option>
+                                                <option value="Male" <?= $gender == 'Male' ? 'selected' : '' ?>>Male</option>
+                                                <option value="Female" <?= $gender == 'Female' ? 'selected' : '' ?>>Female</option>
+                                                <option value="Other" <?= $gender == 'Other' ? 'selected' : '' ?>>Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-8">
-                                    <input type="number" id="age" name="age" value="<?=$age;?>" class="form-control form-control-sm" readonly>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Civil Status:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <select id="civil_status" name="civil_status" class="form-select form-select-sm">
-                                        <option value="">Select</option>
-                                        <option value="Single" <?= $civil_status == 'Single' ? 'selected' : '' ?>>Single</option>
-                                        <option value="Married" <?= $civil_status == 'Married' ? 'selected' : '' ?>>Married</option>
-                                        <option value="Widowed" <?= $civil_status == 'Widowed' ? 'selected' : '' ?>>Widowed</option>
-                                        <option value="Divorced" <?= $civil_status == 'Divorced' ? 'selected' : '' ?>>Divorced</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Gender:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <select id="gender" name="gender" class="form-select form-select-sm">
-                                        <option value="">Select</option>
-                                        <option value="Male" <?= $gender == 'Male' ? 'selected' : '' ?>>Male</option>
-                                        <option value="Female" <?= $gender == 'Female' ? 'selected' : '' ?>>Female</option>
-                                        <option value="Other" <?= $gender == 'Other' ? 'selected' : '' ?>>Other</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">TIN:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="tin" name="tin" value="<?=$tin;?>" class="form-control form-control-sm">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">GSIS Number:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="gsis_number" name="gsis_number" value="<?=$gsis_number;?>" class="form-control form-control-sm">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">TIN:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="tin" name="tin" value="<?=$tin;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">GSIS Number:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="gsis_number" name="gsis_number" value="<?=$gsis_number;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- II. Contact Information -->
-                <div class="form-section">
-                    <h6><i class="ti ti-phone me-2"></i> II. Contact Information</h6>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Permanent Address:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" name="permanent_street" placeholder="Street" value="<?=$permanent_street;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="permanent_barangay" placeholder="Barangay" value="<?=$permanent_barangay;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="permanent_city" placeholder="City/Municipality" value="<?=$permanent_city;?>" class="form-control form-control-sm mb-2">
-                                    <div class="row g-2">
-                                        <div class="col-7">
+                    
+                    <!-- Contact Information Tab -->
+                    <div class="tab-pane fade" id="contact-info" role="tabpanel" aria-labelledby="contact-info-tab">
+                        <div class="form-section">
+                            <h6><i class="ti ti-home me-2"></i> Permanent Address</h6>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-2">
+                                            <label class="form-label">Street:</label>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="permanent_street" placeholder="Street" value="<?=$permanent_street;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-2">
+                                            <label class="form-label">Barangay:</label>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="permanent_barangay" placeholder="Barangay" value="<?=$permanent_barangay;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-2">
+                                            <label class="form-label">City:</label>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="permanent_city" placeholder="City/Municipality" value="<?=$permanent_city;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-2">
+                                            <label class="form-label">Province:</label>
+                                        </div>
+                                        <div class="col-sm-5">
                                             <input type="text" name="permanent_province" placeholder="Province" value="<?=$permanent_province;?>" class="form-control form-control-sm">
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-sm-1">
+                                            <label class="form-label">Zip:</label>
+                                        </div>
+                                        <div class="col-sm-4">
                                             <input type="text" name="permanent_zip" placeholder="Zip Code" value="<?=$permanent_zip;?>" class="form-control form-control-sm">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Present Address:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" name="present_street" placeholder="Street" value="<?=$present_street;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="present_barangay" placeholder="Barangay" value="<?=$present_barangay;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="present_city" placeholder="City/Municipality" value="<?=$present_city;?>" class="form-control form-control-sm mb-2">
-                                    <div class="row g-2">
-                                        <div class="col-7">
+                        
+                        <div class="form-section">
+                            <h6><i class="ti ti-map-pin me-2"></i> Present Address</h6>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-2">
+                                            <label class="form-label">Street:</label>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="present_street" placeholder="Street" value="<?=$present_street;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-2">
+                                            <label class="form-label">Barangay:</label>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="present_barangay" placeholder="Barangay" value="<?=$present_barangay;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-2">
+                                            <label class="form-label">City:</label>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="present_city" placeholder="City/Municipality" value="<?=$present_city;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-2">
+                                            <label class="form-label">Province:</label>
+                                        </div>
+                                        <div class="col-sm-5">
                                             <input type="text" name="present_province" placeholder="Province" value="<?=$present_province;?>" class="form-control form-control-sm">
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-sm-1">
+                                            <label class="form-label">Zip:</label>
+                                        </div>
+                                        <div class="col-sm-4">
                                             <input type="text" name="present_zip" placeholder="Zip Code" value="<?=$present_zip;?>" class="form-control form-control-sm">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Mobile Number:</label>
+                        
+                        <div class="form-section">
+                            <h6><i class="ti ti-device-mobile me-2"></i> Phone & Email</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Mobile No.:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="contact_number" name="contact_number" value="<?=$contact_number;?>" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Home Phone:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="home_phone" value="<?=$home_phone;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="contact_number" name="contact_number" value="<?=$contact_number;?>" class="form-control form-control-sm" required>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Email Address:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="email" id="email" name="email" value="<?=$email;?>" class="form-control form-control-sm" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Home Phone No.:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" name="home_phone" value="<?=$home_phone;?>" class="form-control form-control-sm">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Office Phone No.:</label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <input type="text" name="office_phone" value="<?=$office_phone;?>" class="form-control form-control-sm">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- III. Employment Information -->
-                <div class="form-section">
-                    <h6><i class="ti ti-briefcase me-2"></i> III. Employment Information</h6>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="row mb-3">
-                                <div class="col-sm-5">
-                                    <label class="form-label">Department/Agency:</label>
-                                </div>
-                                <div class="col-sm-7">
-                                    <select name="department_agency" class="form-select form-select-sm">
-                                        <option value="">Select</option>
-                                        <option value="DOST-FNRI" <?= $department_agency == 'DOST-FNRI' ? 'selected' : '' ?>>DOST-FNRI</option>
-                                        <option value="DOST-ITDI" <?= $department_agency == 'DOST-ITDI' ? 'selected' : '' ?>>DOST-ITDI</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="row mb-3">
-                                <div class="col-sm-5">
-                                    <label class="form-label">Position:</label>
-                                </div>
-                                <div class="col-sm-7">
-                                    <input type="text" name="position" value="<?=$position;?>" class="form-control form-control-sm">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="row mb-3">
-                                <div class="col-sm-5">
-                                    <label class="form-label">Salary Grade:</label>
-                                </div>
-                                <div class="col-sm-7">
-                                    <input type="text" name="salary_grade" value="<?=$salary_grade;?>" class="form-control form-control-sm">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Email:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="email" id="email" name="email" value="<?=$email;?>" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Office Phone:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="office_phone" value="<?=$office_phone;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- IV. Contact Person(s)/Beneficiaries -->
-                <div class="form-section">
-                    <h6><i class="ti ti-users me-2"></i> IV. Contact Person(s)/Beneficiaries</h6>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="bg-light p-3 rounded mb-2">
-                                <label class="form-label fw-semibold mb-2">Beneficiary 1</label>
-                                <div class="mb-2">
-                                    <input type="text" name="beneficiary1_name" placeholder="Full Name" value="<?=$beneficiary1_name;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="beneficiary1_address" placeholder="Address" value="<?=$beneficiary1_address;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="beneficiary1_contact" placeholder="Contact No." value="<?=$beneficiary1_contact;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="beneficiary1_relationship" placeholder="Relationship" value="<?=$beneficiary1_relationship;?>" class="form-control form-control-sm">
+                    
+                    <!-- Employment Information Tab -->
+                    <div class="tab-pane fade" id="employment" role="tabpanel" aria-labelledby="employment-tab">
+                        <div class="form-section">
+                            <h6><i class="ti ti-building me-2"></i> Work Details</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Department/Agency:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select name="department_agency" class="form-select form-select-sm">
+                                                <option value="">Select</option>
+                                                <option value="DOST-FNRI" <?= $department_agency == 'DOST-FNRI' ? 'selected' : '' ?>>DOST-FNRI</option>
+                                                <option value="DOST-ITDI" <?= $department_agency == 'DOST-ITDI' ? 'selected' : '' ?>>DOST-ITDI</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="bg-light p-3 rounded mb-2">
-                                <label class="form-label fw-semibold mb-2">Beneficiary 2</label>
-                                <div class="mb-2">
-                                    <input type="text" name="beneficiary2_name" placeholder="Full Name" value="<?=$beneficiary2_name;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="beneficiary2_address" placeholder="Address" value="<?=$beneficiary2_address;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="beneficiary2_contact" placeholder="Contact No." value="<?=$beneficiary2_contact;?>" class="form-control form-control-sm mb-2">
-                                    <input type="text" name="beneficiary2_relationship" placeholder="Relationship" value="<?=$beneficiary2_relationship;?>" class="form-control form-control-sm">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Position:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="position" value="<?=$position;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Salary Grade:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="salary_grade" value="<?=$salary_grade;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- V. Login Information -->
-                <div class="form-section">
-                    <h6><i class="ti ti-lock me-2"></i> V. Login Information</h6>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Username:</label>
+                    
+                    <!-- Beneficiaries Tab -->
+                    <div class="tab-pane fade" id="beneficiaries" role="tabpanel" aria-labelledby="beneficiaries-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-section">
+                                    <h6><i class="ti ti-star me-2"></i> Primary Beneficiary</h6>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Full Name:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="beneficiary1_name" placeholder="Full Name" value="<?=$beneficiary1_name;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Address:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="beneficiary1_address" placeholder="Address" value="<?=$beneficiary1_address;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Contact No.:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="beneficiary1_contact" placeholder="Contact No." value="<?=$beneficiary1_contact;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Relationship:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="beneficiary1_relationship" placeholder="Relationship" value="<?=$beneficiary1_relationship;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-8">
-                                    <input type="text" id="username" name="username" value="<?=$username;?>" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-section">
+                                    <h6><i class="ti ti-star me-2"></i> Secondary Beneficiary</h6>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Full Name:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="beneficiary2_name" placeholder="Full Name" value="<?=$beneficiary2_name;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Address:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="beneficiary2_address" placeholder="Address" value="<?=$beneficiary2_address;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Contact No.:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="beneficiary2_contact" placeholder="Contact No." value="<?=$beneficiary2_contact;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Relationship:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="beneficiary2_relationship" placeholder="Relationship" value="<?=$beneficiary2_relationship;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="row mb-3">
-                                <div class="col-sm-4">
-                                    <label class="form-label">Password:</label>
+                    </div>
+                    
+                    <!-- Login Information Tab -->
+                    <div class="tab-pane fade" id="login-info" role="tabpanel" aria-labelledby="login-info-tab">
+                        <div class="form-section">
+                            <h6><i class="ti ti-key me-2"></i> Account Credentials</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Username:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="username" name="username" value="<?=$username;?>" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-8">
-                                    <div class="input-group input-group-sm">
-                                        <input type="password" id="password" name="password" value="<?=$password;?>" class="form-control">
-                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                            <i class="ti ti-eye" id="toggleIcon"></i>
-                                        </button>
+                                <div class="col-md-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-4">
+                                            <label class="form-label">Password:</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="input-group input-group-sm">
+                                                <input type="password" id="password" name="password" value="<?=$password;?>" class="form-control">
+                                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                    <i class="ti ti-eye" id="toggleIcon"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -790,11 +1186,11 @@ echo view('templates/myheader.php');
                     </div>
                 </div>
                 
-                <div class="row mt-4">
+                <div class="row mt-4 p-3 border-top">
                     <div class="col-sm-12 text-end">
                         <button type="submit" class="<?= empty($member_id) ? 'btn-save' : 'btn-update' ?>">
                             <i class="ti ti-device-floppy me-1"></i>
-                            <?= empty($member_id) ? 'Save Member' : 'Update Member' ?>
+                            <?= empty($member_id) ? 'Save Member' : 'Update Member Information' ?>
                         </button>
                         <a href="<?=site_url();?>mymembers?meaction=MAIN" class="btn btn-light border ms-2" style="border-radius: 10px;">Cancel</a>
                     </div>
@@ -802,6 +1198,306 @@ echo view('templates/myheader.php');
             </form>
         </div>
     </div>
+
+    <!-- Required Documents Card - ONLY SHOWN WHEN EDITING EXISTING MEMBER -->
+    <?php if(!empty($member_id)): ?>
+    <div class="card mt-4">
+        <div class="card-header">
+            <h6 class="fw-semibold mb-0">
+                <i class="ti ti-files me-2" style="color: var(--gold-primary);"></i>
+                Required Documents
+                <span class="badge bg-success ms-2" style="font-size: 10px;">Member: <?= $member_no ?> - <?= $first_name ?> <?= $last_name ?></span>
+            </h6>
+        </div>
+        <div class="card-body">
+            <!-- Info Alert -->
+            <div class="info-alert">
+                <i class="ti ti-info-circle"></i>
+                <span>Upload required documents for this member. Each document can be uploaded individually. Supported formats: PDF, JPG, JPEG, PNG (Max 5MB per file)</span>
+            </div>
+            
+            <form id="documentsUploadForm" enctype="multipart/form-data">
+                <input type="hidden" name="member_id" value="<?= $member_id ?>">
+                
+                <!-- Membership Application Documents Section -->
+                <div class="form-section">
+                    <h6><i class="ti ti-file-description me-2"></i> Membership Application Documents</h6>
+                    <p class="text-muted small mb-3">Required for joining the association</p>
+                    
+                    <div class="documents-grid">
+                        <!-- Government ID Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-id"></i>
+                            </div>
+                            <div class="doc-title">Government-issued ID</div>
+                            <div class="doc-purpose">Driver's License, Passport, UMID, PRC ID, etc.</div>
+                            <span class="doc-badge required">Required</span>
+                            <div class="small text-muted mb-2">Purpose: Verify identity</div>
+                            <input type="file" name="gov_id" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['gov_id']) && !empty($doc_by_type['gov_id'])): 
+                                $doc = $doc_by_type['gov_id'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Proof of Group Belonging Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-building"></i>
+                            </div>
+                            <div class="doc-title">Proof of Group Belonging</div>
+                            <div class="doc-purpose">Company ID, Employment Certificate, Proof of Relation</div>
+                            <span class="doc-badge required">Required</span>
+                            <div class="small text-muted mb-2">Purpose: Establish eligibility</div>
+                            <input type="file" name="proof_of_group" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['proof_of_group']) && !empty($doc_by_type['proof_of_group'])): 
+                                $doc = $doc_by_type['proof_of_group'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- ID Photo Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-camera"></i>
+                            </div>
+                            <div class="doc-title">ID Photo</div>
+                            <div class="doc-purpose">1x1 or 2x2 ID picture</div>
+                            <span class="doc-badge required">Required</span>
+                            <div class="small text-muted mb-2">Purpose: Member profile</div>
+                            <input type="file" name="id_photo" class="form-control form-control-sm" accept=".jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['id_photo']) && !empty($doc_by_type['id_photo'])): 
+                                $doc = $doc_by_type['id_photo'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-image"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-photo me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- TIN/GSIS Proof Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-receipt"></i>
+                            </div>
+                            <div class="doc-title">TIN / GSIS Number Proof</div>
+                            <div class="doc-purpose">Tax identification or GSIS documentation</div>
+                            <span class="doc-badge optional">Optional</span>
+                            <div class="small text-muted mb-2">Purpose: Tax/Government records</div>
+                            <input type="file" name="tin_gsis_proof" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['tin_gsis_proof']) && !empty($doc_by_type['tin_gsis_proof'])): 
+                                $doc = $doc_by_type['tin_gsis_proof'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Signed Membership Form Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-file-signature"></i>
+                            </div>
+                            <div class="doc-title">Signed Membership Form</div>
+                            <div class="doc-purpose">Signed copy of membership agreement</div>
+                            <span class="doc-badge required">Required</span>
+                            <div class="small text-muted mb-2">Purpose: Consent to by-laws</div>
+                            <input type="file" name="signed_membership" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['signed_membership']) && !empty($doc_by_type['signed_membership'])): 
+                                $doc = $doc_by_type['signed_membership'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Loan Application Documents Section -->
+                <div class="form-section mt-4">
+                    <h6><i class="ti ti-credit-card me-2"></i> Loan Application Documents</h6>
+                    <p class="text-muted small mb-3">Required for borrowing amount</p>
+                    
+                    <div class="documents-grid">
+                        <!-- Proof of Income Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-wallet"></i>
+                            </div>
+                            <div class="doc-title">Proof of Income</div>
+                            <div class="doc-purpose">Payslip, Salary Certificate, ITR</div>
+                            <span class="doc-badge required">Required for Loans</span>
+                            <div class="small text-muted mb-2">Purpose: Determine loan capacity (salary × 12 months)</div>
+                            <input type="file" name="proof_of_income" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['proof_of_income']) && !empty($doc_by_type['proof_of_income'])): 
+                                $doc = $doc_by_type['proof_of_income'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Bank Statement Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-chart-bar"></i>
+                            </div>
+                            <div class="doc-title">Bank Statement / Proof of Savings</div>
+                            <div class="doc-purpose">Bank statement or proof of deposits with the association</div>
+                            <span class="doc-badge required">Required for Loans</span>
+                            <div class="small text-muted mb-2">Purpose: Compute loan limit (deposits + capital)</div>
+                            <input type="file" name="bank_statement" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['bank_statement']) && !empty($doc_by_type['bank_statement'])): 
+                                $doc = $doc_by_type['bank_statement'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Collateral Documents Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-home"></i>
+                            </div>
+                            <div class="doc-title">Collateral Documents</div>
+                            <div class="doc-purpose">Land title, Tax Declaration (for secured loans)</div>
+                            <span class="doc-badge optional">Optional</span>
+                            <div class="small text-muted mb-2">Purpose: Secure loan up to 70% of appraised value</div>
+                            <input type="file" name="collateral" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['collateral']) && !empty($doc_by_type['collateral'])): 
+                                $doc = $doc_by_type['collateral'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Salary Deduction Authorization Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-receipt-tax"></i>
+                            </div>
+                            <div class="doc-title">Salary Deduction Authorization</div>
+                            <div class="doc-purpose">Signed authorization for salary deduction</div>
+                            <span class="doc-badge required">Required by Law</span>
+                            <div class="small text-muted mb-2">Purpose: Required by law for employee-members</div>
+                            <input type="file" name="salary_deduction_auth" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['salary_deduction_auth']) && !empty($doc_by_type['salary_deduction_auth'])): 
+                                $doc = $doc_by_type['salary_deduction_auth'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Loan Purpose Declaration Card -->
+                        <div class="document-card">
+                            <div class="doc-icon">
+                                <i class="ti ti-notes"></i>
+                            </div>
+                            <div class="doc-title">Loan Purpose Declaration</div>
+                            <div class="doc-purpose">Optional declaration of loan purpose</div>
+                            <span class="doc-badge optional">Optional</span>
+                            <div class="small text-muted mb-2">Purpose: For recordkeeping</div>
+                            <input type="file" name="loan_purpose_declaration" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type['loan_purpose_declaration']) && !empty($doc_by_type['loan_purpose_declaration'])): 
+                                $doc = $doc_by_type['loan_purpose_declaration'];
+                            ?>
+                                <div class="existing-file">
+                                    <i class="ti ti-check-circle"></i>
+                                    <div>
+                                        <a href="<?= base_url($doc['document_path']) ?>" target="_blank">
+                                            <i class="ti ti-file me-1"></i> <?= $doc['document_name'] ?>
+                                        </a>
+                                        <div class="file-info">Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?> (<?= round($doc['file_size'] / 1024) ?> KB)</div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document Upload Submit Button -->
+                <div class="row mt-4">
+                    <div class="col-sm-12 text-end">
+                        <button type="submit" form="documentsUploadForm" class="btn-document-upload">
+                            <i class="ti ti-cloud-upload me-1"></i>
+                            Upload Selected Documents
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <!-- Member List Card -->
     <div class="card mt-4">
@@ -885,7 +1581,8 @@ echo view('templates/myheader.php');
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="<?=base_url('assets/js/members-management/mymembers.js?v=4');?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?=base_url('assets/js/members-management/mymembers.js?v=5');?>"></script>
 
 <script>
 $(document).ready(function () {
@@ -905,7 +1602,27 @@ $(document).ready(function () {
         autoWidth: false,
         responsive: true
     });
+
+    <?php if(!empty($member_id)): ?>
+        var hash = window.location.hash;
+        if (hash && hash.startsWith('#edit-')) {
+            var tabId = hash.replace('#edit-', '');
+            var tabButton = $('button[data-bs-target="' + tabId + '"]');
+            if (tabButton.length) {
+                var tab = new bootstrap.Tab(tabButton);
+                tab.show();
+            }
+        }
+    <?php endif; ?>
 });
+
+window.switchMemberTab = function(tabId) {
+    var tabButton = $('button[data-bs-target="#' + tabId + '"]');
+    if (tabButton.length) {
+        var tab = new bootstrap.Tab(tabButton);
+        tab.show();
+    }
+};
 
 // Toggle Password Visibility
 document.getElementById('togglePassword')?.addEventListener('click', function () {

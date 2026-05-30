@@ -169,8 +169,64 @@ function __mysys_members_ent() {
         pdfFrame.src = pdfUrl;
         pdfModal.show();
     };
+    
+    // FIXED METHOD FOR DOCUMENT UPLOAD
+    this.__uploadDocuments = function() {
+        var formData = new FormData(document.getElementById('documentsUploadForm'));
+        formData.append('meaction', 'DOCUMENTS-UPLOAD');
+        
+        // Show loading indicator
+        var submitBtn = document.querySelector('#documentsUploadForm button[type="submit"]');
+        var originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="ti ti-loader me-1"></i> Uploading...';
+        submitBtn.disabled = true;
+        
+        console.log('Uploading documents...');
+        
+        jQuery.ajax({
+            type: "POST",
+            url: mesiteurl + 'mymembers',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response) {
+                console.log('Response:', response);
+                if(response.status == 'success'){
+                    toastr.success(response.message);
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    toastr.error(response.message);
+                }
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            },
+            error: function(xhr, status, error) {
+                console.log('AJAX Error:', xhr, status, error);
+                console.log('Response Text:', xhr.responseText);
+                
+                // Try to parse error response
+                try {
+                    var errorResponse = JSON.parse(xhr.responseText);
+                    toastr.error(errorResponse.message || 'Error uploading documents');
+                } catch(e) {
+                    toastr.error('Error uploading documents. Please check console for details.');
+                }
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    };
 }
 
 $(document).ready(function() {
     __mysys_members_ent.__members_saving();
+    
+    // Bind document upload form submission
+    $('#documentsUploadForm').on('submit', function(e) {
+        e.preventDefault();
+        __mysys_members_ent.__uploadDocuments();
+    });
 });

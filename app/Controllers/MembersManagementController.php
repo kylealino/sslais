@@ -32,6 +32,11 @@ class MembersManagementController extends BaseController
             case 'MEMBERS-PRINT':
                 return view('members-management/members-profile-pdf');
                 break;
+
+            case 'DOCUMENTS-UPLOAD':
+                $result = $this->mymembers->upload_documents();
+                return $this->response->setJSON($result);
+                break;
         }
     }
 
@@ -73,15 +78,29 @@ class MembersManagementController extends BaseController
         
         // Get member data for edit
         $member_data = [];
+        $member_documents = [];
+        
         if(!empty($member_id)) {
             $member_query = $this->db->query("SELECT * FROM tbl_members WHERE member_id = ?", [$member_id]);
             $member_data = $member_query->getRowArray();
+            
+            // Get documents for this member
+            $doc_query = $this->db->query("SELECT * FROM tbl_member_documents WHERE member_id = ? AND status = 'active'", [$member_id]);
+            $member_documents = $doc_query->getResultArray();
+            
+            // Organize documents by type for easy access in view
+            $doc_by_type = [];
+            foreach($member_documents as $doc) {
+                $doc_by_type[$doc['document_type']] = $doc;
+            }
         }
         
         return view('members-management/members-main', [
             'membersdata' => $membersdata,
             'member_data' => $member_data,
-            'member_id' => $member_id
+            'member_id' => $member_id,
+            'member_documents' => $member_documents,
+            'doc_by_type' => $doc_by_type ?? []
         ]);
     }
 }

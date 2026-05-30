@@ -285,4 +285,157 @@ class MembersManagementModel extends Model
             }
         }
     }
+
+    // FIXED METHOD FOR DOCUMENT UPLOAD
+    public function upload_documents() {
+        $member_id = $this->request->getPostGet('member_id');
+        
+        if (empty($member_id)) {
+            return ['status' => 'error', 'message' => 'Member ID is required!'];
+        }
+        
+        // Define document types and their field names
+        $document_types = [
+            'gov_id' => 'Government-issued ID',
+            'proof_of_group' => 'Proof of Group Belonging',
+            'id_photo' => 'ID Photo',
+            'tin_gsis_proof' => 'TIN/GSIS Number Proof',
+            'signed_membership' => 'Signed Membership Form',
+            'proof_of_income' => 'Proof of Income',
+            'bank_statement' => 'Bank Statement',
+            'collateral' => 'Collateral Documents',
+            'salary_deduction_auth' => 'Salary Deduction Authorization',
+            'loan_purpose_declaration' => 'Loan Purpose Declaration'
+        ];
+        
+        $uploaded_count = 0;
+        $errors = [];
+        
+        // Create upload directory if not exists
+        $upload_path = FCPATH . 'uploads/documents/' . $member_id . '/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, true);
+        }
+        
+        // Check if any file was uploaded
+        $has_files = false;
+        foreach ($document_types as $field_name => $doc_label) {
+            $file = $this->request->getFile($field_name);
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                $has_files = true;
+                break;
+            }
+        }
+        
+        if (!$has_files) {
+            return ['status' => 'error', 'message' => 'No files selected for upload!'];
+        }
+        
+        foreach ($document_types as $field_name => $doc_label) {
+            $file = $this->request->getFile($field_name);
+            
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                // Check file size (max 5MB)
+                if ($file->getSize() > 5 * 1024 * 1024) {
+                    $errors[] = $doc_label . ' exceeds 5MB limit.';
+                    continue;
+                }
+                
+                // Get file info
+                $original_name = $file->getClientName();
+                $file_size = $file->getSize();
+                $extension = $file->getExtension();
+                
+                // Generate unique filename
+                $timestamp = date('Ymd_His');
+                $random = bin2hex(random_bytes(4));
+                $new_filename = $field_name . '_' . $timestamp . '_' . $random . '.' . $extension;
+                $file_path = 'uploads/documents/' . $member_id . '/' . $new_filename;
+                
+                // Move file
+                if ($file->move($upload_path, $new_filename)) {
+                    // Check if document already exists for this member and type
+                    $existing = $this->db->query(
+                        "SELECT doc_id, document_path FROM tbl_member_documents 
+                         WHERE member_id = ? AND document_type = ? AND status = 'active'",
+                        [$member_id, $field_name]
+                    )->getRowArray();
+                    
+                    if ($existing) {
+                        // Delete old file if exists
+                        $old_path = FCPATH . $existing['document_path'];
+                        if (file_exists($old_path)) {
+                            @unlink($old_path);
+                        }
+                        
+                        // Update existing record
+                        $update = $this->db->query("
+                            UPDATE tbl_member_documents 
+                            SET document_name = ?, document_path = ?, file_size = ?, file_type = ?, updated_date = NOW()
+                            WHERE doc_id = ?
+                        ", [
+                            $original_name,
+                            $file_path,
+                            $file_size,
+                            $extension,
+                            $existing['doc_id']
+                        ]);
+                        
+                        if ($update) {
+                            $uploaded_count++;
+                        } else {
+                            $errors[] = 'Failed to update database for ' . $doc_label;
+                        }
+                    } else {
+                        // Insert new record
+                        $insert = $this->db->query("
+                            INSERT INTO tbl_member_documents 
+                            (member_id, document_type, document_name, document_path, file_size, file_type, uploaded_by)
+                            VALUES (?, ?, ?, ?, ?, ?, ?)
+                        ", [
+                            $member_id,
+                            $field_name,
+                            $original_name,
+                            $file_path,
+                            $file_size,
+                            $extension,
+                            $this->cuser
+                        ]);
+                        
+                        if ($insert) {
+                            $uploaded_count++;
+                        } else {
+                            $errors[] = 'Failed to insert database for ' . $doc_label;
+                        }
+                    }
+                } else {
+                    $errors[] = 'Failed to move uploaded file for ' . $doc_label;
+                }
+            }
+        }
+        
+        if ($uploaded_count > 0) {
+            $message = $uploaded_count . ' document(s) uploaded successfully!';
+            if (!empty($errors)) {
+                $message .= ' However: ' . implode(', ', $errors);
+            }
+            return ['status' => 'success', 'message' => $message];
+        } else {
+            $error_msg = 'No documents were uploaded. ';
+            if (!empty($errors)) {
+                $error_msg .= implode(', ', $errors);
+            } else {
+                $error_msg .= 'Please check file types and sizes.';
+            }
+            return ['status' => 'error', 'message' => $error_msg];
+        }
+    }
+    
+    // Helper method to get documents for a member
+    public function get_member_documents($member_id) {
+        return $this->db->query(
+            "SELECT * FROM tbl_member_documents WHERE member_id = ? AND status = 'active' ORDER BY upload_date DESC",
+            [$member_id]
+        )->getResultArray();
+    }
 }
