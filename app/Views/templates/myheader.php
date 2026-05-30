@@ -25,6 +25,22 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
   $section = $data['section'];
   $division = $data['division'];
 
+  // Get profile photo from tbl_members
+  $profile_photo_url = base_url('assets/images/profile/user-1.jpg'); // Default image
+  
+  if(!empty($this->cuser)) {
+      $photo_query = $this->db->query("
+          SELECT profile_photo_path 
+          FROM tbl_members 
+          WHERE username = ?", [$this->cuser]
+      );
+      $photo_data = $photo_query->getRowArray();
+      
+      if(!empty($photo_data) && !empty($photo_data['profile_photo_path'])) {
+          $profile_photo_url = base_url($photo_data['profile_photo_path']);
+      }
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Navy_Gold_White_Theme" data-layout="vertical">
@@ -538,7 +554,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
                 <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" aria-expanded="false">
                   <div class="d-flex align-items-center">
                     <div class="user-profile-img">
-                      <img src="<?=base_url('assets/images/profile/user-1.jpg')?>" class="rounded-circle" width="35" height="35" alt="flexy-img" />
+                      <img src="<?=$profile_photo_url?>" class="rounded-circle" width="35" height="35" alt="Profile" />
                     </div>
                   </div>
                 </a>
@@ -548,7 +564,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
                       <h5 class="mb-0 fs-5 fw-semibold text-primary">User Profile</h5>
                     </div>
                     <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                      <img src="<?=base_url('assets/images/profile/user-1.jpg')?>" class="rounded-circle" width="80" height="80" alt="flexy-img" />
+                      <img src="<?=$profile_photo_url?>" class="rounded-circle" width="80" height="80" alt="Profile" />
                       <div class="ms-3">
                         <h5 class="mb-1 fs-4 text-primary"><?=$this->cuser;?></h5>
                         <span class="mb-1 d-block"><?=$full_name;?></span>
@@ -557,7 +573,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
                       </div>
                     </div>
                     <div class="message-body">
-                      <a href="" class="py-8 px-7 mt-8 d-flex align-items-center dropdown-item">
+                      <a href="<?=site_url();?>myaccount?meaction=MAIN" class="py-8 px-7 mt-8 d-flex align-items-center dropdown-item">
                         <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
                           <img src="<?=base_url('assets/images/svgs/icon-account.svg')?>" alt="flexy-img" width="24" height="24" />
                         </span>

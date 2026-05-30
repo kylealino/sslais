@@ -48,61 +48,164 @@ class AccountSettingsModel extends Model
             return ['status' => 'error', 'message' => 'Email is required!'];
         }
 
-		if (empty($email)) {
-            return ['status' => 'error', 'message' => 'Email is required!'];
+        if (empty($newpassword)) {
+            $query = $this->db->query("
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = ?,
+                    `first_name` = ?,
+                    `middle_name` = ?,
+                    `contact_number` = ?,
+                    `address` = ?,
+                    `email` = ?
+                WHERE `member_id` = ?
+            ", [
+                $last_name,
+                $first_name,
+                $middle_name,
+                $contact_number,
+                $address,
+                $email,
+                $member_id
+            ]);
+        } else {
+            $query = $this->db->query("
+                UPDATE `tbl_members`
+                SET
+                    `last_name` = ?,
+                    `first_name` = ?,
+                    `middle_name` = ?,
+                    `contact_number` = ?,
+                    `address` = ?,
+                    `email` = ?,
+                    `password` = ?,
+                    `hash_password` = ?
+                WHERE `member_id` = ?
+            ", [
+                $last_name,
+                $first_name,
+                $middle_name,
+                $contact_number,
+                $address,
+                $email,
+                $newpassword,
+                $hash_password,
+                $member_id
+            ]);
         }
-
-		if (empty($newpassword)) {
-			$query = $this->db->query("
-				UPDATE `tbl_members`
-				SET
-					`last_name` = ?,
-					`first_name` = ?,
-					`middle_name` = ?,
-					`contact_number` = ?,
-					`address` = ?,
-					`email` = ?
-				WHERE `member_id` = ?
-			", [
-				$last_name,
-				$first_name,
-				$middle_name,
-				$contact_number,
-				$address,
-				$email,
-				$member_id
-			]);
-		}else{
-			$query = $this->db->query("
-				UPDATE `tbl_members`
-				SET
-					`last_name` = ?,
-					`first_name` = ?,
-					`middle_name` = ?,
-					`contact_number` = ?,
-					`address` = ?,
-					`email` = ?,
-					`password` = ?,
-					`hash_password` = ?
-				WHERE `member_id` = ?
-			", [
-				$last_name,
-				$first_name,
-				$middle_name,
-				$contact_number,
-				$address,
-				$email,
-				$newpassword,
-				$hash_password,
-				$member_id
-			]);
-		}
-
         
         if ($query) {
             return ['status' => 'success', 'message' => 'Account Updated Successfully!'];
         } else {
             return ['status' => 'error', 'message' => 'An error occurred while updating.'];
+        }
+    }
+
+    // NEW METHOD FOR PROFILE PHOTO UPLOAD
+    public function upload_profile_photo() {
+        $member_id = $this->request->getPostGet('member_id');
+        
+        if (empty($member_id)) {
+            return ['status' => 'error', 'message' => 'Member ID is required!'];
+        }
+        
+        $file = $this->request->getFile('profile_photo');
+        
+        if (!$file || !$file->isValid() || $file->hasMoved()) {
+            return ['status' => 'error', 'message' => 'No valid file selected!'];
+        }
+        
+        // Check file type (only images)
+        $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+        $file_type = $file->getMimeType();
+        
+        if (!in_array($file_type, $allowed_types)) {
+            return ['status' => 'error', 'message' => 'Only JPG, JPEG, PNG, and GIF files are allowed!'];
+        }
+        
+        // Check file size (max 800KB)
+        if ($file->getSize() > 800 * 1024) {
+            return ['status' => 'error', 'message' => 'File size must be less than 800KB!'];
+        }
+        
+        // Create upload directory if not exists
+        $upload_path = FCPATH . 'uploads/profile_photos/';
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, true);
+        }
+        
+        // Get current member data to delete old photo
+        $current = $this->db->query("SELECT profile_photo_path FROM tbl_members WHERE member_id = ?", [$member_id])->getRowArray();
+        
+        // Delete old photo if exists
+        if (!empty($current['profile_photo_path'])) {
+            $old_path = FCPATH . $current['profile_photo_path'];
+            if (file_exists($old_path)) {
+                @unlink($old_path);
+            }
+        }
+        
+        // Generate unique filename
+        $timestamp = date('Ymd_His');
+        $random = bin2hex(random_bytes(4));
+        $extension = $file->getExtension();
+        $new_filename = 'profile_' . $member_id . '_' . $timestamp . '_' . $random . '.' . $extension;
+        $file_path = 'uploads/profile_photos/' . $new_filename;
+        
+        // Move file
+        if ($file->move($upload_path, $new_filename)) {
+            // Update database
+            $update = $this->db->query("
+                UPDATE tbl_members 
+                SET profile_photo_path = ?, profile_photo_name = ? 
+                WHERE member_id = ?
+            ", [$file_path, $file->getClientName(), $member_id]);
+            
+            if ($update) {
+                return [
+                    'status' => 'success', 
+                    'message' => 'Profile photo uploaded successfully!',
+                    'photo_path' => base_url($file_path),
+                    'photo_name' => $file->getClientName()
+                ];
+            } else {
+                return ['status' => 'error', 'message' => 'Failed to update database!'];
+            }
+        } else {
+            return ['status' => 'error', 'message' => 'Failed to move uploaded file!'];
+        }
+    }
+    
+    // NEW METHOD FOR RESETTING PROFILE PHOTO
+    public function reset_profile_photo() {
+        $member_id = $this->request->getPostGet('member_id');
+        
+        if (empty($member_id)) {
+            return ['status' => 'error', 'message' => 'Member ID is required!'];
+        }
+        
+        // Get current photo path
+        $current = $this->db->query("SELECT profile_photo_path FROM tbl_members WHERE member_id = ?", [$member_id])->getRowArray();
+        
+        // Delete file if exists
+        if (!empty($current['profile_photo_path'])) {
+            $old_path = FCPATH . $current['profile_photo_path'];
+            if (file_exists($old_path)) {
+                @unlink($old_path);
+            }
+        }
+        
+        // Update database to remove photo reference
+        $update = $this->db->query("
+            UPDATE tbl_members 
+            SET profile_photo_path = NULL, profile_photo_name = NULL 
+            WHERE member_id = ?
+        ", [$member_id]);
+        
+        if ($update) {
+            return ['status' => 'success', 'message' => 'Profile photo reset successfully!'];
+        } else {
+            return ['status' => 'error', 'message' => 'Failed to reset profile photo!'];
         }
     }
 }

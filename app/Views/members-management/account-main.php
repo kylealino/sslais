@@ -14,42 +14,27 @@ $contact_number = "";
 $email = "";
 $username = "";
 $password = "";
+$profile_photo_path = "";
+$profile_photo_name = "";
 
-if(!empty($this->cuser) || !is_null($this->cuser)) { 
-
-    $query = $this->db->query("
-    SELECT
-        `member_id`,
-        `member_no`,
-        `first_name`,
-        `last_name`,
-        `middle_name`,
-        `address`,
-        `contact_number`,
-        `email`,
-        `username`,
-        `password`,
-        `created_by`,
-        `created_at`
-    FROM
-        `tbl_members`
-    WHERE
-        `username` = '$this->cuser'"
-    );
-
-    $data = $query->getRowArray();
-    $member_id = $data['member_id'];
-    $member_no = $data['member_no'];
-    $first_name = $data['first_name'];
-    $last_name = $data['last_name'];
-    $middle_name = $data['middle_name'];
-    $address = $data['address'];
-    $contact_number = $data['contact_number'];
-    $email = $data['email'];
-    $username = $data['username'];
-    $password = $data['password'];
-
+if(!empty($member_data)) { 
+    $member_id = $member_data['member_id'];
+    $member_no = $member_data['member_no'];
+    $first_name = $member_data['first_name'];
+    $last_name = $member_data['last_name'];
+    $middle_name = $member_data['middle_name'];
+    $address = $member_data['address'];
+    $contact_number = $member_data['contact_number'];
+    $email = $member_data['email'];
+    $username = $member_data['username'];
+    $password = $member_data['password'];
+    $profile_photo_path = $member_data['profile_photo_path'] ?? '';
+    $profile_photo_name = $member_data['profile_photo_name'] ?? '';
 }
+
+// Set default or uploaded profile photo
+$profile_photo_url = !empty($profile_photo_path) ? base_url($profile_photo_path) : base_url('assets/images/profile/user-1.jpg');
+
 echo view('templates/myheader.php');
 ?>
 
@@ -157,6 +142,7 @@ echo view('templates/myheader.php');
         background: var(--gray-50);
         border-radius: 16px;
         margin-bottom: 20px;
+        position: relative;
     }
 
     .profile-img {
@@ -164,9 +150,28 @@ echo view('templates/myheader.php');
         padding: 3px;
         background: var(--white-bg);
         border-radius: 50%;
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
         object-fit: cover;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .profile-img:hover {
+        opacity: 0.8;
+        transform: scale(1.02);
+    }
+
+    .photo-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .photo-actions button {
+        font-size: 11px;
+        padding: 5px 12px;
     }
 
     /* Password Input Group */
@@ -213,6 +218,23 @@ echo view('templates/myheader.php');
         border-color: var(--gold-primary);
         color: var(--gold-dark);
     }
+    
+    .btn-outline-danger {
+        background: transparent;
+        border: 1.5px solid var(--danger);
+        border-radius: 10px;
+        padding: 6px 16px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--danger);
+        transition: all 0.2s;
+    }
+    
+    .btn-outline-danger:hover {
+        background: #fee2e2;
+        border-color: var(--danger);
+        color: #991b1b;
+    }
 
     /* Divider */
     .divider {
@@ -238,6 +260,46 @@ echo view('templates/myheader.php');
         color: var(--gold-dark);
         font-weight: 600;
     }
+    
+    /* Hidden file input */
+    #profilePhotoInput {
+        display: none;
+    }
+    
+    /* Upload preview overlay */
+    .upload-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 9999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .upload-overlay.active {
+        display: flex;
+    }
+    
+    .upload-spinner {
+        background: white;
+        padding: 20px 30px;
+        border-radius: 16px;
+        text-align: center;
+    }
+    
+    .upload-spinner i {
+        font-size: 30px;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -249,6 +311,10 @@ echo view('templates/myheader.php');
         }
         .profile-img-wrapper {
             padding: 15px;
+        }
+        .profile-img {
+            width: 100px;
+            height: 100px;
         }
     }
 </style>
@@ -289,18 +355,25 @@ echo view('templates/myheader.php');
                     <!-- LEFT COLUMN - PROFILE PHOTO -->
                     <div class="col-lg-3">
                         <div class="profile-img-wrapper">
-                            <img src="<?=base_url('assets/images/profile/user-1.jpg')?>"
-                                class="profile-img mb-3">
-                            <div class="d-flex justify-content-center gap-2">
-                                <button type="button" class="btn-outline btn-sm">
+                            <img src="<?=$profile_photo_url?>"
+                                class="profile-img mb-3"
+                                id="profilePhotoPreview"
+                                onclick="document.getElementById('profilePhotoInput').click();"
+                                title="Click to change photo">
+                            <input type="file" id="profilePhotoInput" accept="image/jpeg,image/jpg,image/png,image/gif">
+                            <div class="photo-actions">
+                                <button type="button" class="btn-outline btn-sm" id="uploadPhotoBtn">
                                     <i class="ti ti-upload"></i> Upload
                                 </button>
-                                <button type="button" class="btn-outline btn-sm text-danger">
-                                    Reset
+                                <?php if(!empty($profile_photo_path)): ?>
+                                <button type="button" class="btn-outline-danger btn-sm" id="resetPhotoBtn">
+                                    <i class="ti ti-trash"></i> Reset
                                 </button>
+                                <?php endif; ?>
                             </div>
                             <small class="text-muted d-block mt-2">
-                                JPG, PNG (Max: 800KB)
+                                JPG, PNG (Max: 800KB)<br>
+                                Click image to change
                             </small>
                         </div>
                     </div>
@@ -400,11 +473,19 @@ echo view('templates/myheader.php');
     </div>
 </div>
 
+<!-- Loading Overlay -->
+<div class="upload-overlay" id="uploadOverlay">
+    <div class="upload-spinner">
+        <i class="ti ti-loader"></i>
+        <p class="mt-2 mb-0">Uploading...</p>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="<?=base_url('assets/js/members-management/myaccount.js?v=1');?>"></script>
+<script src="<?=base_url('assets/js/members-management/myaccount.js?v=2');?>"></script>
 
 <script>
-// Toggle Password Visibility
+// Toggle Password Visibility for current password
 document.getElementById('togglePassword')?.addEventListener('click', function () {
     const input = document.getElementById('password');
     const icon = document.getElementById('toggleIcon');
@@ -420,6 +501,7 @@ document.getElementById('togglePassword')?.addEventListener('click', function ()
     }
 });
 
+// Toggle Password Visibility for new password
 document.getElementById('newtogglePassword')?.addEventListener('click', function () {
     const input = document.getElementById('newpassword');
     const icon = this.querySelector('i');
@@ -434,6 +516,126 @@ document.getElementById('newtogglePassword')?.addEventListener('click', function
         icon.classList.add('ti-eye');
     }
 });
+
+// Profile photo upload handling
+const mesiteurl = $('#__siteurl').attr('data-mesiteurl');
+const member_id = $('#member_id').val();
+
+$('#uploadPhotoBtn').on('click', function() {
+    $('#profilePhotoInput').click();
+});
+
+$('#profilePhotoInput').on('change', function(e) {
+    if (this.files && this.files[0]) {
+        const file = this.files[0];
+        const fileType = file.type;
+        const fileSize = file.size;
+        
+        // Validate file type
+        if (!fileType.match('image/jpeg') && !fileType.match('image/jpg') && !fileType.match('image/png') && !fileType.match('image/gif')) {
+            toastr.error('Only JPG, JPEG, PNG, and GIF files are allowed!');
+            return;
+        }
+        
+        // Validate file size (800KB = 819200 bytes)
+        if (fileSize > 800 * 1024) {
+            toastr.error('File size must be less than 800KB!');
+            return;
+        }
+        
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            $('#profilePhotoPreview').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+        
+        // Upload the file
+        uploadProfilePhoto(file);
+    }
+});
+
+function uploadProfilePhoto(file) {
+    const formData = new FormData();
+    formData.append('member_id', member_id);
+    formData.append('profile_photo', file);
+    formData.append('meaction', 'UPLOAD-PROFILE-PHOTO');
+    
+    $('#uploadOverlay').addClass('active');
+    
+    $.ajax({
+        type: "POST",
+        url: mesiteurl + 'myaccount',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function(response) {
+            $('#uploadOverlay').removeClass('active');
+            if (response.status == 'success') {
+                toastr.success(response.message);
+                // Update the reset button if it doesn't exist
+                if ($('#resetPhotoBtn').length === 0) {
+                    $('.photo-actions').append('<button type="button" class="btn-outline-danger btn-sm" id="resetPhotoBtn"><i class="ti ti-trash"></i> Reset</button>');
+                    bindResetButton();
+                }
+            } else {
+                toastr.error(response.message);
+                // Reload original image
+                location.reload();
+            }
+        },
+        error: function(xhr, status, error) {
+            $('#uploadOverlay').removeClass('active');
+            toastr.error("Error uploading photo: " + error);
+        }
+    });
+}
+
+function bindResetButton() {
+    $('#resetPhotoBtn').off('click').on('click', function() {
+        if (confirm('Are you sure you want to reset your profile photo?')) {
+            resetProfilePhoto();
+        }
+    });
+}
+
+function resetProfilePhoto() {
+    const formData = new FormData();
+    formData.append('member_id', member_id);
+    formData.append('meaction', 'RESET-PROFILE-PHOTO');
+    
+    $('#uploadOverlay').addClass('active');
+    
+    $.ajax({
+        type: "POST",
+        url: mesiteurl + 'myaccount',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function(response) {
+            $('#uploadOverlay').removeClass('active');
+            if (response.status == 'success') {
+                toastr.success(response.message);
+                // Reset to default image
+                $('#profilePhotoPreview').attr('src', mesiteurl + 'assets/images/profile/user-1.jpg');
+                $('#resetPhotoBtn').remove();
+            } else {
+                toastr.error(response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            $('#uploadOverlay').removeClass('active');
+            toastr.error("Error resetting photo: " + error);
+        }
+    });
+}
+
+// Bind reset button if exists
+<?php if(!empty($profile_photo_path)): ?>
+bindResetButton();
+<?php endif; ?>
 </script>
 
 <?php

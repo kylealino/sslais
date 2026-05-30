@@ -702,6 +702,47 @@ echo view('templates/myheader.php');
         color: var(--gold-dark);
         font-weight: 600;
     }
+
+    /* Member Profile Image in Table */
+/* Member Profile Image in Table - Round Icon Only */
+.member-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.2s ease;
+}
+
+.member-avatar.has-photo {
+    border: 2px solid var(--gold-primary);
+    overflow: hidden;
+    padding: 0;
+}
+
+.member-avatar.has-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.member-avatar.default {
+    background: var(--gold-soft);
+    color: var(--gold-dark);
+    font-size: 16px;
+    border: 2px solid var(--gold-primary);
+}
+
+.member-avatar.default i {
+    font-size: 18px;
+}
+
+.member-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 </style>
 
 <div class="container-fluid">
@@ -1512,6 +1553,7 @@ echo view('templates/myheader.php');
                 <table id="datatablesSimple" class="table table-hover align-middle mb-0">
                     <thead>
                         <tr>
+                            <th width="50">Photo</th>
                             <th width="80">Action</th>
                             <th>Member No.</th>
                             <th>Last Name</th>
@@ -1534,30 +1576,45 @@ echo view('templates/myheader.php');
                                 $email = $data['email'];
                                 $loan_count = $data['loan_count'];
                                 $loan_amount = $data['loan_amount'];
+                                $id_photo_path = $data['id_photo_path'] ?? '';
+                                
+                                // Check if photo exists and file actually exists
+                                $has_photo = !empty($id_photo_path) && file_exists(FCPATH . $id_photo_path);
                         ?>
-                        <tr>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a class="text-primary nav-icon-hover" href="mymembers?meaction=MAIN&member_id=<?= $mid ?>" title="Edit Member">
-                                        <i class="ti ti-pencil"></i>
-                                    </a>
-                                    <button class="btn btn-sm text-warning p-0 border-0 bg-transparent" 
-                                            onclick="__mysys_members_ent.__showPdfInModal('<?= base_url('mymembers?meaction=MEMBERS-PRINT&member_id='.$mid) ?>')" 
-                                            title="Print Members Profile">
-                                        <i class="ti ti-printer"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <td class="text-center"><?=$member_no;?></td>
-                            <td class="text-center"><?=$last_name;?></td>
-                            <td class="text-center"><?=$first_name;?></td>
-                            <td class="text-center"><?=$contact_number;?></td>
-                            <td class="text-center"><?=$email;?></td>
-                            <td class="text-center"><?=$loan_count;?></td>
-                            <td class="text-center">₱<?=number_format($loan_amount,2);?></td>
-                            <td class="text-center"><span class="status-pill status-active">Active</span></td>
-                        </tr>
-                        <?php endforeach; endif;?>
+                            <tr>
+                                <td class="text-center">
+                                    <?php if($has_photo): ?>
+                                        <div class="member-avatar has-photo">
+                                            <img src="<?= base_url($id_photo_path) ?>" alt="<?= htmlspecialchars($first_name) ?>">
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="member-avatar default">
+                                            <i class="ti ti-user"></i>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a class="text-primary nav-icon-hover" href="mymembers?meaction=MAIN&member_id=<?= $mid ?>" title="Edit Member">
+                                            <i class="ti ti-pencil"></i>
+                                        </a>
+                                        <button class="btn btn-sm text-warning p-0 border-0 bg-transparent" 
+                                                onclick="__mysys_members_ent.__showPdfInModal('<?= base_url('mymembers?meaction=MEMBERS-PRINT&member_id='.$mid) ?>')" 
+                                                title="Print Members Profile">
+                                            <i class="ti ti-printer"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="text-center"><?= htmlspecialchars($member_no); ?></td>
+                                <td class="text-center"><?= htmlspecialchars($last_name); ?></td>
+                                <td class="text-center"><?= htmlspecialchars($first_name); ?></td>
+                                <td class="text-center"><?= htmlspecialchars($contact_number); ?></td>
+                                <td class="text-center"><?= htmlspecialchars($email); ?></td>
+                                <td class="text-center"><?= $loan_count; ?></td>
+                                <td class="text-center">₱<?= number_format($loan_amount,2); ?></td>
+                                <td class="text-center"><span class="status-pill status-active">Active</span></td>
+                            </tr>
+                            <?php endforeach; endif; ?>
                     </tbody>
                 </table>
             </div>

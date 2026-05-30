@@ -54,14 +54,12 @@ class MembersManagementController extends BaseController
             a.address,
             a.contact_number,
             a.email,
-
+            (SELECT document_path FROM tbl_member_documents WHERE member_id = a.member_id AND document_type = 'id_photo' AND status = 'active' LIMIT 1) as id_photo_path,
             COUNT(l.loan_id) AS loan_count,
             COALESCE(SUM(l.loan_amount), 0) AS loan_amount
-
         FROM tbl_members a
         LEFT JOIN tbl_loans l 
             ON l.member_id = a.member_id
-
         GROUP BY 
             a.member_id,
             a.member_no,
@@ -71,7 +69,6 @@ class MembersManagementController extends BaseController
             a.address,
             a.contact_number,
             a.email
-
         ORDER BY a.member_id DESC;
         ");
         $membersdata = $membersdataquery->getResultArray();
