@@ -1,0 +1,340 @@
+ERROR - 2026-06-02 15:20:44 --> mysqli_sql_exception: Table 'dmis.tbl_co_makers' doesn't exist in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n        SELEC...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n        SELEC...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n        SELEC...')
+#3 C:\xampp\htdocs\sslais\app\Views\members-management\members-main.php(86): CodeIgniter\Database\BaseConnection->query('\r\n        SELEC...', Array)
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('members-managem...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(95): view('members-managem...', Array)
+#8 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(24): App\Controllers\MembersManagementController->loadMembersView()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#11 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2026-06-02 15:20:44 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'dmis.tbl_co_makers' doesn't exist
+[Method: GET, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\members-management\members-main.php(86): CodeIgniter\Database\BaseConnection->query('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = ? AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ', [...])
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 5 APPPATH\Controllers\MembersManagementController.php(95): view('members-management/members-main', [...])
+ 6 APPPATH\Controllers\MembersManagementController.php(24): App\Controllers\MembersManagementController->loadMembersView()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-06-02 15:20:44 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'dmis.tbl_co_makers' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ')
+ 3 APPPATH\Views\members-management\members-main.php(86): CodeIgniter\Database\BaseConnection->query('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = ? AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ', [...])
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 7 APPPATH\Controllers\MembersManagementController.php(95): view('members-management/members-main', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(24): App\Controllers\MembersManagementController->loadMembersView()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-06-02 15:20:44 --> [Caused by] mysqli_sql_exception: Table 'dmis.tbl_co_makers' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ')
+ 4 APPPATH\Views\members-management\members-main.php(86): CodeIgniter\Database\BaseConnection->query('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = ? AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ', [...])
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 8 APPPATH\Controllers\MembersManagementController.php(95): view('members-management/members-main', [...])
+ 9 APPPATH\Controllers\MembersManagementController.php(24): App\Controllers\MembersManagementController->loadMembersView()
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-06-02 15:56:45 --> mysqli_sql_exception: Table 'dmis.tbl_co_makers' doesn't exist in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n        SELEC...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n        SELEC...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n        SELEC...')
+#3 C:\xampp\htdocs\sslais\app\Views\members-management\members-main.php(86): CodeIgniter\Database\BaseConnection->query('\r\n        SELEC...', Array)
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('members-managem...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(95): view('members-managem...', Array)
+#8 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(24): App\Controllers\MembersManagementController->loadMembersView()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#11 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#13 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#14 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#15 {main}
+CRITICAL - 2026-06-02 15:56:45 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'dmis.tbl_co_makers' doesn't exist
+[Method: GET, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\members-management\members-main.php(86): CodeIgniter\Database\BaseConnection->query('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = ? AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ', [...])
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 5 APPPATH\Controllers\MembersManagementController.php(95): view('members-management/members-main', [...])
+ 6 APPPATH\Controllers\MembersManagementController.php(24): App\Controllers\MembersManagementController->loadMembersView()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-06-02 15:56:45 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'dmis.tbl_co_makers' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ')
+ 3 APPPATH\Views\members-management\members-main.php(86): CodeIgniter\Database\BaseConnection->query('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = ? AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ', [...])
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 7 APPPATH\Controllers\MembersManagementController.php(95): view('members-management/members-main', [...])
+ 8 APPPATH\Controllers\MembersManagementController.php(24): App\Controllers\MembersManagementController->loadMembersView()
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-06-02 15:56:45 --> [Caused by] mysqli_sql_exception: Table 'dmis.tbl_co_makers' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = \'20\' AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ')
+ 4 APPPATH\Views\members-management\members-main.php(86): CodeIgniter\Database\BaseConnection->query('
+        SELECT cm.*, 
+               m.member_no as borrower_no, 
+               m.first_name as borrower_first, 
+               m.last_name as borrower_last,
+               l.loan_amount,
+               l.loan_status,
+               l.balance as outstanding_balance
+        FROM tbl_co_makers cm
+        LEFT JOIN tbl_members m ON cm.borrower_id = m.member_id
+        LEFT JOIN tbl_loans l ON cm.loan_id = l.loan_id
+        WHERE cm.co_maker_id = ? AND cm.status = \'active\'
+        ORDER BY cm.created_at DESC
+    ', [...])
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-main.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-main', [], true)
+ 8 APPPATH\Controllers\MembersManagementController.php(95): view('members-management/members-main', [...])
+ 9 APPPATH\Controllers\MembersManagementController.php(24): App\Controllers\MembersManagementController->loadMembersView()
+10 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+11 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+12 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
