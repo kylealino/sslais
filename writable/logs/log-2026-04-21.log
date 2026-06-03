@@ -1,0 +1,1720 @@
+ERROR - 2026-04-21 16:26:26 --> mysqli_sql_exception: Unknown column 'date_of_birth' in 'field list' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n SELECT\r\n    ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n SELECT\r\n    ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n SELECT\r\n    ...')
+#3 C:\xampp\htdocs\sslais\app\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('\r\n SELECT\r\n    ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('members-managem...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(34): view('members-managem...')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-04-21 16:26:27 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'date_of_birth' in 'field list'
+[Method: GET, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 5 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-21 16:26:27 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'date_of_birth' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 3 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 7 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-21 16:26:27 --> [Caused by] mysqli_sql_exception: Unknown column 'date_of_birth' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 4 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 8 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-04-21 16:26:48 --> mysqli_sql_exception: Unknown column 'date_of_birth' in 'field list' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n SELECT\r\n    ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n SELECT\r\n    ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n SELECT\r\n    ...')
+#3 C:\xampp\htdocs\sslais\app\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('\r\n SELECT\r\n    ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('members-managem...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(34): view('members-managem...')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-04-21 16:26:48 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'date_of_birth' in 'field list'
+[Method: GET, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 5 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-21 16:26:48 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'date_of_birth' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 3 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 7 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-21 16:26:48 --> [Caused by] mysqli_sql_exception: Unknown column 'date_of_birth' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 4 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 8 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-04-21 16:27:02 --> mysqli_sql_exception: Unknown column 'date_of_birth' in 'field list' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n SELECT\r\n    ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n SELECT\r\n    ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n SELECT\r\n    ...')
+#3 C:\xampp\htdocs\sslais\app\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('\r\n SELECT\r\n    ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('members-managem...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(34): view('members-managem...')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-04-21 16:27:02 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'date_of_birth' in 'field list'
+[Method: GET, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 5 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-21 16:27:02 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'date_of_birth' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 3 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 7 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-21 16:27:02 --> [Caused by] mysqli_sql_exception: Unknown column 'date_of_birth' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 4 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 8 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-04-21 16:46:08 --> mysqli_sql_exception: Unknown column 'date_of_birth' in 'field list' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('\r\n SELECT\r\n    ...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('\r\n SELECT\r\n    ...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('\r\n SELECT\r\n    ...')
+#3 C:\xampp\htdocs\sslais\app\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('\r\n SELECT\r\n    ...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('members-managem...', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\MembersManagementController.php(34): view('members-managem...')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-04-21 16:46:08 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'date_of_birth' in 'field list'
+[Method: GET, Route: mymembers]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 5 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-21 16:46:08 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'date_of_birth' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 3 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 7 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-21 16:46:08 --> [Caused by] mysqli_sql_exception: Unknown column 'date_of_birth' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 4 APPPATH\Views\members-management\members-profile-pdf.php(60): CodeIgniter\Database\BaseConnection->query('
+ SELECT
+    `member_id`,
+    `member_no`,
+    `first_name`,
+    `last_name`,
+    `middle_name`,
+    `date_of_birth`,
+    `place_of_birth`,
+    `age`,
+    `civil_status`,
+    `gender`,
+    `tin`,
+    `gsis_number`,
+    `permanent_street`,
+    `permanent_barangay`,
+    `permanent_city`,
+    `permanent_province`,
+    `permanent_zip`,
+    `present_street`,
+    `present_barangay`,
+    `present_city`,
+    `present_province`,
+    `present_zip`,
+    `home_phone`,
+    `office_phone`,
+    `department_agency`,
+    `position`,
+    `salary_grade`,
+    `beneficiary1_name`,
+    `beneficiary1_address`,
+    `beneficiary1_contact`,
+    `beneficiary1_relationship`,
+    `beneficiary2_name`,
+    `beneficiary2_address`,
+    `beneficiary2_contact`,
+    `beneficiary2_relationship`,
+    `address`,
+    `contact_number`,
+    `email`,
+    `username`,
+    `password`,
+    `role`,
+    `hash_password`
+FROM tbl_members 
+WHERE member_id = \'10\'
+')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\members-management\\members-profile-pdf.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('members-management/members-profile-pdf', [], true)
+ 8 APPPATH\Controllers\MembersManagementController.php(34): view('members-management/members-profile-pdf')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MembersManagementController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MembersManagementController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
