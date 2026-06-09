@@ -12,6 +12,7 @@ $contact_number = "";
 $email = "";
 $username = "";
 $password = "";
+$test="";
 
 if(!empty($member_id) || !is_null($member_id)) { 
 
