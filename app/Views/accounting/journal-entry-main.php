@@ -384,14 +384,14 @@ echo view('templates/myheader.php');
     }
 </style>
 
-<div class="container-fluid">
+<div class="ps-3 pe-3">
     <div class="row me-myjournalentry-outp-msg mx-0">
     </div>
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
     
-    <div class="row mb-2 mt-2">
+    <div class="row mb-2">
         <div class="col-12">
-            <h4 class="fw-semibold my-3">Journal Entry</h4>
+            <h4 class="fw-semibold">Journal Entry</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">

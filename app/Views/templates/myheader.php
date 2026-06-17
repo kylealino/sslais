@@ -484,13 +484,28 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
               </a>
             </li>
             <li class="sidebar-item">
+                <a class="sidebar-link" href="<?=site_url();?>myapprovals" aria-expanded="false">
+                    <span class="rounded-3">
+                        <i class="ti ti-timeline"></i>
+                    </span>
+                    <span class="hide-menu fs-2">Loan Approval</span>
+                    <?php
+                    // Get pending count for badge
+                    $pendingCount = $this->db->query("SELECT COUNT(*) as total FROM tbl_loans WHERE approval_status IN ('Pending', 'Submitted')")->getRowArray()['total'];
+                    if($pendingCount > 0): ?>
+                    <span class="badge bg-warning text-dark ms-auto rounded-pill"><?=$pendingCount?></span>
+                    <?php endif; ?>
+                </a>
+            </li>
+            <li class="sidebar-item">
               <a class="sidebar-link" href="<?=site_url();?>myloanprofile?meaction=MAIN" aria-expanded="false">
                 <span class="rounded-3">
-                  <i class="ti ti-cash"></i>
+                  <i class="ti ti-file-invoice"></i>
                 </span>
                 <span class="hide-menu fs-2">Loan Profile</span>
               </a>
             </li>
+
 
             <!-- Accounting -->
             <li class="nav-small-cap">

@@ -36,7 +36,7 @@ foreach ($loans as $loan) {
         SELECT ending_balance
         FROM tbl_loans_ammortization
         WHERE loan_id = ?
-        AND payment_status = 'Paid'
+        AND LOWER(payment_status) = 'paid'
         ORDER BY ammortization_id DESC
         LIMIT 1
     ", [$loan['loan_id']])->getRowArray();
@@ -100,12 +100,12 @@ if(!empty($loan_id)) {
             SELECT ending_balance 
             FROM tbl_loans_ammortization 
             WHERE loan_id = ? 
-            AND payment_status = 'Paid'
+            AND LOWER(payment_status) = 'paid'
             ORDER BY ammortization_id DESC LIMIT 1
         ", [$loan_id])->getRowArray();
         $outstanding = isset($balanceQuery['ending_balance']) ? (float)$balanceQuery['ending_balance'] : (float)$loan_amount;
         
-        // Get amortization schedule
+        // Get amortization schedule - VIEW ONLY
         $amortizationSched = $this->db->query("
             SELECT * FROM tbl_loans_ammortization 
             WHERE loan_id = '$loan_id'
@@ -177,401 +177,147 @@ echo view('templates/myheader.php');
         font-family: 'Inter', sans-serif;
     }
 
-    /* Attendance Card Style */
-    .attendance-card {
-        background: var(--white-bg);
-        border-radius: 20px;
-        border: 1px solid var(--gray-200);
-        transition: all 0.3s ease;
-        margin-bottom: 20px;
-    }
-
-    .attendance-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 20px -12px rgba(0,0,0,0.1);
-        border-color: var(--gray-300);
-    }
-
-    .attendance-card .card-body {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-    }
-
-    .attendance-value {
-        font-size: 32px;
-        font-weight: 700;
-        line-height: 1.2;
-        color: var(--gray-800);
-    }
-
-    .attendance-icon {
-        font-size: 42px;
-        opacity: 0.12;
-        color: var(--gold-primary);
-    }
-
-    .attendance-label {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--gray-500);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 6px;
-    }
-
-    .attendance-sub {
-        font-size: 11px;
-        color: var(--gray-400);
-        margin-top: 6px;
-    }
-
-    /* Cards */
-    .card {
+    /* ===== MAIN CARD ===== */
+    .main-card {
         border: 1px solid var(--gray-200);
         border-radius: 20px;
         background: var(--white-bg);
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        overflow: hidden;
+        margin-bottom: 24px;
     }
 
-    .card-header {
+    .main-card .card-header {
         background: var(--white-bg);
         border-bottom: 1px solid var(--gray-200);
-        padding: 14px 20px;
-        font-weight: 600;
-        color: var(--navy-dark);
+        padding: 14px 24px;
     }
 
-    .card-body {
-        padding: 20px;
-    }
-
-    /* Buttons */
-    .btn-primary {
-        background: var(--navy-dark);
-        border: none;
-        border-radius: 10px;
-        padding: 6px 16px;
-        font-size: 12px;
-        transition: all 0.2s;
-    }
-
-    .btn-primary:hover {
-        background: var(--navy-medium);
-        transform: translateY(-1px);
-    }
-
-    .btn-success {
-        background: var(--gold-primary);
-        border: none;
-        border-radius: 10px;
-        padding: 8px 20px;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--navy-dark);
-        transition: all 0.2s;
-    }
-
-    .btn-success:hover {
-        background: var(--gold-dark);
-        transform: translateY(-1px);
-        color: white;
-    }
-    
-    .btn-assess {
-        background: var(--info);
-        border: none;
-        border-radius: 10px;
-        padding: 6px 16px;
-        font-size: 12px;
-        font-weight: 600;
-        color: white;
-        transition: all 0.2s;
-    }
-
-    .btn-assess:hover {
-        background: #2563eb;
-        transform: translateY(-1px);
-    }
-    
-    .btn-generate {
-        background: var(--white-bg);
-        border: 1.5px solid var(--gold-primary);
-        color: var(--gold-dark);
-        padding: 8px 20px;
-        font-size: 12px;
-        font-weight: 600;
-        border-radius: 10px;
-        transition: all 0.2s;
-    }
-
-    .btn-generate:hover {
-        background: var(--gold-primary);
-        color: var(--navy-dark);
-        transform: translateY(-1px);
-    }
-    
-    .btn-back {
-        background: var(--gray-100);
-        border: 1px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 8px 20px;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--gray-600);
-        transition: all 0.2s;
-    }
-
-    .btn-back:hover {
-        background: var(--gold-soft);
-        border-color: var(--gold-primary);
-        color: var(--gold-dark);
-    }
-
-    /* Risk Assessment Styles */
-    .risk-card {
-        background: var(--white-bg);
-        border-radius: 16px;
-        padding: 16px;
-        border: 1px solid var(--gray-200);
-        transition: all 0.2s;
-        text-align: center;
-    }
-
-    .risk-card:hover {
-        border-color: var(--gold-primary);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .risk-label {
-        font-size: 10px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: var(--gray-500);
-        margin-bottom: 6px;
-    }
-
-    .risk-value {
-        font-size: 28px;
+    .main-card .card-header h5 {
         font-weight: 700;
         color: var(--navy-dark);
-        line-height: 1.2;
-    }
-
-    .risk-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 30px;
-        font-size: 11px;
-        font-weight: 600;
-    }
-
-    .risk-low {
-        background: #d1fae5;
-        color: #065f46;
-    }
-
-    .risk-medium {
-        background: #fef3c7;
-        color: #d97706;
-    }
-
-    .risk-high {
-        background: #fee2e2;
-        color: #dc2626;
-    }
-
-    .exposure-card {
-        background: var(--white-bg);
-        border-radius: 16px;
-        padding: 16px;
-        border: 1px solid var(--gray-200);
-        transition: all 0.2s;
-        text-align: center;
-    }
-
-    .exposure-card:hover {
-        border-color: var(--gold-primary);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .exposure-label {
-        font-size: 10px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: var(--gray-500);
-        margin-bottom: 6px;
-    }
-
-    .exposure-value {
-        font-size: 24px;
-        font-weight: 700;
-        color: var(--navy-dark);
-    }
-
-    .comaker-info-card {
-        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-        border-radius: 16px;
-        padding: 20px;
-        color: white;
-        margin-bottom: 20px;
-    }
-
-    .comaker-info-card h5 {
-        color: white;
-        margin-bottom: 5px;
-    }
-
-    .comaker-info-card .text-muted {
-        color: rgba(255,255,255,0.7) !important;
-    }
-
-    .recommend-approve {
-        background: #d1fae5;
-        color: #065f46;
-        border-left: 3px solid var(--success);
-    }
-
-    .recommend-review {
-        background: #fef3c7;
-        color: #d97706;
-        border-left: 3px solid var(--warning);
-    }
-
-    .info-alert {
-        background: var(--gold-soft);
-        border-left: 4px solid var(--gold-primary);
-        padding: 12px 16px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-    }
-
-    .info-alert i {
-        color: var(--gold-primary);
-        margin-right: 10px;
-    }
-
-    /* Tables */
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .table thead th {
-        background: transparent;
-        color: var(--gray-500);
-        font-weight: 600;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        padding: 12px 8px;
-        border-bottom: 1px solid var(--gray-200);
-    }
-
-    .table tbody td {
-        padding: 10px 8px;
-        color: var(--gray-700);
-        border-bottom: 1px solid var(--gray-100);
-        vertical-align: middle;
-        font-size: 13px;
-    }
-
-    .table tbody tr:hover td {
-        background: var(--gold-soft);
-    }
-
-    /* DataTables */
-    .dataTables_wrapper {
-        font-family: 'Inter', sans-serif;
-    }
-
-    .dataTables_filter {
-        float: right;
-        margin-bottom: 20px;
-    }
-
-    .dataTables_filter input {
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 8px 14px;
-        font-size: 13px;
-        width: 250px;
-    }
-
-    .dataTables_filter input:focus {
-        border-color: var(--gold-primary);
-        outline: none;
-    }
-
-    .dataTables_paginate {
-        float: right;
-        margin-top: 20px;
-    }
-
-    .dataTables_paginate .paginate_button {
-        padding: 6px 12px !important;
-        margin: 0 3px !important;
-        border-radius: 8px !important;
-        border: 1px solid var(--gray-200) !important;
-        background: var(--white-bg) !important;
-        color: var(--gray-600) !important;
-        font-size: 12px !important;
-    }
-
-    .dataTables_paginate .paginate_button.current {
-        background: var(--gold-primary) !important;
-        border-color: var(--gold-primary) !important;
-        color: var(--navy-dark) !important;
-    }
-
-    .dataTables_info {
-        float: left;
-        font-size: 12px;
-        color: var(--gray-500);
-        margin-top: 20px;
-    }
-
-    /* Badges */
-    .badge {
-        padding: 4px 10px;
-        font-size: 10px;
-        font-weight: 600;
-        border-radius: 30px;
-    }
-
-    .bg-warning {
-        background: var(--warning) !important;
-        color: white;
-    }
-
-    .bg-success {
-        background: var(--success) !important;
-    }
-
-    .bg-secondary {
-        background: var(--gray-400) !important;
-    }
-    
-    .status-pending { background: #fef3c7; color: #d97706; }
-    .status-approved { background: #dbeafe; color: #1e40af; }
-    .status-active { background: #d1fae5; color: #065f46; }
-    .status-closed { background: #e2e8f0; color: #475569; }
-    .status-declined { background: #fee2e2; color: #dc2626; }
-    
-    .status-pill {
-        display: inline-flex;
+        margin: 0;
+        font-size: 16px;
+        display: flex;
         align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        font-size: 11px;
-        font-weight: 600;
-        border-radius: 30px;
+        gap: 8px;
     }
 
-    /* Breadcrumb */
+    .main-card .card-header h5 i {
+        color: var(--gold-primary);
+        font-size: 18px;
+    }
+
+    .main-card .card-body {
+        padding: 24px;
+    }
+
+    /* ===== STATS CARDS ===== */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+        background: var(--white-bg);
+        border-radius: 16px;
+        border: 1px solid var(--gray-200);
+        padding: 14px 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s;
+    }
+
+    .stat-card:hover {
+        border-color: var(--gold-primary);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .stat-card .stat-left .stat-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-bottom: 2px;
+    }
+
+    .stat-card .stat-left .stat-value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--gray-800);
+        line-height: 1.3;
+    }
+
+    .stat-card .stat-left .stat-sub {
+        font-size: 10px;
+        color: var(--gray-400);
+        margin-top: 1px;
+    }
+
+    .stat-card .stat-icon {
+        font-size: 28px;
+        opacity: 0.1;
+        color: var(--gold-primary);
+        flex-shrink: 0;
+        margin-left: 8px;
+    }
+
+    /* ===== SECTION TITLES ===== */
+    .section-title {
+        font-weight: 600;
+        color: var(--navy-dark);
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        border-left: 3px solid var(--gold-primary);
+        padding-left: 12px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .section-title i {
+        color: var(--gold-primary);
+        font-size: 14px;
+    }
+
+    /* ===== INFO GRID ===== */
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px 30px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--gray-100);
+    }
+
+    .info-row .label {
+        color: var(--gray-500);
+        font-size: 13px;
+    }
+
+    .info-row .value {
+        color: var(--gray-800);
+        font-weight: 500;
+        font-size: 13px;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+        height: 1px;
+        background: var(--gray-200);
+        margin: 20px 0;
+    }
+
+    /* ===== BREADCRUMB ===== */
     .breadcrumb {
         background: transparent;
         padding: 0;
@@ -584,56 +330,53 @@ echo view('templates/myheader.php');
         font-size: 12px;
     }
 
+    .breadcrumb-item a:hover {
+        color: var(--gold-primary);
+    }
+
     .breadcrumb-item.active {
         color: var(--gold-dark);
         font-weight: 600;
     }
 
-    .dashboard-title {
-        font-size: 16px;
-        font-weight: 700;
-        color: var(--navy-dark);
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid var(--gold-primary);
-        display: inline-block;
-    }
-
-    /* Nav Tabs */
-    .nav-tabs {
-        border-bottom: 2px solid var(--gray-200);
-        background: var(--white-bg);
-        border-radius: 20px 20px 0 0;
+    /* ===== TABS ===== */
+    .nav-tabs-custom {
+        display: flex;
         flex-wrap: wrap;
+        border-bottom: 2px solid var(--gray-200);
+        padding: 0 4px;
+        background: var(--white-bg);
+        margin-bottom: 24px;
     }
 
-    .nav-tabs .nav-link {
+    .nav-tabs-custom .nav-link {
         border: none;
         color: var(--gray-600);
         font-weight: 500;
         font-size: 13px;
         padding: 10px 20px;
         transition: all 0.2s;
+        cursor: pointer;
+        background: none;
+        border-radius: 0;
         position: relative;
     }
 
-    .nav-tabs .nav-link i {
-        margin-right: 8px;
-        font-size: 16px;
+    .nav-tabs-custom .nav-link i {
+        margin-right: 6px;
+        font-size: 14px;
     }
 
-    .nav-tabs .nav-link:hover {
+    .nav-tabs-custom .nav-link:hover {
         color: var(--gold-primary);
-        background: transparent;
     }
 
-    .nav-tabs .nav-link.active {
+    .nav-tabs-custom .nav-link.active {
         color: var(--gold-primary);
-        background: transparent;
         font-weight: 600;
     }
 
-    .nav-tabs .nav-link.active::after {
+    .nav-tabs-custom .nav-link.active::after {
         content: '';
         position: absolute;
         bottom: -2px;
@@ -643,69 +386,575 @@ echo view('templates/myheader.php');
         background: var(--gold-primary);
     }
 
-    .tab-content {
-        padding: 20px 0;
-        background: transparent;
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+        background: var(--navy-dark);
+        border: none;
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.2s;
     }
 
-    /* Form Controls for Loan Details */
-    .form-label {
-        font-size: 11px;
+    .btn-primary:hover {
+        background: var(--navy-medium);
+        transform: translateY(-1px);
+        color: white;
+    }
+
+    .btn-back {
+        background: var(--gray-100);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 12px;
         font-weight: 600;
         color: var(--gray-600);
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        margin-bottom: 6px;
-    }
-
-    .form-control, .form-select {
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 8px 12px;
-        font-size: 13px;
         transition: all 0.2s;
-        background: var(--gray-50);
-    }
-    
-    .form-control[readonly] {
-        background: var(--gray-50);
     }
 
-    /* Payment Amount Input */
-    #total_payment {
-        background: var(--gray-50);
+    .btn-back:hover {
+        background: var(--gold-soft);
+        border-color: var(--gold-primary);
+        color: var(--gold-dark);
+    }
+
+    .btn-view-schedule {
+        background: var(--info);
+        border: none;
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.2s;
+    }
+
+    .btn-view-schedule:hover {
+        background: #2563eb;
+        transform: translateY(-1px);
+        color: white;
+    }
+
+    .btn-assess {
+        background: var(--info);
+        border: none;
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.2s;
+    }
+
+    .btn-assess:hover {
+        background: #2563eb;
+        transform: translateY(-1px);
+        color: white;
+    }
+
+    /* ===== BADGES ===== */
+    .status-pill {
+        display: inline-block;
+        padding: 4px 14px;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 30px;
+    }
+
+    .status-pending { background: #fef3c7; color: #d97706; }
+    .status-approved { background: #dbeafe; color: #1e40af; }
+    .status-active { background: #d1fae5; color: #065f46; }
+    .status-closed { background: #e2e8f0; color: #475569; }
+    .status-declined { background: #fee2e2; color: #dc2626; }
+
+    .badge-paid {
+        background: #d1fae5;
+        color: #065f46;
+        padding: 2px 12px;
+        border-radius: 20px;
+        font-size: 10px;
         font-weight: 600;
     }
 
-    /* Responsive */
+    .badge-unpaid {
+        background: #fef3c7;
+        color: #d97706;
+        padding: 2px 12px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .risk-badge {
+        display: inline-block;
+        padding: 4px 14px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .risk-low { background: #d1fae5; color: #065f46; }
+    .risk-medium { background: #fef3c7; color: #d97706; }
+    .risk-high { background: #fee2e2; color: #dc2626; }
+
+    /* ===== TABLES ===== */
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .table-custom thead th {
+        background: var(--gray-50);
+        color: var(--gray-500);
+        font-weight: 600;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 10px 14px;
+        border-bottom: 2px solid var(--gray-200);
+        text-align: left;
+    }
+
+    .table-custom tbody td {
+        padding: 10px 14px;
+        color: var(--gray-700);
+        border-bottom: 1px solid var(--gray-100);
+        vertical-align: middle;
+    }
+
+    .table-custom tbody tr:hover td {
+        background: var(--gold-soft);
+    }
+
+    .table-custom tbody tr.success td {
+        background: #d1fae5;
+    }
+
+    .table-custom .text-end { text-align: right; }
+    .table-custom .text-center { text-align: center; }
+
+    /* ===== EXPOSURE CARDS ===== */
+    .exposure-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .exposure-card {
+        background: var(--white-bg);
+        border-radius: 12px;
+        padding: 16px;
+        border: 1px solid var(--gray-200);
+        text-align: center;
+        transition: all 0.2s;
+    }
+
+    .exposure-card:hover {
+        border-color: var(--gold-primary);
+    }
+
+    .exposure-card .exposure-label {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--gray-500);
+    }
+
+    .exposure-card .exposure-value {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--navy-dark);
+        margin: 4px 0;
+    }
+
+    .exposure-card small {
+        font-size: 11px;
+        color: var(--gray-400);
+    }
+
+    /* ===== CO-MAKER HEADER ===== */
+    .comaker-header {
+        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        border-radius: 12px;
+        padding: 16px 24px;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    .comaker-header h5 {
+        color: white;
+        margin-bottom: 2px;
+        font-size: 15px;
+    }
+
+    .comaker-header .text-muted {
+        color: rgba(255,255,255,0.7) !important;
+        font-size: 11px;
+    }
+
+    /* ===== ALERT BOX ===== */
+    .alert-box {
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-size: 13px;
+        border-left: 4px solid;
+        margin-bottom: 16px;
+    }
+
+    .alert-box i { margin-right: 8px; }
+
+    .alert-info {
+        background: #dbeafe;
+        border-color: #3b82f6;
+        color: #1e40af;
+    }
+
+    .alert-warning {
+        background: #fef3c7;
+        border-color: #f59e0b;
+        color: #92400e;
+    }
+
+    .alert-success {
+        background: #d1fae5;
+        border-color: #10b981;
+        color: #065f46;
+    }
+
+    .alert-danger {
+        background: #fee2e2;
+        border-color: #ef4444;
+        color: #991b1b;
+    }
+
+    /* ===== SUMMARY STATS ===== */
+    .summary-stats {
+        display: flex;
+        gap: 24px;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--gray-200);
+        font-size: 12px;
+        color: var(--gray-500);
+        flex-wrap: wrap;
+    }
+
+    .summary-stats span i { margin-right: 4px; }
+
+    /* ===== RISK ASSESSMENT - CARDLESS DESIGN ===== */
+
+    /* Metrics Grid */
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .metric-item {
+        background: var(--white-bg);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 16px 20px;
+        text-align: center;
+        transition: all 0.2s;
+    }
+
+    .metric-item:hover {
+        border-color: var(--gold-primary);
+    }
+
+    .metric-item .metric-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+
+    .metric-item .metric-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--gray-800);
+        line-height: 1.2;
+    }
+
+    .metric-item .metric-sub {
+        font-size: 11px;
+        color: var(--gray-400);
+        margin-top: 2px;
+    }
+
+    /* Assessment Row */
+    .assessment-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .assessment-col {
+        display: flex;
+    }
+
+    .recommendation-box {
+        flex: 1;
+        background: #d1fae5;
+        border-left: 4px solid var(--success);
+        border-radius: 12px;
+        padding: 16px 20px;
+        transition: all 0.2s;
+    }
+
+    .recommendation-box .recommendation-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .recommendation-box .recommendation-value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--gray-800);
+        margin: 2px 0;
+    }
+
+    .recommendation-box .recommendation-sub {
+        font-size: 11px;
+        color: var(--gray-500);
+    }
+
+    .assessor-box {
+        flex: 1;
+        background: var(--white-bg);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 16px 20px;
+        transition: all 0.2s;
+    }
+
+    .assessor-box:hover {
+        border-color: var(--gold-primary);
+    }
+
+    .assessor-box .assessor-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--gray-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .assessor-box .assessor-value {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--gray-800);
+        margin: 2px 0;
+    }
+
+    .assessor-box .assessor-date {
+        font-size: 12px;
+        color: var(--gray-400);
+    }
+
+    /* Notes Section */
+    .notes-section {
+        background: var(--white-bg);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+
+    .notes-section .notes-header {
+        padding: 12px 18px;
+        background: var(--gray-50);
+        border-bottom: 1px solid var(--gray-200);
+        font-weight: 600;
+        color: var(--navy-dark);
+        font-size: 13px;
+    }
+
+    .notes-section .notes-header i {
+        margin-right: 8px;
+    }
+
+    .notes-section .notes-body {
+        padding: 14px 18px;
+        font-size: 13px;
+        color: var(--gray-700);
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .notes-section .notes-body i {
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    /* Criteria Box */
+    .criteria-box {
+        background: #dbeafe;
+        border-left: 4px solid #3b82f6;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 13px;
+        color: #1e40af;
+        margin-bottom: 16px;
+    }
+
+    .criteria-box i {
+        margin-right: 8px;
+    }
+
+    /* ===== DATATABLES ===== */
+    .dataTables_wrapper {
+        font-family: 'Inter', sans-serif;
+    }
+
+    .dataTables_filter {
+        float: right;
+        margin-bottom: 16px;
+    }
+
+    .dataTables_filter input {
+        border: 1.5px solid var(--gray-200);
+        border-radius: 8px;
+        padding: 6px 14px;
+        font-size: 13px;
+        width: 220px;
+        transition: all 0.2s;
+    }
+
+    .dataTables_filter input:focus {
+        border-color: var(--gold-primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    .dataTables_paginate {
+        float: right;
+        margin-top: 16px;
+    }
+
+    .dataTables_paginate .paginate_button {
+        padding: 4px 10px !important;
+        margin: 0 2px !important;
+        border-radius: 6px !important;
+        border: 1px solid var(--gray-200) !important;
+        background: var(--white-bg) !important;
+        color: var(--gray-600) !important;
+        font-size: 12px !important;
+    }
+
+    .dataTables_paginate .paginate_button.current {
+        background: var(--gold-primary) !important;
+        border-color: var(--gold-primary) !important;
+        color: var(--navy-dark) !important;
+    }
+
+    .dataTables_paginate .paginate_button:hover {
+        background: var(--gold-soft) !important;
+        border-color: var(--gold-primary) !important;
+        color: var(--gold-dark) !important;
+    }
+
+    .dataTables_info {
+        float: left;
+        font-size: 12px;
+        color: var(--gray-500);
+        margin-top: 16px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .exposure-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+        .metrics-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .assessment-row {
+            grid-template-columns: 1fr;
+        }
+    }
+
     @media (max-width: 768px) {
-        .card-body {
+        .main-card .card-header {
+            padding: 12px 16px;
+        }
+        .main-card .card-header h5 {
+            font-size: 14px;
+        }
+        .main-card .card-body {
             padding: 16px;
         }
-        .attendance-value {
-            font-size: 24px;
+
+        .stats-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
-        .attendance-icon {
-            font-size: 34px;
+        .stat-card {
+            padding: 10px 12px;
         }
-        .table {
-            font-size: 11px;
+        .stat-card .stat-left .stat-value {
+            font-size: 16px;
         }
-        .btn-success, .btn-assess, .btn-generate, .btn-back {
-            width: 100%;
-            margin-top: 10px;
-        }
-        .nav-tabs .nav-link {
-            padding: 8px 12px;
-            font-size: 11px;
-        }
-        .risk-value, .exposure-value {
+        .stat-card .stat-icon {
             font-size: 22px;
         }
+
+        .nav-tabs-custom .nav-link {
+            font-size: 11px;
+            padding: 8px 12px;
+        }
+        .nav-tabs-custom .nav-link i {
+            font-size: 12px;
+        }
+
+        .exposure-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .metrics-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .metric-item {
+            padding: 12px 14px;
+        }
+        .metric-item .metric-value {
+            font-size: 20px;
+        }
+        .recommendation-box {
+            padding: 14px 16px;
+        }
+        .recommendation-box .recommendation-value {
+            font-size: 18px;
+        }
+        .assessor-box {
+            padding: 14px 16px;
+        }
+
         .dataTables_filter {
             float: none;
             text-align: center;
-            margin-bottom: 15px;
         }
         .dataTables_filter input {
             width: 100%;
@@ -717,21 +966,100 @@ echo view('templates/myheader.php');
         .dataTables_info {
             float: none;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+        }
+
+        .info-row {
+            font-size: 12px;
+        }
+        .info-row .label,
+        .info-row .value {
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .stat-card {
+            padding: 8px 10px;
+        }
+        .stat-card .stat-left .stat-value {
+            font-size: 14px;
+        }
+        .stat-card .stat-left .stat-label {
+            font-size: 9px;
+        }
+        .stat-card .stat-left .stat-sub {
+            font-size: 9px;
+        }
+        .stat-card .stat-icon {
+            font-size: 18px;
+        }
+
+        .main-card .card-header {
+            padding: 10px 12px;
+        }
+        .main-card .card-header h5 {
+            font-size: 13px;
+        }
+        .main-card .card-body {
+            padding: 12px;
+        }
+
+        .nav-tabs-custom .nav-link {
+            font-size: 10px;
+            padding: 6px 8px;
+        }
+        .nav-tabs-custom .nav-link i {
+            margin-right: 3px;
+            font-size: 11px;
+        }
+
+        .metrics-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .metric-item {
+            padding: 10px 12px;
+        }
+        .metric-item .metric-value {
+            font-size: 17px;
+        }
+        .metric-item .metric-label {
+            font-size: 9px;
+        }
+        .metric-item .metric-sub {
+            font-size: 9px;
+        }
+        .notes-section .notes-body {
+            font-size: 12px;
+            padding: 10px 14px;
+            flex-wrap: wrap;
+        }
+
+        .table-custom {
+            font-size: 11px;
+        }
+        .table-custom thead th,
+        .table-custom tbody td {
+            padding: 6px 8px;
         }
     }
 </style>
 
-<div class="container-fluid">
-    <div class="row me-myloanprofile-outp-msg mx-0">
-    </div>
+<div class="ps-3 pe-3">
+    <div class="row me-myloanprofile-outp-msg mx-0"></div>
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
-    
-    <div class="row mb-2 mt-2">
+
+    <!-- ===== HEADER ===== -->
+    <div class="row mb-2">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div>
-                    <h4 class="fw-semibold my-3">Loan Profile</h4>
+                    <h4 class="fw-semibold">Loan Profile</h4>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
@@ -758,67 +1086,50 @@ echo view('templates/myheader.php');
     </div>
 
     <?php if(empty($loan_id)): ?>
-        <!-- DASHBOARD VIEW -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="attendance-card">
-                    <div class="card-body">
-                        <div>
-                            <div class="attendance-label">Active Loans</div>
-                            <div class="attendance-value"><?= number_format($activeLoans); ?></div>
-                            <div class="attendance-sub"><?= number_format($totalMembers); ?> Members | <?= number_format($totalLoans); ?> Total</div>
-                        </div>
-                        <i class="ti ti-file-invoice attendance-icon"></i>
-                    </div>
+        <!-- ===== DASHBOARD VIEW ===== -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-label">Active Loans</div>
+                    <div class="stat-value"><?= number_format($activeLoans); ?></div>
+                    <div class="stat-sub"><?= number_format($totalMembers); ?> Members</div>
                 </div>
+                <div class="stat-icon"><i class="ti ti-file-invoice"></i></div>
             </div>
-            <div class="col-md-3">
-                <div class="attendance-card">
-                    <div class="card-body">
-                        <div>
-                            <div class="attendance-label">Outstanding Balance</div>
-                            <div class="attendance-value">₱<?= number_format($totalOutstanding, 2); ?></div>
-                            <div class="attendance-sub">Total remaining balance</div>
-                        </div>
-                        <i class="ti ti-currency-peso attendance-icon"></i>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-label">Outstanding Balance</div>
+                    <div class="stat-value">₱<?= number_format($totalOutstanding, 2); ?></div>
+                    <div class="stat-sub">Total remaining</div>
                 </div>
+                <div class="stat-icon"><i class="ti ti-currency-peso"></i></div>
             </div>
-            <div class="col-md-3">
-                <div class="attendance-card">
-                    <div class="card-body">
-                        <div>
-                            <div class="attendance-label">Daily Collections</div>
-                            <div class="attendance-value">₱<?= number_format($dailyCollections, 2); ?></div>
-                            <div class="attendance-sub"><?= date('M d, Y'); ?></div>
-                        </div>
-                        <i class="ti ti-calendar attendance-icon"></i>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-label">Daily Collections</div>
+                    <div class="stat-value">₱<?= number_format($dailyCollections, 2); ?></div>
+                    <div class="stat-sub"><?= date('M d, Y'); ?></div>
                 </div>
+                <div class="stat-icon"><i class="ti ti-calendar"></i></div>
             </div>
-            <div class="col-md-3">
-                <div class="attendance-card">
-                    <div class="card-body">
-                        <div>
-                            <div class="attendance-label">Active Rate</div>
-                            <div class="attendance-value"><?= number_format(($totalLoans > 0 ? ($activeLoans / $totalLoans * 100) : 0), 1); ?>%</div>
-                            <div class="attendance-sub"><?= number_format($activeLoans); ?> of <?= number_format($totalLoans); ?> active</div>
-                        </div>
-                        <i class="ti ti-chart-bar attendance-icon"></i>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-label">Active Rate</div>
+                    <div class="stat-value"><?= number_format(($totalLoans > 0 ? ($activeLoans / $totalLoans * 100) : 0), 1); ?>%</div>
+                    <div class="stat-sub"><?= number_format($activeLoans); ?> of <?= number_format($totalLoans); ?></div>
                 </div>
+                <div class="stat-icon"><i class="ti ti-chart-bar"></i></div>
             </div>
         </div>
 
-        <!-- Loan List Table -->
-        <div class="card">
+        <!-- ===== LOAN LIST ===== -->
+        <div class="main-card">
             <div class="card-header">
-                <i class="ti ti-list me-2" style="color: var(--gold-primary);"></i>
-                Loan Applications
+                <h5><i class="ti ti-list me-2"></i> Loan Applications</h5>
             </div>
-            <div class="card-body p-3">
+            <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table id="loansTable" class="table mb-0">
+                    <table id="loansTable" class="table-custom">
                         <thead>
                             <tr>
                                 <th>Loan ID</th>
@@ -846,7 +1157,7 @@ echo view('templates/myheader.php');
                                 </td>
                                 <td class="text-center">
                                     <a href="<?= site_url('myloanprofile?meaction=MAIN&loan_id='.$loan['loan_id']); ?>" class="btn btn-primary btn-sm">
-                                        <i class="ti ti-eye"></i> View Profile
+                                        <i class="ti ti-eye"></i> View
                                     </a>
                                 </td>
                             </tr>
@@ -856,229 +1167,188 @@ echo view('templates/myheader.php');
                 </div>
             </div>
         </div>
+
     <?php else: ?>
-        <!-- LOAN PROFILE VIEW -->
-        <!-- Loan Summary Cards -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-muted small text-uppercase mb-1">Member</div>
-                        <h5 class="mb-0"><?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?></h5>
-                        <small class="text-muted">Member #: <?= $member['member_no']; ?></small>
-                    </div>
+        <!-- ===== DETAIL VIEW ===== -->
+
+        <!-- ===== STATS CARDS ===== -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-label">Member</div>
+                    <div class="stat-value" style="font-size:16px;"><?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?></div>
+                    <div class="stat-sub">#<?= $member['member_no']; ?></div>
                 </div>
+                <div class="stat-icon"><i class="ti ti-user"></i></div>
             </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-muted small text-uppercase mb-1">Loan Amount</div>
-                        <h5 class="mb-0 text-success">₱<?= number_format((float)$loan_amount, 2); ?></h5>
-                        <small class="text-muted"><?= $loan_type; ?></small>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-label">Loan Amount</div>
+                    <div class="stat-value" style="color: var(--success);">₱<?= number_format((float)$loan_amount, 2); ?></div>
+                    <div class="stat-sub"><?= $loan_type; ?></div>
                 </div>
+                <div class="stat-icon"><i class="ti ti-cash"></i></div>
             </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-muted small text-uppercase mb-1">Outstanding Balance</div>
-                        <h5 class="mb-0 text-danger">₱<?= number_format($outstanding, 2); ?></h5>
-                        <small class="text-muted">Remaining to pay</small>
-                    </div>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-label">Outstanding Balance</div>
+                    <div class="stat-value" style="color: var(--danger);">₱<?= number_format($outstanding, 2); ?></div>
+                    <div class="stat-sub">Remaining to pay</div>
                 </div>
+                <div class="stat-icon"><i class="ti ti-currency-peso"></i></div>
             </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-muted small text-uppercase mb-1">Loan Status</div>
-                        <h5 class="mb-0">
-                            <span class="status-pill 
-                                <?= $status == 'Pending' ? 'status-pending' : ($status == 'Approved' ? 'status-approved' : ($status == 'Active' ? 'status-active' : ($status == 'Closed' ? 'status-closed' : 'status-declined'))) ?>">
-                                <?= esc($status); ?>
-                            </span>
-                        </h5>
-                        <small class="text-muted">Term: <?= (int)$term_months; ?> months</small>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-label">Loan Status</div>
+                    <div>
+                        <span class="status-pill 
+                            <?= $status == 'Pending' ? 'status-pending' : ($status == 'Approved' ? 'status-approved' : ($status == 'Active' ? 'status-active' : ($status == 'Closed' ? 'status-closed' : 'status-declined'))) ?>">
+                            <?= esc($status); ?>
+                        </span>
                     </div>
+                    <div class="stat-sub"><?= (int)$term_months; ?> months term</div>
                 </div>
+                <div class="stat-icon"><i class="ti ti-flag"></i></div>
             </div>
         </div>
 
-        <!-- Main Tabs -->
-        <div class="card">
-            <div class="card-body p-0">
-                <ul class="nav nav-tabs" id="loanProfileTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
+        <!-- ===== MAIN CARD ===== -->
+        <div class="main-card">
+            <div class="card-header">
+                <h5><i class="ti ti-file-description me-2"></i> Loan Details</h5>
+            </div>
+            <div class="card-body">
+                <!-- ===== TABS ===== -->
+                <ul class="nav-tabs-custom" id="loanProfileTabs" role="tablist">
+                    <li class="nav-item">
                         <button class="nav-link active" id="loan-details-tab" data-bs-toggle="tab" data-bs-target="#loan-details" type="button" role="tab">
-                            <i class="ti ti-file-description"></i> Loan Details
+                            <i class="ti ti-file-description"></i> Loan Details & Amortization
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item">
                         <button class="nav-link" id="comaker-exposure-tab" data-bs-toggle="tab" data-bs-target="#comaker-exposure" type="button" role="tab">
-                            <i class="ti ti-handshake"></i> Co-Maker Exposure
+                            <i class="ti ti-handshake"></i> Co-Maker
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item">
                         <button class="nav-link" id="credit-assessment-tab" data-bs-toggle="tab" data-bs-target="#credit-assessment" type="button" role="tab">
-                            <i class="ti ti-shield"></i> Credit & Risk Assessment
+                            <i class="ti ti-shield"></i> Risk Assessment
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item">
                         <button class="nav-link" id="payment-history-tab" data-bs-toggle="tab" data-bs-target="#payment-history" type="button" role="tab">
-                            <i class="ti ti-history"></i> Payment History
+                            <i class="ti ti-history"></i> Payments
                         </button>
                     </li>
                 </ul>
-                
-                <div class="tab-content" id="loanProfileTabsContent">
+
+                <div class="tab-content">
                     
-                    <!-- TAB 1: LOAN DETAILS with Payment -->
+                    <!-- ===== TAB 1: LOAN DETAILS & AMORTIZATION ===== -->
                     <div class="tab-pane fade show active" id="loan-details" role="tabpanel">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="card mb-3">
-                                    <div class="card-header">Loan Information</div>
-                                    <div class="card-body">
-                                        <p><strong>Loan Type:</strong> <?= esc($loan_type); ?></p>
-                                        <p><strong>Loan Amount:</strong> ₱<?= number_format((float)$loan_amount, 2); ?></p>
-                                        <p><strong>Interest Rate:</strong> <?= number_format((float)$interest_rate, 2); ?>%</p>
-                                        <p><strong>Term:</strong> <?= (int)$term_months; ?> months</p>
-                                        <p><strong>Start Date:</strong> <?= date('F d, Y', strtotime($start_date)); ?></p>
-                                        <p><strong>Maturity Date:</strong> <?= date('F d, Y', strtotime($maturity_date)); ?></p>
-                                        <p><strong>Co-maker/Guarantor:</strong> <?= !empty($comaker_name) ? htmlspecialchars($comaker_name) : 'None' ?></p>
-                                    </div>
+                            <div class="col-md-6">
+                                <h6 class="section-title"><i class="ti ti-info-circle"></i> Loan Information</h6>
+                                <div class="info-grid">
+                                    <div class="info-row"><span class="label">Loan Type</span><span class="value"><?= esc($loan_type); ?></span></div>
+                                    <div class="info-row"><span class="label">Loan Amount</span><span class="value">₱<?= number_format((float)$loan_amount, 2); ?></span></div>
+                                    <div class="info-row"><span class="label">Interest Rate</span><span class="value"><?= number_format((float)$interest_rate, 2); ?>%</span></div>
+                                    <div class="info-row"><span class="label">Term</span><span class="value"><?= (int)$term_months; ?> months</span></div>
+                                    <div class="info-row"><span class="label">Start Date</span><span class="value"><?= date('F d, Y', strtotime($start_date)); ?></span></div>
+                                    <div class="info-row"><span class="label">Maturity Date</span><span class="value"><?= date('F d, Y', strtotime($maturity_date)); ?></span></div>
+                                    <div class="info-row"><span class="label">Co-maker</span><span class="value"><?= !empty($comaker_name) ? htmlspecialchars($comaker_name) : 'None' ?></span></div>
+                                    <div class="info-row"><span class="label">Outstanding</span><span class="value" style="color: var(--danger);">₱<?= number_format($outstanding, 2); ?></span></div>
                                 </div>
                             </div>
-                            
-                            <div class="col-md-8">
-                                <!-- Make Payment Section -->
-                                <div class="card mb-3">
-                                    <div class="card-header">Make Payment</div>
-                                    <div class="card-body">
-                                        <form class="myloanprofile-validation" id="paymentForm">
-                                            <input type="hidden" name="loan_id" id="loan_id" value="<?= $loan_id; ?>">
-                                            <input type="hidden" name="member_id" id="member_id" value="<?= $member_id; ?>">
-                                            <input type="hidden" name="interest" id="interest">
-                                            <input type="hidden" name="principal" id="principal">
-                                            <input type="hidden" name="ammortization_id" id="ammortization_id">
-                                            
-                                            <div class="row">
-                                                <div class="col-md-6 mb-3">
-                                                    <label class="form-label">Payment Date</label>
-                                                    <input type="date" name="payment_date" id="payment_date" class="form-control form-control-sm" required>
-                                                </div>
-                                                <div class="col-md-6 mb-3">
-                                                    <label class="form-label">Amount</label>
-                                                    <input type="number" step="0.01" name="amount" id="total_payment" class="form-control form-control-sm" readonly style="background: var(--gray-50);" required>
-                                                </div>
-                                            </div>
-                                            
-                                            <div id="selectedAmortizationInfo" style="display: none;" class="mb-3">
-                                                <div class="alert alert-info p-2 mb-0">
-                                                    <i class="ti ti-info-circle"></i> 
-                                                    <strong>Selected Payment:</strong> Period <span id="info_period">-</span> | 
-                                                    Principal: ₱<span id="info_principal">0.00</span> | 
-                                                    Interest: ₱<span id="info_interest">0.00</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-end">
-                                                <button type="submit" class="btn btn-success" id="payButton" disabled>
-                                                    <i class="ti ti-credit-card"></i> Pay Amortization
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                
-                                <!-- Amortization Schedule -->
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                            <div>
-                                                <i class="ti ti-chart-bar me-2" style="color: var(--gold-primary);"></i>
-                                                Amortization Schedule
-                                            </div>
-                                            <button type="button" id="generateAmortization" class="btn-generate">
-                                                <i class="ti ti-calculator me-1"></i> Generate Schedule
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body table-responsive">
-                                        <table class="table mb-0 ammortization-list" id="amortizationTable">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-center">#</th>
-                                                    <th>Payment Date</th>
-                                                    <th class="text-end">Beginning Balance</th>
-                                                    <th class="text-end">Interest</th>
-                                                    <th class="text-end">Principal</th>
-                                                    <th class="text-end">Payment</th>
-                                                    <th class="text-end">Ending Balance</th>
-                                                    <th class="text-center">Status</th>
-                                                    <th class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="amortizationTableBody">
-                                                <?php if(!empty($amortizationSched)): ?>
-                                                    <?php foreach($amortizationSched as $row): 
-                                                        $isPaid = isset($row['payment_status']) && $row['payment_status'] === 'Paid';
-                                                    ?>
-                                                        <tr class="<?= $isPaid ? 'table-success' : ''; ?>">
-                                                            <td class="text-center"><?= (int)$row['period']; ?></td>
-                                                            <td class="text-center"><?= date('m/d/Y', strtotime($row['payment_date'])); ?></td>
-                                                            <td class="text-end">₱<?= number_format((float)$row['beginning_balance'], 2); ?></td>
-                                                            <td class="text-end">₱<?= number_format((float)$row['interest'], 2); ?></td>
-                                                            <td class="text-end">₱<?= number_format((float)$row['principal'], 2); ?></td>
-                                                            <td class="text-end">₱<?= number_format((float)$row['payment'], 2); ?></td>
-                                                            <td class="text-end">₱<?= number_format((float)$row['ending_balance'], 2); ?></td>
-                                                            <td class="text-center">
-                                                                <?php if($isPaid): ?>
-                                                                    <span class="badge bg-success">Paid</span>
-                                                                <?php else: ?>
-                                                                    <span class="badge bg-secondary">Unpaid</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <?php if(!$isPaid): ?>
-                                                                    <button type="button" 
-                                                                            class="btn btn-primary btn-sm select-payment" 
-                                                                            data-period="<?= (int)$row['period']; ?>"
-                                                                            data-ammortization-id="<?= (int)$row['ammortization_id']; ?>"
-                                                                            data-payment-date="<?= date('Y-m-d', strtotime($row['payment_date'])); ?>"
-                                                                            data-amount="<?= (float)$row['payment']; ?>"
-                                                                            data-interest="<?= (float)$row['interest']; ?>"
-                                                                            data-principal="<?= (float)$row['principal']; ?>">
-                                                                        <i class="ti ti-credit-card"></i> Pay
-                                                                    </button>
-                                                                <?php else: ?>
-                                                                    <span class="text-muted">Paid</span>
-                                                                <?php endif; ?>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endforeach; ?>
-                                                <?php else: ?>
-                                                    <tr>
-                                                        <td colspan="9" class="text-center text-muted py-3">
-                                                            No amortization schedule generated yet. Click "Generate Schedule" button.
-                                                        </td>
-                                                    </tr>
-                                                <?php endif; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            <div class="col-md-6">
+                                <h6 class="section-title"><i class="ti ti-user"></i> Member Information</h6>
+                                <div class="info-grid">
+                                    <div class="info-row"><span class="label">Name</span><span class="value"><?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?></span></div>
+                                    <div class="info-row"><span class="label">Member No.</span><span class="value"><?= $member['member_no']; ?></span></div>
+                                    <div class="info-row"><span class="label">Contact</span><span class="value"><?= $member['contact_number'] ?? 'N/A'; ?></span></div>
+                                    <div class="info-row"><span class="label">Email</span><span class="value"><?= $member['email'] ?? 'N/A'; ?></span></div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="divider"></div>
+
+                        <!-- ===== AMORTIZATION SCHEDULE ===== -->
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                                <h6 class="section-title mb-0"><i class="ti ti-chart-bar"></i> Amortization Schedule</h6>
+                                <a href="<?=site_url('mypaymentschedule?loan_id='.$loan_id);?>" class="btn-view-schedule">
+                                    <i class="ti ti-calculator me-1"></i> Manage Schedule
+                                </a>
+                            </div>
+
+                            <?php if(!empty($amortizationSched)): ?>
+                            <div class="table-responsive">
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th>Payment Date</th>
+                                            <th class="text-end">Beginning Bal.</th>
+                                            <th class="text-end">Interest</th>
+                                            <th class="text-end">Principal</th>
+                                            <th class="text-end">Payment</th>
+                                            <th class="text-end">Ending Bal.</th>
+                                            <th class="text-center">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $totalPaid = 0;
+                                        $totalUnpaid = 0;
+                                        foreach($amortizationSched as $row): 
+                                            $isPaid = isset($row['payment_status']) && strtolower($row['payment_status']) === 'paid';
+                                            if($isPaid) $totalPaid++; else $totalUnpaid++;
+                                        ?>
+                                        <tr class="<?= $isPaid ? 'success' : ''; ?>">
+                                            <td class="text-center"><?= (int)$row['period']; ?></td>
+                                            <td><?= date('m/d/Y', strtotime($row['payment_date'])); ?></td>
+                                            <td class="text-end">₱<?= number_format((float)$row['beginning_balance'], 2); ?></td>
+                                            <td class="text-end">₱<?= number_format((float)$row['interest'], 2); ?></td>
+                                            <td class="text-end">₱<?= number_format((float)$row['principal'], 2); ?></td>
+                                            <td class="text-end">₱<?= number_format((float)$row['payment'], 2); ?></td>
+                                            <td class="text-end">₱<?= number_format((float)$row['ending_balance'], 2); ?></td>
+                                            <td class="text-center">
+                                                <span class="<?= $isPaid ? 'badge-paid' : 'badge-unpaid' ?>">
+                                                    <?= $isPaid ? 'Paid' : 'Unpaid' ?>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="summary-stats">
+                                <span><i class="ti ti-check-circle text-success"></i> Paid: <?= $totalPaid ?></span>
+                                <span><i class="ti ti-clock text-warning"></i> Unpaid: <?= $totalUnpaid ?></span>
+                                <span><i class="ti ti-file"></i> Total: <?= count($amortizationSched) ?> periods</span>
+                                <span class="text-success">Total Paid: ₱<?= number_format($loan_amount - $outstanding, 2) ?></span>
+                                <span class="text-danger">Remaining: ₱<?= number_format($outstanding, 2) ?></span>
+                            </div>
+                            <?php else: ?>
+                            <div class="text-center py-4 text-muted border rounded-3">
+                                <i class="ti ti-calculator fs-1 mb-3 d-block"></i>
+                                <p class="mb-2">No amortization schedule generated yet.</p>
+                                <a href="<?=site_url('mypaymentschedule?loan_id='.$loan_id);?>" class="btn-view-schedule">
+                                    <i class="ti ti-calculator me-1"></i> Generate Schedule
+                                </a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                    
-                    <!-- TAB 2: CO-MAKER EXPOSURE -->
+
+                    <!-- ===== TAB 2: CO-MAKER ===== -->
                     <div class="tab-pane fade" id="comaker-exposure" role="tabpanel">
-                        <!-- Co-maker Information Card -->
-                        <div class="comaker-info-card">
-                            <div class="row">
+                        <div class="comaker-header">
+                            <div class="row align-items-center">
                                 <div class="col-md-8">
                                     <small class="text-muted">CO-MAKER / GUARANTOR</small>
-                                    <h5 class="mb-1"><?= !empty($comaker_name) ? htmlspecialchars($comaker_name) : 'No Co-maker Assigned' ?></h5>
+                                    <h5><?= !empty($comaker_name) ? htmlspecialchars($comaker_name) : 'No Co-maker Assigned' ?></h5>
                                     <p class="mb-0">Member #: <?= !empty($comaker_no) ? $comaker_no : '—' ?></p>
                                 </div>
                                 <div class="col-md-4 text-end">
@@ -1091,262 +1361,206 @@ echo view('templates/myheader.php');
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Exposure Summary Cards -->
-                        <div class="row mb-4">
-                            <div class="col-md-4 mb-3">
-                                <div class="exposure-card text-center">
-                                    <div class="exposure-label">Total Exposure</div>
-                                    <div class="exposure-value">₱ <?= $mock_comaker_exposure['total_exposure'] ?></div>
-                                    <small class="text-muted">Amount co-maker is liable for</small>
-                                </div>
+
+                        <div class="exposure-grid">
+                            <div class="exposure-card">
+                                <div class="exposure-label">Total Exposure</div>
+                                <div class="exposure-value">₱ <?= $mock_comaker_exposure['total_exposure'] ?></div>
+                                <small>Amount liable for</small>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="exposure-card text-center">
-                                    <div class="exposure-label">Active Co-maker Loans</div>
-                                    <div class="exposure-value"><?= $mock_comaker_exposure['active_loans_as_comaker'] ?></div>
-                                    <small class="text-muted">Other loans where this member is co-maker</small>
-                                </div>
+                            <div class="exposure-card">
+                                <div class="exposure-label">Active Co-maker Loans</div>
+                                <div class="exposure-value"><?= $mock_comaker_exposure['active_loans_as_comaker'] ?></div>
+                                <small>Other loans as co-maker</small>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <div class="exposure-card text-center">
-                                    <div class="exposure-label">Total Co-maker Obligations</div>
-                                    <div class="exposure-value">₱ <?= $mock_comaker_exposure['total_comaker_obligations'] ?></div>
-                                    <small class="text-muted">Total amount guaranteed</small>
-                                </div>
+                            <div class="exposure-card">
+                                <div class="exposure-label">Total Obligations</div>
+                                <div class="exposure-value">₱ <?= $mock_comaker_exposure['total_comaker_obligations'] ?></div>
+                                <small>Total guaranteed amount</small>
                             </div>
                         </div>
-                        
-                        <!-- Exposure Breakdown -->
-                        <div class="row mb-4">
-                            <div class="col-md-6 mb-3">
-                                <div class="card">
-                                    <div class="card-header">Current Loan Exposure</div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="main-card">
+                                    <div class="card-header">
+                                        <h5><i class="ti ti-currency-peso me-2" style="color: var(--gold-primary);"></i> Current Loan Exposure</h5>
+                                    </div>
                                     <div class="card-body">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between mb-1">
-                                                <span>Loan Amount:</span>
-                                                <strong>₱ <?= number_format($loan_amount, 2) ?></strong>
-                                            </div>
-                                            <div class="d-flex justify-content-between mb-1">
-                                                <span>Outstanding Balance:</span>
-                                                <strong class="text-danger">₱ <?= number_format($outstanding, 2) ?></strong>
-                                            </div>
-                                            <div class="d-flex justify-content-between mb-1">
-                                                <span>Co-maker Exposure Percentage:</span>
-                                                <strong><?= $mock_comaker_exposure['exposure_percentage'] ?>%</strong>
-                                            </div>
+                                        <div class="info-grid">
+                                            <div class="info-row"><span class="label">Loan Amount</span><span class="value">₱ <?= number_format($loan_amount, 2) ?></span></div>
+                                            <div class="info-row"><span class="label">Outstanding</span><span class="value" style="color: var(--danger);">₱ <?= number_format($outstanding, 2) ?></span></div>
+                                            <div class="info-row"><span class="label">Exposure %</span><span class="value"><?= $mock_comaker_exposure['exposure_percentage'] ?>%</span></div>
                                         </div>
-                                        <div class="progress mb-3" style="height: 8px;">
+                                        <div class="progress mt-2" style="height: 6px;">
                                             <div class="progress-bar bg-danger" role="progressbar" style="width: <?= $mock_comaker_exposure['exposure_percentage'] ?>%;"></div>
                                         </div>
-                                        <div class="info-alert small mb-0" style="background: #fef3c7;">
-                                            <i class="ti ti-alert-triangle"></i>
-                                            <span>As co-maker, you are jointly and severally liable for the full outstanding balance of ₱ <?= number_format($outstanding, 2) ?></span>
+                                        <div class="alert-box alert-warning mt-3 mb-0">
+                                            <i class="ti ti-alert-triangle"></i> Jointly liable for ₱ <?= number_format($outstanding, 2) ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="card">
-                                    <div class="card-header">Co-maker Performance Metrics</div>
+                            <div class="col-md-6">
+                                <div class="main-card">
+                                    <div class="card-header">
+                                        <h5><i class="ti ti-chart-bar me-2" style="color: var(--gold-primary);"></i> Performance Metrics</h5>
+                                    </div>
                                     <div class="card-body">
-                                        <div class="d-flex justify-content-between mb-3">
-                                            <span>Payment Performance:</span>
-                                            <strong class="<?= $mock_comaker_exposure['payment_performance'] >= 80 ? 'text-success' : ($mock_comaker_exposure['payment_performance'] >= 50 ? 'text-warning' : 'text-danger') ?>">
-                                                <?= $mock_comaker_exposure['payment_performance'] ?>% Paid
-                                            </strong>
+                                        <div class="info-grid">
+                                            <div class="info-row">
+                                                <span class="label">Payment Performance</span>
+                                                <span class="value <?= $mock_comaker_exposure['payment_performance'] >= 80 ? 'text-success' : ($mock_comaker_exposure['payment_performance'] >= 50 ? 'text-warning' : 'text-danger') ?>">
+                                                    <?= $mock_comaker_exposure['payment_performance'] ?>%
+                                                </span>
+                                            </div>
+                                            <div class="info-row">
+                                                <span class="label">Risk Contribution</span>
+                                                <span class="value"><?= $mock_comaker_exposure['risk_contribution'] ?></span>
+                                            </div>
+                                            <div class="info-row">
+                                                <span class="label">Co-maker Since</span>
+                                                <span class="value"><?= date('M d, Y', strtotime($start_date)) ?></span>
+                                            </div>
                                         </div>
-                                        <div class="progress mb-3" style="height: 8px;">
+                                        <div class="progress mt-2" style="height: 6px;">
                                             <div class="progress-bar bg-success" role="progressbar" style="width: <?= $mock_comaker_exposure['payment_performance'] ?>%;"></div>
                                         </div>
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <span>Risk Contribution:</span>
-                                            <strong class="<?= $mock_comaker_exposure['risk_contribution'] == 'Low' ? 'text-success' : ($mock_comaker_exposure['risk_contribution'] == 'Medium' ? 'text-warning' : 'text-danger') ?>">
-                                                <?= $mock_comaker_exposure['risk_contribution'] ?>
-                                            </strong>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <span>Co-maker Since:</span>
-                                            <strong><?= date('M d, Y', strtotime($start_date)) ?></strong>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Other Loans Where This Member is Co-maker -->
-                        <div class="card">
+
+                        <?php if(!empty($otherLoansAsComaker)): ?>
+                        <div class="main-card mt-3">
                             <div class="card-header">
-                                <i class="ti ti-handshake me-2"></i>
-                                Other Loans Where This Member is Co-maker
+                                <h5><i class="ti ti-handshake me-2" style="color: var(--gold-primary);"></i> Other Loans as Co-maker</h5>
                             </div>
-                            <div class="card-body table-responsive">
-                                <?php if(!empty($otherLoansAsComaker)): ?>
-                                <table class="table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Loan ID</th>
-                                            <th>Borrower</th>
-                                            <th>Loan Amount</th>
-                                            <th>Outstanding Balance</th>
-                                            <th>Status</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach($otherLoansAsComaker as $other): ?>
-                                        <tr>
-                                            <td><?= $other['loan_id'] ?></td>
-                                            <td><?= $other['borrower'] ?></td>
-                                            <td class="text-end">₱ <?= number_format($other['loan_amount'], 2) ?></td>
-                                            <td class="text-end text-danger">₱ <?= number_format($other['outstanding'], 2) ?></td>
-                                            <td>
-                                                <span class="status-pill <?= $other['status'] == 'Active' ? 'status-active' : 'status-pending' ?>">
-                                                    <?= $other['status'] ?>
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="<?= site_url('myloanprofile?meaction=MAIN&loan_id='.$other['loan_id']); ?>" class="btn btn-primary btn-sm">
-                                                    <i class="ti ti-eye"></i> View
-                                                </a>
-                                            </td>
-                                        </table>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                                <?php else: ?>
-                                <div class="text-center py-3 text-muted">
-                                    <i class="ti ti-handshake fs-2 mb-2 d-block"></i>
-                                    This member is not a co-maker for any other loans.
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table-custom">
+                                        <thead>
+                                            <tr>
+                                                <th>Loan ID</th>
+                                                <th>Borrower</th>
+                                                <th class="text-end">Amount</th>
+                                                <th class="text-end">Outstanding</th>
+                                                <th>Status</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($otherLoansAsComaker as $other): ?>
+                                            <tr>
+                                                <td><?= $other['loan_id'] ?></td>
+                                                <td><?= $other['borrower'] ?></td>
+                                                <td class="text-end">₱ <?= number_format($other['loan_amount'], 2) ?></td>
+                                                <td class="text-end text-danger">₱ <?= number_format($other['outstanding'], 2) ?></td>
+                                                <td><span class="status-pill <?= $other['status'] == 'Active' ? 'status-active' : 'status-pending' ?>"><?= $other['status'] ?></span></td>
+                                                <td class="text-center">
+                                                    <a href="<?= site_url('myloanprofile?meaction=MAIN&loan_id='.$other['loan_id']); ?>" class="btn btn-primary btn-sm"><i class="ti ti-eye"></i></a>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <?php endif; ?>
                             </div>
                         </div>
-                        
-                        <!-- Accountability Note -->
-                        <div class="info-alert mt-3" style="background: #fee2e2; border-left-color: #dc2626;">
-                            <i class="ti ti-alert-triangle" style="color: #dc2626;"></i>
-                            <span>
-                                <strong>⚠️ Co-maker Accountability Notice:</strong><br>
-                                • As a co-maker/guarantor, you are equally responsible for loan repayment.<br>
-                                • If the borrower defaults, the cooperative may demand payment from you.<br>
-                                • Your credit standing and future loan applications may be affected.<br>
-                                • Total exposure across all loans should not exceed your payment capacity.
-                            </span>
+                        <?php endif; ?>
+
+                        <div class="alert-box alert-danger mt-3">
+                            <i class="ti ti-alert-triangle"></i>
+                            <strong>Accountability Notice:</strong> As co-maker, you are equally responsible for loan repayment.
                         </div>
                     </div>
-                    
-                    <!-- TAB 3: CREDIT & RISK ASSESSMENT -->
+
+                    <!-- ===== TAB 3: RISK ASSESSMENT - CARDLESS ===== -->
                     <div class="tab-pane fade" id="credit-assessment" role="tabpanel">
-                        <div class="info-alert mb-4" style="background: #dbeafe; border-left-color: #3b82f6;">
-                            <i class="ti ti-info-circle" style="color: #3b82f6;"></i>
-                            <span>
-                                <strong>📋 Assessment Workflow Status:</strong><br>
-                                <?php
-                                if($status == 'Pending') {
-                                    echo '🔍 <strong>Step 1: Credit Assessment Required</strong> - Credit assessment is in progress.';
-                                } elseif($status == 'Approved') {
-                                    echo '✅ <strong>Step 2: Assessment Complete</strong> - Credit assessment done. Loan approved.';
-                                } elseif($status == 'Active') {
-                                    echo '💰 <strong>Step 3: Loan Disbursed</strong> - Loan is active and being paid.';
-                                } elseif($status == 'Closed') {
-                                    echo '🏁 <strong>Step 4: Loan Closed</strong> - Loan has been fully paid.';
-                                } elseif($status == 'Declined') {
-                                    echo '❌ <strong>Loan Declined</strong> - Application was declined.';
-                                }
-                                ?>
-                            </span>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-md-3 mb-3">
-                                <div class="risk-card">
-                                    <div class="risk-label">Credit Score</div>
-                                    <div class="risk-value" id="mock_credit_score">85</div>
-                                    <small class="text-muted">Out of 100 points</small>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="risk-card">
-                                    <div class="risk-label">Risk Rating</div>
-                                    <div class="risk-value">
-                                        <span class="risk-badge risk-low" id="mock_risk_badge">Low</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="risk-card">
-                                    <div class="risk-label">Debt-to-Income Ratio</div>
-                                    <div class="risk-value" id="mock_dti">28.0%</div>
-                                    <small class="text-muted">Ideal: ≤ 40%</small>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="risk-card">
-                                    <div class="risk-label">Payment Capacity</div>
-                                    <div class="risk-value" id="mock_capacity">₱ 25,000.00</div>
-                                    <small class="text-muted">Monthly disposable income</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-md-6 mb-3">
-                                <div class="risk-card recommend-approve" style="padding: 15px; text-align: left;" id="mock_recommendation_card">
-                                    <div class="risk-label">Recommendation</div>
-                                    <div class="fw-semibold fs-5" style="color: var(--navy-dark);" id="mock_recommendation">
-                                        Approve
-                                    </div>
-                                    <small class="text-muted">Credit Committee Decision</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="risk-card" style="padding: 15px; text-align: left;">
-                                    <div class="risk-label">Assessed By / Date</div>
-                                    <div class="fw-semibold fs-6" style="color: var(--navy-dark);" id="mock_assessed_by">
-                                        Juan Dela Cruz
-                                    </div>
-                                    <small class="text-muted" id="mock_assessment_date"><?= date('F d, Y') ?></small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h6 class="fw-semibold mb-3" style="color: var(--navy-dark);">
-                                <i class="ti ti-clipboard me-2" style="color: var(--gold-primary);"></i>
-                                Risk Assessment Notes
-                            </h6>
-                            <div class="info-alert" id="mock_notes">
-                                <i class="ti ti-file-text"></i>
-                                <span>Excellent credit standing. Member has consistent savings and no delinquent records. Strong payment capacity.</span>
-                            </div>
-                        </div>
-
-                        <div class="info-alert mt-3">
+                        <!-- Status Alert -->
+                        <div class="alert-box alert-info">
                             <i class="ti ti-info-circle"></i>
-                            <span>
-                                <strong>📊 Credit Scoring Criteria:</strong><br>
-                                • <strong>80-100 points</strong>: Excellent - Low risk, recommend approval<br>
-                                • <strong>60-79 points</strong>: Good - Moderate risk, may need co-maker<br>
-                                • <strong>40-59 points</strong>: Fair - High risk, requires review<br>
-                                • <strong>Below 40 points</strong>: Poor - High risk, recommend decline
-                            </span>
+                            <?php
+                            if($status == 'Pending') echo '🔍 <strong>Step 1:</strong> Credit assessment in progress.';
+                            elseif($status == 'Approved') echo '✅ <strong>Step 2:</strong> Assessment complete. Loan approved.';
+                            elseif($status == 'Active') echo '💰 <strong>Step 3:</strong> Loan active and being paid.';
+                            elseif($status == 'Closed') echo '🏁 <strong>Step 4:</strong> Loan fully paid and closed.';
+                            elseif($status == 'Declined') echo '❌ <strong>Loan Declined.</strong>';
+                            ?>
                         </div>
-                        
-                        <div class="row mt-4">
-                            <div class="col-sm-12 text-end">
-                                <button type="button" class="btn-assess" id="refreshAssessmentBtn">
-                                    <i class="ti ti-refresh me-1"></i> Refresh Assessment Data (Mockup)
-                                </button>
+
+                        <!-- Metrics Grid -->
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-label">Credit Score</div>
+                                <div class="metric-value" id="mock_credit_score">85</div>
+                                <div class="metric-sub">/ 100</div>
                             </div>
+                            <div class="metric-item">
+                                <div class="metric-label">Risk Rating</div>
+                                <div class="metric-value"><span class="risk-badge risk-low" id="mock_risk_badge">Low</span></div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-label">Debt-to-Income</div>
+                                <div class="metric-value" id="mock_dti">28.0%</div>
+                                <div class="metric-sub">Ideal ≤ 40%</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-label">Payment Capacity</div>
+                                <div class="metric-value" id="mock_capacity">₱25,000</div>
+                                <div class="metric-sub">Monthly disposable</div>
+                            </div>
+                        </div>
+
+                        <!-- Recommendation & Assessor -->
+                        <div class="assessment-row">
+                            <div class="assessment-col">
+                                <div class="recommendation-box" id="mock_recommendation_card">
+                                    <div class="recommendation-label">Recommendation</div>
+                                    <div class="recommendation-value" id="mock_recommendation">Approve</div>
+                                    <div class="recommendation-sub">Credit Committee Decision</div>
+                                </div>
+                            </div>
+                            <div class="assessment-col">
+                                <div class="assessor-box">
+                                    <div class="assessor-label">Assessed By / Date</div>
+                                    <div class="assessor-value" id="mock_assessed_by">Juan Dela Cruz</div>
+                                    <div class="assessor-date" id="mock_assessment_date"><?= date('F d, Y') ?></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Assessment Notes -->
+                        <div class="notes-section">
+                            <div class="notes-header">
+                                <i class="ti ti-clipboard" style="color: var(--gold-primary);"></i>
+                                Assessment Notes
+                            </div>
+                            <div class="notes-body" id="mock_notes">
+                                <i class="ti ti-file-text" style="color: var(--gold-primary);"></i>
+                                <span>Excellent credit standing. Member has consistent savings and no delinquent records.</span>
+                            </div>
+                        </div>
+
+                        <!-- Scoring Criteria -->
+                        <div class="criteria-box">
+                            <i class="ti ti-info-circle"></i>
+                            <strong>Credit Scoring:</strong> 80-100 = Low risk | 60-79 = Moderate | 40-59 = High risk | Below 40 = Poor
+                        </div>
+
+                        <!-- Refresh Button -->
+                        <div class="text-end mt-3">
+                            <button type="button" class="btn-assess" id="refreshAssessmentBtn">
+                                <i class="ti ti-refresh me-1"></i> Refresh (Mockup)
+                            </button>
                         </div>
                     </div>
-                    
-                    <!-- TAB 4: PAYMENT HISTORY -->
+
+                    <!-- ===== TAB 4: PAYMENTS ===== -->
                     <div class="tab-pane fade" id="payment-history" role="tabpanel">
+                        <?php if(!empty($payments)): ?>
                         <div class="table-responsive">
-                            <table class="table mb-0">
+                            <table class="table-custom">
                                 <thead>
                                     <tr>
                                         <th>Date</th>
@@ -1355,33 +1569,34 @@ echo view('templates/myheader.php');
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if(!empty($payments)): ?>
-                                        <?php foreach($payments as $pay): ?>
-                                            <tr>
-                                                <td><?= date('m/d/Y', strtotime($pay['payment_date'])); ?></td>
-                                                <td class="text-end">₱<?= number_format((float)$pay['total_payment'], 2); ?></td>
-                                                <td><?= esc($pay['created_by']); ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <tr>
-                                            <td colspan="3" class="text-center text-muted py-3">No payments yet</span></td>
-                                        </tr>
-                                    <?php endif; ?>
+                                    <?php foreach($payments as $pay): ?>
+                                    <tr>
+                                        <td><?= date('m/d/Y', strtotime($pay['payment_date'])); ?></td>
+                                        <td class="text-end">₱<?= number_format((float)$pay['total_payment'], 2); ?></td>
+                                        <td><?= esc($pay['created_by']); ?></td>
+                                    </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
+                        <?php else: ?>
+                        <div class="text-center py-4 text-muted">
+                            <i class="ti ti-credit-card fs-2 mb-2 d-block"></i>
+                            No payments recorded yet.
+                        </div>
+                        <?php endif; ?>
                     </div>
-                </div>
-            </div>
-        </div>
+
+                </div><!-- /tab-content -->
+            </div><!-- /card-body -->
+        </div><!-- /main-card -->
+
     <?php endif; ?>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="<?=base_url('assets/js/loan-availment/myloanprofile.js?v=1');?>"></script>
 
 <script>
 $(document).ready(function () {
@@ -1390,8 +1605,8 @@ $(document).ready(function () {
             pageLength: 10,
             lengthChange: true,
             order: [[0, 'desc']],
-            language: { 
-                search: "Search Loan:",
+            language: {
+                search: "Search:",
                 info: "Showing _START_ to _END_ of _TOTAL_ loans",
                 infoEmpty: "No loans found",
                 lengthMenu: "Show _MENU_ loans"
@@ -1399,114 +1614,23 @@ $(document).ready(function () {
             dom: 'frtip'
         });
     }
-    
+
     <?php if(!empty($loan_id)): ?>
-    // Generate Amortization Schedule
-    $('#generateAmortization').click(function() {
-        let loanAmount = parseFloat(<?= $loan_amount ?>);
-        let interestRate = parseFloat(<?= $interest_rate ?>);
-        let termMonths = parseInt(<?= $term_months ?>);
-        let startDate = '<?= $start_date ?>';
-        let loanId = <?= $loan_id ?>;
-        
-        if(!loanAmount || !interestRate || !termMonths) {
-            alert('Missing loan details. Cannot generate schedule.');
-            return;
-        }
-        
-        let monthlyRate = (interestRate / 100) / 12;
-        let payment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, termMonths)) / (Math.pow(1 + monthlyRate, termMonths) - 1);
-        
-        let balance = loanAmount;
-        let html = '';
-        let currentDate = startDate ? new Date(startDate) : new Date();
-        
-        for(let i = 1; i <= termMonths; i++) {
-            let interest = balance * monthlyRate;
-            let principal = payment - interest;
-            let endingBalance = balance - principal;
-            
-            let paymentDate = new Date(currentDate);
-            paymentDate.setMonth(currentDate.getMonth() + i);
-            let dateStr = paymentDate.toISOString().slice(0,10);
-            
-            html += `
-                <tr>
-                    <td class="text-center">${i}</td>
-                    <td class="text-center">${dateStr}</td>
-                    <td class="text-end">₱ ${balance.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
-                    <td class="text-end">₱ ${interest.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
-                    <td class="text-end">₱ ${principal.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
-                    <td class="text-end">₱ ${payment.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
-                    <td class="text-end">₱ ${endingBalance.toLocaleString('en-US', {minimumFractionDigits:2})}</td>
-                    <td class="text-center"><span class="badge bg-secondary">Unpaid</span></td>
-                    <td class="text-center">
-                        <button type="button" class="btn btn-primary btn-sm select-payment" 
-                                data-period="${i}"
-                                data-payment-date="${dateStr}"
-                                data-amount="${payment.toFixed(2)}"
-                                data-interest="${interest.toFixed(2)}"
-                                data-principal="${principal.toFixed(2)}">
-                            <i class="ti ti-credit-card"></i> Pay
-                        </button>
-                    </td>
-                </tr>
-            `;
-            balance = endingBalance;
-            if(balance < 0) balance = 0;
-        }
-        
-        $('#amortizationTableBody').html(html);
-        alert('Amortization schedule generated successfully!');
-    });
-    
-    // Select payment handler
-    $(document).on('click', '.select-payment', function() {
-        let period = $(this).data('period');
-        let paymentDate = $(this).data('payment-date');
-        let amount = $(this).data('amount');
-        let interest = $(this).data('interest');
-        let principal = $(this).data('principal');
-        let ammortizationId = $(this).data('ammortization-id');
-        
-        $('#payment_date').val(paymentDate);
-        $('#total_payment').val(amount.toFixed(2));
-        $('#interest').val(interest);
-        $('#principal').val(principal);
-        if(ammortizationId) $('#ammortization_id').val(ammortizationId);
-        
-        $('#info_period').text(period);
-        $('#info_principal').text(principal.toFixed(2));
-        $('#info_interest').text(interest.toFixed(2));
-        $('#selectedAmortizationInfo').show();
-        
-        $('#payButton').prop('disabled', false);
-        
-        $('.select-payment').closest('tr').removeClass('table-primary');
-        $(this).closest('tr').addClass('table-primary');
-    });
-    
-    // Refresh Assessment Data (Mockup)
     $('#refreshAssessmentBtn').click(function() {
         let newCreditScore = Math.floor(Math.random() * (95 - 55 + 1) + 55);
         let newDti = (Math.random() * (45 - 20) + 20).toFixed(1);
         let newPaymentCapacity = Math.floor(Math.random() * (35000 - 15000 + 1) + 15000);
-        
-        let newRiskRating = '';
-        let newRiskClass = '';
-        let newRecommendation = '';
-        let newRecommendationClass = '';
-        let newNotes = '';
-        let newAssessedBy = '';
-        
-        if(newCreditScore >= 80) {
+
+        let newRiskRating = '', newRiskClass = '', newRecommendation = '', newRecommendationClass = '', newNotes = '', newAssessedBy = '';
+
+        if (newCreditScore >= 80) {
             newRiskRating = 'Low';
             newRiskClass = 'risk-low';
             newRecommendation = 'Approve';
             newRecommendationClass = 'recommend-approve';
             newNotes = 'Excellent credit standing. Member has consistent savings and no delinquent records.';
             newAssessedBy = 'Maria Santos';
-        } else if(newCreditScore >= 65) {
+        } else if (newCreditScore >= 65) {
             newRiskRating = 'Medium';
             newRiskClass = 'risk-medium';
             newRecommendation = 'Approve with Conditions';
@@ -1521,21 +1645,17 @@ $(document).ready(function () {
             newNotes = 'Member has high debt-to-income ratio. Recommend further review.';
             newAssessedBy = 'Robert Reyes';
         }
-        
+
         $('#mock_credit_score').text(newCreditScore);
         $('#mock_dti').text(newDti + '%');
-        $('#mock_capacity').text('₱ ' + newPaymentCapacity.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-        
+        $('#mock_capacity').text('₱' + newPaymentCapacity.toLocaleString('en-US', {minimumFractionDigits: 0}));
+
         $('#mock_risk_badge').removeClass('risk-low risk-medium risk-high').addClass(newRiskClass).text(newRiskRating);
-        
         $('#mock_recommendation_card').removeClass('recommend-approve recommend-review').addClass(newRecommendationClass);
         $('#mock_recommendation').text(newRecommendation);
-        
         $('#mock_notes span').text(newNotes);
         $('#mock_assessed_by').text(newAssessedBy);
-        $('#mock_assessment_date').text(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
-        
-        alert('Credit assessment refreshed!\n\nNew Credit Score: ' + newCreditScore + '/100\nNew Risk Rating: ' + newRiskRating + '\nNew Recommendation: ' + newRecommendation);
+        $('#mock_assessment_date').text(new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}));
     });
     <?php endif; ?>
 });

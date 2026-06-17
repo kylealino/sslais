@@ -319,7 +319,7 @@ echo view('templates/myheader.php');
 </style>
 
 <div class="dashboard-wrapper">
-    <div class="container-fluid px-0">
+    <div class="ps-3 pe-3">
         
         <!-- Welcome Section - Flat Style -->
         <div class="welcome-section">

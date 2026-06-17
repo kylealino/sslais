@@ -265,13 +265,13 @@ echo view('templates/myheader.php');
     }
 </style>
 
-<div class="container-fluid">
+<div class="pe-3 ps-3">
     <div class="row me-mymembers-outp-msg mx-0"></div>
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
     
     <div class="row mb-2">
         <div class="col-12">
-            <h4 class="fw-semibold my-3">List of Members</h4>
+            <h4 class="fw-semibold">List of Members</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a class="text-muted text-decoration-none" href="<?=site_url();?>mydashboard"><i class="ti ti-home fs-5"></i></a></li>

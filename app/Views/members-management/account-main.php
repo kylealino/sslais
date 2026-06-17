@@ -319,7 +319,7 @@ echo view('templates/myheader.php');
     }
 </style>
 
-<div class="container-fluid">
+<div class="ps-3 pe-3">
     <div class="row me-myaccount-outp-msg mx-0"></div>
 
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
@@ -327,7 +327,7 @@ echo view('templates/myheader.php');
     <!-- HEADER -->
     <div class="row mb-2">
         <div class="col-12">
-            <h4 class="fw-semibold my-3">Account Settings</h4>
+            <h4 class="fw-semibold">Account Settings</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">

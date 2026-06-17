@@ -220,14 +220,14 @@ echo view('templates/myheader.php');
     }
 </style>
 
-<div class="container-fluid">
+<div class="pe-3 ps-3">
     <div class="row me-myloanavailment-outp-msg mx-0">
     </div>
     <input type="hidden" id="__siteurl" data-mesiteurl="<?=site_url();?>" />
     
-    <div class="row mb-2 mt-2">
+    <div class="row mb-2">
         <div class="col-12">
-            <h4 class="fw-semibold my-3">Loan Availment</h4>
+            <h4 class="fw-semibold">Loan Availment</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">

@@ -242,7 +242,7 @@ echo view('templates/myheader.php');
     }
 </style>
 
-<div class="container-fluid">
+<div class="ps-3 pe-3">
     <!-- Page Header -->
     <div class="row mb-2 mt-2">
         <div class="col-12">

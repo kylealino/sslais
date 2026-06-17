@@ -41,3 +41,12 @@ $routes->post('myjournalentry', 'JournalEntryController::index',['filter' => 'my
 $routes->get('myaccountingreport', 'AccountingReportController::index',['filter' => 'myauthuser']);
 $routes->post('myaccountingreport', 'AccountingReportController::index',['filter' => 'myauthuser']);
 
+//Approval Module
+$routes->get('myapprovals', 'ApprovalController::index',['filter' => 'myauthuser']);
+$routes->post('myapprovals', 'ApprovalController::index',['filter' => 'myauthuser']);
+$routes->get('myapprovals/(:any)', 'ApprovalController::view/$1',['filter' => 'myauthuser']);
+$routes->post('myapprovals/action', 'ApprovalController::action',['filter' => 'myauthuser']);
+
+//Payment Schedule Module
+$routes->get('mypaymentschedule', 'PaymentScheduleController::index',['filter' => 'myauthuser']);
+$routes->post('mypaymentschedule', 'PaymentScheduleController::index',['filter' => 'myauthuser']);
