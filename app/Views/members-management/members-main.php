@@ -75,6 +75,23 @@ function format_file_size($bytes) {
     return $bytes . ' bytes';
 }
 
+function get_file_icon($file_path) {
+    $extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+    switch($extension) {
+        case 'pdf': return 'ti-file-pdf';
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'gif':
+        case 'webp': return 'ti-photo';
+        case 'doc':
+        case 'docx': return 'ti-file-description';
+        case 'xls':
+        case 'xlsx': return 'ti-chart-bar';
+        default: return 'ti-file';
+    }
+}
+
 echo view('templates/myheader.php');
 ?>
 
@@ -130,11 +147,13 @@ echo view('templates/myheader.php');
     .document-card .doc-badge { display: inline-block; background: var(--gray-100); font-size: 9px; padding: 2px 8px; border-radius: 30px; font-weight: 600; color: var(--gray-600); margin-bottom: 12px; }
     .document-card .doc-badge.required { background: #fee2e2; color: var(--danger); }
     .document-card .doc-badge.optional { background: #e0f2fe; color: var(--info); }
-    .document-card .existing-file { font-size: 11px; background: var(--gray-50); padding: 8px 10px; border-radius: 10px; margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+    .document-card .existing-file { font-size: 11px; background: var(--gray-50); padding: 8px 10px; border-radius: 10px; margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .document-card .existing-file i { color: var(--success); font-size: 14px; }
-    .document-card .existing-file a { color: var(--info); text-decoration: none; font-weight: 500; }
-    .document-card .existing-file a:hover { text-decoration: underline; }
-    .document-card .existing-file .file-info { font-size: 10px; color: var(--gray-500); margin-top: 2px; }
+    .document-card .existing-file a { color: var(--info); text-decoration: none; font-weight: 500; cursor: pointer; }
+    .document-card .existing-file a:hover { text-decoration: underline; color: var(--gold-dark); }
+    .document-card .existing-file .view-link { background: var(--info); color: white; padding: 2px 8px; border-radius: 6px; font-size: 10px; margin-left: 8px; text-decoration: none; }
+    .document-card .existing-file .view-link:hover { background: var(--gold-primary); color: var(--navy-dark); }
+    .document-card .existing-file .file-info { font-size: 10px; color: var(--gray-500); margin-top: 2px; width: 100%; }
     .document-card input[type="file"] { font-size: 11px; padding: 6px 0; }
     .document-card input[type="file"]::file-selector-button { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: 8px; padding: 5px 12px; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
     .document-card input[type="file"]::file-selector-button:hover { background: var(--gold-soft); border-color: var(--gold-primary); }
@@ -230,10 +249,19 @@ echo view('templates/myheader.php');
     .guarantor-node { display: inline-block; background: var(--gold-soft); border-radius: 30px; padding: 5px 12px; margin: 3px; font-size: 11px; font-weight: 500; }
     .liability-summary { background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%); border-radius: 12px; padding: 12px 15px; margin-bottom: 15px; }
 
+    /* Document viewer modal */
+    .document-viewer-modal .modal-dialog { max-width: 90%; width: 90%; margin: 1.75rem auto; }
+    .document-viewer-modal .modal-content { border-radius: 20px; }
+    .document-viewer-modal .modal-body { padding: 0; min-height: 80vh; }
+    .document-viewer-modal .document-frame { width: 100%; min-height: 80vh; border: none; }
+    .doc-action-buttons { display: flex; gap: 10px; margin-top: 10px; }
+    .doc-action-buttons .btn-sm { font-size: 11px; padding: 4px 10px; }
+
     @media (max-width: 768px) {
         .nav-tabs .nav-link { padding: 8px 12px; font-size: 11px; }
         .nav-tabs .nav-link i { font-size: 12px; }
         .documents-grid, .capital-stats-grid { grid-template-columns: 1fr; }
+        .document-viewer-modal .modal-dialog { max-width: 95%; width: 95%; }
     }
 </style>
 
@@ -652,27 +680,94 @@ echo view('templates/myheader.php');
                 <input type="hidden" name="member_id" value="<?= $member_id ?>">
                 <div class="form-section"><h6><i class="ti ti-file-description me-2"></i> Membership Application Documents</h6>
                     <div class="documents-grid">
-                        <div class="document-card"><div class="doc-icon"><i class="ti ti-id"></i></div><div class="doc-title">Government-issued ID</div><span class="doc-badge required">Required</span><input type="file" name="gov_id" class="form-control form-control-sm">
-                        <?php if(isset($doc_by_type['gov_id'])): ?><div class="existing-file"><i class="ti ti-check-circle"></i><div><a href="#"><?= $doc_by_type['gov_id']['document_name'] ?></a></div></div><?php endif; ?></div>
-                        <div class="document-card"><div class="doc-icon"><i class="ti ti-building"></i></div><div class="doc-title">Proof of Group Belonging</div><span class="doc-badge required">Required</span><input type="file" name="proof_of_group" class="form-control form-control-sm">
-                        <?php if(isset($doc_by_type['proof_of_group'])): ?><div class="existing-file"><i class="ti ti-check-circle"></i><div><a href="#"><?= $doc_by_type['proof_of_group']['document_name'] ?></a></div></div><?php endif; ?></div>
-                        <div class="document-card"><div class="doc-icon"><i class="ti ti-camera"></i></div><div class="doc-title">ID Photo</div><span class="doc-badge required">Required</span><input type="file" name="id_photo" class="form-control form-control-sm">
-                        <?php if(isset($doc_by_type['id_photo'])): ?><div class="existing-file"><i class="ti ti-image"></i><div><a href="#"><?= $doc_by_type['id_photo']['document_name'] ?></a></div></div><?php endif; ?></div>
-                        <div class="document-card"><div class="doc-icon"><i class="ti ti-file-signature"></i></div><div class="doc-title">Signed Membership Form</div><span class="doc-badge required">Required</span><input type="file" name="signed_membership" class="form-control form-control-sm">
-                        <?php if(isset($doc_by_type['signed_membership'])): ?><div class="existing-file"><i class="ti ti-check-circle"></i><div><a href="#"><?= $doc_by_type['signed_membership']['document_name'] ?></a></div></div><?php endif; ?></div>
+                        <?php
+                        $doc_fields = [
+                            'gov_id' => ['Government-issued ID', 'Required', 'ti-id', 'required'],
+                            'proof_of_group' => ['Proof of Group Belonging', 'Required', 'ti-building', 'required'],
+                            'id_photo' => ['ID Photo', 'Required', 'ti-camera', 'required'],
+                            'signed_membership' => ['Signed Membership Form', 'Required', 'ti-file-signature', 'required']
+                        ];
+                        ?>
+                        <?php foreach($doc_fields as $field_name => $doc_info): ?>
+                        <div class="document-card">
+                            <div class="doc-icon"><i class="<?= $doc_info[2] ?>"></i></div>
+                            <div class="doc-title"><?= $doc_info[0] ?></div>
+                            <span class="doc-badge <?= $doc_info[3] ?>"><?= $doc_info[1] ?></span>
+                            <input type="file" name="<?= $field_name ?>" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png,.gif">
+                            <?php if(isset($doc_by_type[$field_name])): 
+                                $doc = $doc_by_type[$field_name];
+                                $file_url = base_url($doc['document_path']);
+                                $file_icon = get_file_icon($doc['document_path']);
+                            ?>
+                            <div class="existing-file">
+                                <i class="ti ti-check-circle"></i>
+                                <div style="flex:1;">
+                                    <a href="javascript:void(0)" class="view-document-link" data-file-url="<?= $file_url ?>" data-file-name="<?= htmlspecialchars($doc['document_name']) ?>">
+                                        <i class="<?= $file_icon ?> me-1"></i><?= htmlspecialchars($doc['document_name']) ?>
+                                    </a>
+                                    <div class="file-info">
+                                        <?= format_file_size($doc['file_size']) ?> | Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?>
+                                    </div>
+                                </div>
+                                <a href="javascript:void(0)" class="view-link view-document-link" data-file-url="<?= $file_url ?>" data-file-name="<?= htmlspecialchars($doc['document_name']) ?>">
+                                    <i class="ti ti-eye"></i> View
+                                </a>
+                                <a href="<?= $file_url ?>" class="view-link" download style="background: var(--success);">
+                                    <i class="ti ti-download"></i> Download
+                                </a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
                 <div class="form-section mt-4"><h6><i class="ti ti-credit-card me-2"></i> Loan Application Documents</h6>
                     <div class="documents-grid">
-                        <div class="document-card"><div class="doc-icon"><i class="ti ti-wallet"></i></div><div class="doc-title">Proof of Income</div><span class="doc-badge required">Required for Loans</span><input type="file" name="proof_of_income" class="form-control form-control-sm">
-                        <?php if(isset($doc_by_type['proof_of_income'])): ?><div class="existing-file"><i class="ti ti-check-circle"></i><div><a href="#"><?= $doc_by_type['proof_of_income']['document_name'] ?></a></div></div><?php endif; ?></div>
-                        <div class="document-card"><div class="doc-icon"><i class="ti ti-chart-bar"></i></div><div class="doc-title">Bank Statement</div><span class="doc-badge required">Required for Loans</span><input type="file" name="bank_statement" class="form-control form-control-sm">
-                        <?php if(isset($doc_by_type['bank_statement'])): ?><div class="existing-file"><i class="ti ti-check-circle"></i><div><a href="#"><?= $doc_by_type['bank_statement']['document_name'] ?></a></div></div><?php endif; ?></div>
-                        <div class="document-card"><div class="doc-icon"><i class="ti ti-receipt-tax"></i></div><div class="doc-title">Salary Deduction Authorization</div><span class="doc-badge required">Required by Law</span><input type="file" name="salary_deduction_auth" class="form-control form-control-sm">
-                        <?php if(isset($doc_by_type['salary_deduction_auth'])): ?><div class="existing-file"><i class="ti ti-check-circle"></i><div><a href="#"><?= $doc_by_type['salary_deduction_auth']['document_name'] ?></a></div></div><?php endif; ?></div>
+                        <?php
+                        $loan_doc_fields = [
+                            'proof_of_income' => ['Proof of Income', 'Required for Loans', 'ti-wallet', 'required'],
+                            'bank_statement' => ['Bank Statement', 'Required for Loans', 'ti-chart-bar', 'required'],
+                            'salary_deduction_auth' => ['Salary Deduction Authorization', 'Required by Law', 'ti-receipt-tax', 'required']
+                        ];
+                        ?>
+                        <?php foreach($loan_doc_fields as $field_name => $doc_info): ?>
+                        <div class="document-card">
+                            <div class="doc-icon"><i class="<?= $doc_info[2] ?>"></i></div>
+                            <div class="doc-title"><?= $doc_info[0] ?></div>
+                            <span class="doc-badge <?= $doc_info[3] ?>"><?= $doc_info[1] ?></span>
+                            <input type="file" name="<?= $field_name ?>" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                            <?php if(isset($doc_by_type[$field_name])): 
+                                $doc = $doc_by_type[$field_name];
+                                $file_url = base_url($doc['document_path']);
+                                $file_icon = get_file_icon($doc['document_path']);
+                            ?>
+                            <div class="existing-file">
+                                <i class="ti ti-check-circle"></i>
+                                <div style="flex:1;">
+                                    <a href="javascript:void(0)" class="view-document-link" data-file-url="<?= $file_url ?>" data-file-name="<?= htmlspecialchars($doc['document_name']) ?>">
+                                        <i class="<?= $file_icon ?> me-1"></i><?= htmlspecialchars($doc['document_name']) ?>
+                                    </a>
+                                    <div class="file-info">
+                                        <?= format_file_size($doc['file_size']) ?> | Uploaded: <?= date('M d, Y', strtotime($doc['upload_date'])) ?>
+                                    </div>
+                                </div>
+                                <a href="javascript:void(0)" class="view-link view-document-link" data-file-url="<?= $file_url ?>" data-file-name="<?= htmlspecialchars($doc['document_name']) ?>">
+                                    <i class="ti ti-eye"></i> View
+                                </a>
+                                <a href="<?= $file_url ?>" class="view-link" download style="background: var(--success);">
+                                    <i class="ti ti-download"></i> Download
+                                </a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
-                <div class="row mt-4"><div class="col-sm-12 text-end"><button type="submit" class="btn-document-upload"><i class="ti ti-cloud-upload me-1"></i> Upload Selected Documents</button></div></div>
+                <div class="row mt-4">
+                    <div class="col-sm-12 text-end">
+                        <button type="submit" class="btn-document-upload"><i class="ti ti-cloud-upload me-1"></i> Upload Selected Documents</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -687,16 +782,16 @@ echo view('templates/myheader.php');
                     <thead><tr><th width="80">Action</th><th width="50">Photo</th><th>Member No.</th><th>Last Name</th><th>First Name</th><th>Contact No.</th><th>Email</th><th>Loan Count</th><th>Loan Amount</th><th>Status</th></tr></thead>
                     <tbody>
                         <?php if(!empty($membersdata)): foreach ($membersdata as $data): $mid = $data['member_id']; $has_photo = !empty($data['id_photo_path']) && file_exists(FCPATH . $data['id_photo_path']); ?>
-                        <tr><td class="text-center"><div class="d-flex justify-content-center gap-2"><a class="text-primary nav-icon-hover" href="mymembers?meaction=MAIN&member_id=<?= $mid ?>"><i class="ti ti-pencil"></i></a><button class="btn btn-sm text-warning p-0 border-0 bg-transparent" onclick="__mysys_members_ent.__showPdfInModal('<?= base_url('mymembers?meaction=MEMBERS-PRINT&member_id='.$mid) ?>')"><i class="ti ti-printer"></i></button></div></td>
-                        <td class="text-center"><?php if($has_photo): ?><div class="member-avatar has-photo"><img src="<?= base_url($data['id_photo_path']) ?>"></div><?php else: ?><div class="member-avatar default"><i class="ti ti-user"></i></div><?php endif; ?></td>
-                        <td class="text-center"><?= htmlspecialchars($data['member_no']); ?></td>
-                        <td class="text-center"><?= htmlspecialchars($data['last_name']); ?></td>
-                        <td class="text-center"><?= htmlspecialchars($data['first_name']); ?></td>
-                        <td class="text-center"><?= htmlspecialchars($data['contact_number']); ?></td>
-                        <td class="text-center"><?= htmlspecialchars($data['email']); ?></td>
-                        <td class="text-center"><?= $data['loan_count']; ?></td>
-                        <td class="text-center">₱<?= number_format($data['loan_amount'],2); ?></td>
-                        <td class="text-center"><span class="status-pill status-active">Active</span></td>
+                        <tr><td class="text-center"><div class="d-flex justify-content-center gap-2"><a class="text-primary nav-icon-hover" href="mymembers?meaction=MAIN&member_id=<?= $mid ?>"><i class="ti ti-pencil"></i></a><button class="btn btn-sm text-warning p-0 border-0 bg-transparent" onclick="__mysys_members_ent.__showPdfInModal('<?= base_url('mymembers?meaction=MEMBERS-PRINT&member_id='.$mid) ?>')"><i class="ti ti-printer"></i></button></div></span>
+                        <td class="text-center"><?php if($has_photo): ?><div class="member-avatar has-photo"><img src="<?= base_url($data['id_photo_path']) ?>"></div><?php else: ?><div class="member-avatar default"><i class="ti ti-user"></i></div><?php endif; ?></span>
+                        <td class="text-center"><?= htmlspecialchars($data['member_no']); ?></span>
+                        <td class="text-center"><?= htmlspecialchars($data['last_name']); ?></span>
+                        <td class="text-center"><?= htmlspecialchars($data['first_name']); ?></span>
+                        <td class="text-center"><?= htmlspecialchars($data['contact_number']); ?></span>
+                        <td class="text-center"><?= htmlspecialchars($data['email']); ?></span>
+                        <td class="text-center"><?= $data['loan_count']; ?></span>
+                        <td class="text-center">₱<?= number_format($data['loan_amount'],2); ?></span>
+                        <td class="text-center"><span class="status-pill status-active">Active</span></span>
                         <?php endforeach; endif; ?>
                     </tbody>
                 </table>
@@ -720,7 +815,32 @@ echo view('templates/myheader.php');
     <div class="modal-footer"><button type="button" class="btn btn-light-custom" data-bs-dismiss="modal">Cancel</button><button type="button" class="btn btn-capital btn-capital-primary" id="saveCoMakerBtn">Add Guarantor</button></div></div></div>
 </div>
 
-<!-- PDF Modal -->
+<!-- Document Viewer Modal -->
+<div class="modal fade document-viewer-modal" id="documentViewerModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentViewerTitle"><i class="ti ti-file me-2"></i> Document Viewer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div id="documentViewerContent" class="text-center p-4" style="min-height: 80vh;">
+                    <div class="spinner-border text-gold" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" id="downloadDocumentBtn" class="btn btn-capital btn-capital-primary" download>
+                    <i class="ti ti-download me-1"></i> Download
+                </a>
+                <button type="button" class="btn btn-light-custom" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PDF Modal for Member Profile -->
 <div class="modal fade" id="pdfModal" tabindex="-1">
     <div class="modal-dialog modal-xl"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Membership Profile Preview</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><iframe id="pdfFrame" src="" style="width:100%;height:80vh;" frameborder="0"></iframe></div></div></div>
 </div>
@@ -730,6 +850,13 @@ echo view('templates/myheader.php');
 <script src="<?=base_url('assets/js/members-management/mymembers.js?v=5');?>"></script>
 
 <script>
+// Preserve the original __mysys_members_ent object for PDF viewing
+window.__mysys_members_ent = window.__mysys_members_ent || {};
+window.__mysys_members_ent.__showPdfInModal = function(url) {
+    $('#pdfFrame').attr('src', url);
+    $('#pdfModal').modal('show');
+};
+
 $(document).ready(function() {
     $('#datatablesSimple').DataTable({ pageLength: 10, lengthChange: true, order: [[1, 'asc']], language: { search: "Search Member:", info: "Showing _START_ to _END_ of _TOTAL_ entries" }, autoWidth: false, responsive: true });
     
@@ -753,6 +880,45 @@ $(document).ready(function() {
     $(document).click(function(e){ if(!$(e.target).closest('#search_guarantor, #search_results').length) $('#search_results').hide(); });
     
     $('#saveCoMakerBtn').click(function() { let guarantorId = $('#selected_guarantor_id').val(); let loanRef = $('#loan_reference').val().trim(); let loanAmount = parseFloat($('#loan_amount').val()); if(!guarantorId) { alert('Please select a guarantor.'); return; } if(!loanRef) { alert('Please enter a loan reference.'); return; } if(isNaN(loanAmount) || loanAmount <= 0) { alert('Please enter a valid loan amount.'); return; } alert('Mockup: Guarantor added successfully!'); $('#addCoMakerModal').modal('hide'); $('#selected_guarantor_info').hide(); $('#selected_guarantor_id, #loan_reference, #loan_amount, #comaker_notes').val(''); });
+    
+    // Document viewer functionality for uploaded documents
+    function viewDocument(fileUrl, fileName) {
+        $('#documentViewerTitle').html('<i class="ti ti-file me-2"></i> ' + (fileName || 'Document Viewer'));
+        $('#documentViewerContent').html('<div class="text-center p-5"><div class="spinner-border text-gold" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-3 text-muted">Loading document...</p></div>');
+        $('#downloadDocumentBtn').attr('href', fileUrl);
+        
+        // Get file extension
+        var fileExtension = fileUrl.split('.').pop().toLowerCase();
+        
+        // Handle different file types
+        if (fileExtension === 'pdf') {
+            $('#documentViewerContent').html('<iframe src="' + fileUrl + '" class="document-frame" style="width:100%; min-height:80vh; border:none;"></iframe>');
+        } else if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'].includes(fileExtension)) {
+            $('#documentViewerContent').html('<img src="' + fileUrl + '" class="img-fluid" style="max-height: 80vh; object-fit: contain;" alt="Document Image">');
+        } else {
+            // For other file types, show download option
+            $('#documentViewerContent').html(`
+                <div class="text-center p-5">
+                    <i class="ti ti-file" style="font-size: 64px; color: var(--gray-400);"></i>
+                    <h5 class="mt-3">Cannot preview this file type</h5>
+                    <p class="text-muted">File type: .${fileExtension.toUpperCase()}</p>
+                    <a href="${fileUrl}" class="btn btn-capital btn-capital-primary mt-3" download>
+                        <i class="ti ti-download me-1"></i> Download to view
+                    </a>
+                </div>
+            `);
+        }
+        
+        $('#documentViewerModal').modal('show');
+    }
+    
+    // Bind click events to document view links
+    $(document).on('click', '.view-document-link', function(e) {
+        e.preventDefault();
+        var fileUrl = $(this).data('file-url');
+        var fileName = $(this).data('file-name');
+        viewDocument(fileUrl, fileName);
+    });
 });
 
 function deleteTransaction(id) {
