@@ -346,7 +346,7 @@
               
               <div class="title-wrapper">
                 <h2>SSLAIS</h2>
-                <p>Science Savings and Loan Association<br />Information System</p>
+                <p>Science Savings and Loan Association Inc.<br />Information System</p>
               </div>
               
               <!-- Login Form -->
