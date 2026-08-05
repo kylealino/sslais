@@ -40,586 +40,861 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
           $profile_photo_url = base_url($photo_data['profile_photo_path']);
       }
   }
-
+  
+  // Get current URL for active menu highlighting
+  $current_url = current_url();
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Navy_Gold_White_Theme" data-layout="vertical">
+<html lang="en" dir="ltr">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Favicon icon-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <link rel="shortcut icon" type="image/png" href="<?=base_url('assets/images/logos/sslai.png')?>" />
-
-  <!-- Core Css -->
-  <link rel="stylesheet" href="<?=base_url('assets/css/styles.css')?>" />
+  <title>DMIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.30.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
-  <!-- Navy Blue, Gold & White Theme - Clean, No Table Borders -->
   <style>
+    /* ===================== */
+    /* FLEETSYS - TRUCKING/FLEET INSPIRED COLOR PALETTE */
+    /* ===================== */
     :root {
-      --navy-dark: #0a1a3a;
-      --navy-medium: #1a2e5a;
-      --navy-light: #2a3e6a;
-      --gold-primary: #d4af37;
-      --gold-dark: #b8960c;
-      --gold-light: #f5e6a3;
-      --gold-soft: #fef7e0;
-      --white-bg: #ffffff;
-      --white-off: #f8f9fa;
-      --gray-light: #e9ecef;
-      --gray-medium: #6c757d;
-      --gray-dark: #495057;
-      --text-dark: #1e2a3a;
+      --fleet-dark: #0b1a2e;
+      --fleet-mid: #1a2f44;
+      --fleet-soft: #2c4058;
+      --fleet-blue: #2a7de1;
+      --fleet-blue-light: #4a9af5;
+      --fleet-gold: #f5b342;
+      --fleet-green: #34c759;
+      --fleet-red: #ff6b6b;
+      --fleet-white: #ffffff;
+      --fleet-gray: #94a3b8;
+      --fleet-gray-dark: #64748b;
+      --fleet-border: rgba(255, 255, 255, 0.06);
+      --fleet-hover: rgba(42, 125, 225, 0.12);
+      --fleet-card-bg: rgba(255, 255, 255, 0.04);
     }
-    
-    /* Sidebar Styling - NAVY BLUE */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f0f4f8;
+      overflow-x: hidden;
+    }
+
+    /* ===================== */
+    /* SIDEBAR - FLEET DARK */
+    /* ===================== */
     .left-sidebar {
-      background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-medium) 100%) !important;
-      border-right: 1px solid rgba(212, 175, 55, 0.15) !important;
-      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+      background: var(--fleet-dark);
+      box-shadow: 4px 0 20px rgba(0,0,0,0.4);
+      border-right: 1px solid var(--fleet-border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 280px;
+      z-index: 1000;
+      transition: transform 0.3s ease, width 0.3s ease;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Collapsed Sidebar */
+    .left-sidebar.collapsed {
+      width: 80px;
+    }
+
+    .left-sidebar.collapsed .brand-text,
+    .left-sidebar.collapsed .sidebar-link span:not(.ti),
+    .left-sidebar.collapsed .nav-small-cap span,
+    .left-sidebar.collapsed .logout-link span {
+      display: none;
+    }
+
+    .left-sidebar.collapsed .sidebar-link {
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .left-sidebar.collapsed .sidebar-link i,
+    .left-sidebar.collapsed .sidebar-link .ti {
+      margin: 0;
+    }
+
+    .left-sidebar.collapsed .brand-logo a {
+      justify-content: center;
+    }
+
+    .left-sidebar.collapsed .collapse {
+      display: none !important;
     }
     
-    .brand-logo {
-      background: rgba(0, 0, 0, 0.15) !important;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
+    .left-sidebar.collapsed .sidebar-item.sub-item {
+      display: none;
     }
-    
-    .brand-logo a {
-      color: white !important;
-      font-weight: 700;
+
+    /* Scrollbar */
+    .left-sidebar::-webkit-scrollbar {
+      width: 3px;
     }
-    
-    .brand-logo img {
-      border: 2px solid var(--gold-primary);
-      padding: 2px;
-      background: white;
-    }
-    
-    .nav-small-cap {
-      color: var(--gold-primary) !important;
-      font-weight: 700 !important;
-      letter-spacing: 0.5px;
-    }
-    
-    .nav-small-cap i {
-      color: var(--gold-primary) !important;
-    }
-    
-    .sidebar-nav ul .sidebar-item .sidebar-link {
-      color: rgba(255, 255, 255, 0.85) !important;
-      transition: all 0.3s ease;
-    }
-    
-    .sidebar-nav ul .sidebar-item .sidebar-link:hover {
-      background: rgba(212, 175, 55, 0.15) !important;
-      color: var(--gold-primary) !important;
-    }
-    
-    .sidebar-nav ul .sidebar-item .sidebar-link:hover i {
-      color: var(--gold-primary) !important;
-    }
-    
-    .sidebar-nav ul .sidebar-item .sidebar-link.active {
-      background: var(--gold-primary) !important;
-      color: var(--navy-dark) !important;
-      font-weight: 600;
-    }
-    
-    .sidebar-nav ul .sidebar-item .sidebar-link.active i {
-      color: var(--navy-dark) !important;
-    }
-    
-    .sidebar-nav ul .sidebar-item .sidebar-link i {
-      color: rgba(255, 255, 255, 0.7) !important;
-      font-size: 1.2rem;
-    }
-    
-    /* Scrollbar Styling - Navy Sidebar */
-    .left-sidebar.with-vertical::-webkit-scrollbar {
-      width: 4px;
-    }
-    
-    .left-sidebar.with-vertical::-webkit-scrollbar-track {
-      background: var(--navy-light);
-    }
-    
-    .left-sidebar.with-vertical::-webkit-scrollbar-thumb {
-      background: var(--gold-primary);
-      border-radius: 4px;
-    }
-    
-    .left-sidebar.with-vertical::-webkit-scrollbar-thumb:hover {
-      background: var(--gold-dark);
-    }
-    
-    /* Header/Topbar Styling - Clean */
-    .topbar {
-      background: var(--white-bg) !important;
-      border-bottom: 1px solid var(--gray-light) !important;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-    }
-    
-    /* Remove gold border from nav icons */
-    .nav-icon-hover-bg {
-      background: transparent !important;
-      border: none !important;
-    }
-    
-    .nav-icon-hover-bg:hover {
-      background-color: var(--gold-soft) !important;
-    }
-    
-    .nav-icon-hover-bg:hover i {
-      color: var(--gold-primary) !important;
-    }
-    
-    .nav-icon-hover-bg i {
-      color: var(--navy-dark) !important;
-      font-size: 1.2rem;
-    }
-    
-    /* User Profile - No Gold Border */
-    .user-profile-img {
-      border: none !important;
-    }
-    
-    .user-profile-img img {
-      border: 2px solid var(--white-bg);
-    }
-    
-    /* Dropdown Menu */
-    .dropdown-menu {
-      border: 1px solid var(--gray-light) !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
-    }
-    
-    .dropdown-item {
-      transition: all 0.2s ease;
-    }
-    
-    .dropdown-item:hover {
-      background-color: var(--gold-soft) !important;
-      color: var(--navy-dark) !important;
-      padding-left: 2rem !important;
-    }
-    
-    .border-bottom {
-      border-bottom: 1px solid var(--gray-light) !important;
-    }
-    
-    /* Buttons */
-    .btn-outline-primary {
-      border: 2px solid var(--gold-primary) !important;
-      color: var(--gold-dark) !important;
-      font-weight: 600;
-      transition: all 0.3s ease;
+
+    .left-sidebar::-webkit-scrollbar-track {
       background: transparent;
     }
+
+    .left-sidebar::-webkit-scrollbar-thumb {
+      background: var(--fleet-blue);
+      border-radius: 3px;
+    }
+
+    /* Mobile Sidebar */
+    @media (max-width: 768px) {
+      .left-sidebar {
+        transform: translateX(-100%);
+        width: 260px;
+      }
+      .left-sidebar.open {
+        transform: translateX(0);
+      }
+      .left-sidebar.collapsed {
+        width: 260px;
+      }
+      .left-sidebar.collapsed .brand-text,
+      .left-sidebar.collapsed .sidebar-link span:not(.ti),
+      .left-sidebar.collapsed .nav-small-cap span,
+      .left-sidebar.collapsed .logout-link span {
+        display: inline;
+      }
+      .left-sidebar.collapsed .collapse {
+        display: block !important;
+      }
+      .left-sidebar.collapsed .sidebar-item.sub-item {
+        display: block;
+      }
+    }
+
+    .brand-logo {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--fleet-border);
+      background: var(--fleet-dark);
+    }
+
+    .brand-logo a {
+      color: var(--fleet-white);
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-text {
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+
+    .brand-text span {
+      color: var(--fleet-blue);
+    }
+
+    .brand-logo img {
+      border: 2px solid var(--fleet-blue);
+      padding: 2px;
+      background: white;
+      border-radius: 4px;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar-nav {
+      padding: 16px 0 0 0;
+      flex: 1;
+    }
+
+    .nav-small-cap {
+      padding: 8px 24px 4px 24px;
+    }
+
+    .nav-small-cap span {
+      color: var(--fleet-gray);
+      font-size: 0.6rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .sidebar-item {
+      list-style: none;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      margin: 2px 12px;
+      color: var(--fleet-gray);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .sidebar-link:hover {
+      background: var(--fleet-hover);
+      color: var(--fleet-white);
+    }
+
+    .sidebar-item.active .sidebar-link {
+      background: var(--fleet-blue);
+      color: var(--fleet-white);
+    }
+
+    .sidebar-link i, .sidebar-link .ti {
+      font-size: 1.2rem;
+      width: 24px;
+    }
+
+    .sidebar-link .ti-chevron-down {
+      transition: transform 0.3s ease;
+      margin-left: auto;
+      font-size: 0.8rem;
+    }
     
+    .sidebar-link[aria-expanded="true"] .ti-chevron-down {
+      transform: rotate(180deg);
+    }
+
+    /* Sub-menu items */
+    .sidebar-item.sub-item {
+      margin-left: 8px;
+    }
+    
+    .sidebar-item.sub-item .sidebar-link {
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      margin: 1px 8px;
+      border-radius: 8px;
+    }
+    
+    .sidebar-item.sub-item .sidebar-link i,
+    .sidebar-item.sub-item .sidebar-link .ti {
+      font-size: 1rem;
+      width: 20px;
+    }
+    
+    .sidebar-item.sub-item.active .sidebar-link {
+      background: var(--fleet-blue);
+      color: var(--fleet-white);
+    }
+    
+    .sidebar-item.sub-item .sidebar-link:hover {
+      background: var(--fleet-hover);
+      color: var(--fleet-white);
+    }
+
+    /* Sidebar Footer - Logout */
+    .sidebar-footer {
+      padding: 20px 20px 30px 20px;
+      border-top: 1px solid var(--fleet-border);
+      margin-top: auto;
+    }
+
+    .logout-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      color: var(--fleet-gray);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: rgba(42, 125, 225, 0.08);
+      width: 100%;
+      border: none;
+      cursor: pointer;
+    }
+
+    .logout-link:hover {
+      background: var(--fleet-blue);
+      color: var(--fleet-white);
+    }
+
+    .logout-link i {
+      font-size: 1.2rem;
+      width: 24px;
+    }
+
+    /* ===================== */
+    /* PAGE WRAPPER */
+    /* ===================== */
+    .page-wrapper {
+      margin-left: 280px;
+      transition: margin-left 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-wrapper.expanded {
+      margin-left: 80px;
+    }
+
+    @media (max-width: 768px) {
+      .page-wrapper {
+        margin-left: 0;
+      }
+      .page-wrapper.expanded {
+        margin-left: 0;
+      }
+    }
+
+    /* ===================== */
+    /* TOPBAR - FLEET WHITE */
+    /* ===================== */
+    .topbar {
+      background: var(--fleet-white);
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      width: 100%;
+    }
+
+    .navbar {
+      padding: 10px 24px;
+    }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-item {
+      list-style: none;
+    }
+
+    #headerCollapse, .mobile-menu-toggle {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #headerCollapse i, .mobile-menu-toggle i {
+      font-size: 1.4rem;
+      color: var(--fleet-dark);
+    }
+
+    #headerCollapse:hover, .mobile-menu-toggle:hover {
+      background: rgba(42, 125, 225, 0.1);
+    }
+
+    #headerCollapse:hover i, .mobile-menu-toggle:hover i {
+      color: var(--fleet-blue);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: flex;
+      }
+    }
+
+    /* User Profile */
+    .user-profile-img img {
+      border: 2px solid var(--fleet-blue);
+      transition: 0.2s;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      object-fit: cover;
+    }
+
+    .user-profile-img img:hover {
+      transform: scale(1.05);
+      border-color: var(--fleet-blue-light);
+    }
+
+    /* Dropdown Menu - FIXED Z-INDEX */
+    .dropdown-menu {
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      min-width: 220px;
+      padding: 8px;
+      z-index: 9999 !important;
+      position: absolute !important;
+      right: 0 !important;
+      left: auto !important;
+      top: 100% !important;
+      margin-top: 8px !important;
+      background: var(--fleet-white) !important;
+      display: none;
+    }
+
+    .dropdown-menu.show {
+      display: block !important;
+    }
+
+    .profile-dropdown {
+      background: var(--fleet-white);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .profile-dropdown .dropdown-header {
+      background: linear-gradient(135deg, var(--fleet-blue) 0%, var(--fleet-dark) 100%);
+      color: var(--fleet-white);
+      padding: 14px 18px;
+    }
+
+    .profile-dropdown .dropdown-header h5 {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .profile-info h6 {
+      margin: 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--fleet-dark);
+    }
+
+    .profile-info span {
+      font-size: 0.6rem;
+      color: var(--fleet-gray-dark);
+    }
+
+    /* Dropdown Items */
+    .dropdown-item {
+      font-size: 0.75rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .dropdown-item:hover {
+      background: var(--fleet-hover);
+      color: var(--fleet-blue);
+    }
+
+    .dropdown-item.logout-item {
+      color: var(--fleet-red) !important;
+    }
+
+    .dropdown-item.logout-item:hover {
+      background: rgba(255, 107, 107, 0.1);
+      color: var(--fleet-red) !important;
+    }
+
+    .dropdown-divider {
+      margin: 4px 0;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .btn-outline-primary {
+      border-radius: 8px;
+      border: 1px solid var(--fleet-blue);
+      color: var(--fleet-blue);
+      background: transparent;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      transition: 0.2s;
+      width: 100%;
+    }
+
     .btn-outline-primary:hover {
-      background-color: var(--gold-primary) !important;
-      color: var(--navy-dark) !important;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+      background: var(--fleet-blue);
+      color: var(--fleet-white);
     }
-    
-    .btn-primary {
-      background-color: var(--navy-dark) !important;
-      border-color: var(--navy-dark) !important;
-      color: white !important;
+
+    /* Sidebar Overlay */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 998;
+      display: none;
     }
-    
-    .btn-primary:hover {
-      background-color: var(--navy-medium) !important;
-      border-color: var(--navy-medium) !important;
+
+    .sidebar-overlay.active {
+      display: block;
     }
-    
-    /* Text Colors */
-    .text-primary {
-      color: var(--navy-dark) !important;
-    }
-    
-    .text-success {
-      color: var(--gold-primary) !important;
-    }
-    
-    a.text-primary:hover {
-      color: var(--gold-primary) !important;
-    }
-    
-    /* Body Background - FLAT WHITE */
-    body {
-      background: var(--white-bg) !important;
-    }
-    
+
+    /* Body Wrapper */
     .body-wrapper {
-      background: var(--white-bg) !important;
+      background: #f0f4f8;
+      flex: 1;
+      padding: 24px;
     }
-    
-    /* Form Controls */
-    .form-control:focus {
-      border-color: var(--gold-primary) !important;
-      box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25) !important;
+
+    @media (max-width: 768px) {
+      .body-wrapper {
+        padding: 16px;
+      }
     }
-    
-    .form-check-input:checked {
-      background-color: var(--navy-dark) !important;
-      border-color: var(--navy-dark) !important;
-    }
-    
-    /* Cards - Clean, No Top Border, Just Shadow */
-    .card {
-      border: 1px solid var(--gray-light) !important;
-      border-radius: 16px !important;
-      background: var(--white-bg) !important;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-    
-    .card-header {
-      background-color: var(--white-off) !important;
-      border-bottom: 1px solid var(--gray-light) !important;
-    }
-    
-    /* TABLES - CLEAN, NO BORDERS, JUST HOVER */
+
+    /* ===================== */
+    /* TABLE STYLING - CLEAN, NO BORDERS */
+    /* ===================== */
     .table {
       width: 100%;
       border-collapse: collapse;
     }
     
     .table thead th {
-      color: var(--navy-dark);
+      color: var(--fleet-dark);
       font-weight: 600;
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       padding: 12px 12px;
-      border-bottom: 1px solid var(--gray-light);
+      border-bottom: 1px solid #e5e7eb;
       background: transparent;
     }
     
     .table tbody td {
       padding: 12px 12px;
       font-size: 13px;
-      color: var(--gray-700);
-      border-bottom: 1px solid var(--gray-100);
+      color: var(--fleet-gray-dark);
+      border-bottom: 1px solid #f0f4f8;
       vertical-align: middle;
     }
     
     .table tbody tr:hover td {
-      background-color: var(--gold-soft);
+      background-color: rgba(42, 125, 225, 0.05);
+    }
+
+    /* ===================== */
+    /* CARDS - FLEET STYLE */
+    /* ===================== */
+    .card {
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      background: var(--fleet-white);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     
-    /* DataTables specific */
-    .dataTables_wrapper {
-      font-family: 'Inter', sans-serif;
+    .card-header {
+      background-color: var(--fleet-white);
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* ===================== */
+    /* BUTTONS - FLEET STYLE */
+    /* ===================== */
+    .btn-primary {
+      background-color: var(--fleet-blue) !important;
+      border-color: var(--fleet-blue) !important;
+      color: white !important;
     }
     
-    .dataTables_filter {
-      float: right;
-      margin-bottom: 20px;
+    .btn-primary:hover {
+      background-color: var(--fleet-dark) !important;
+      border-color: var(--fleet-dark) !important;
+    }
+
+    .btn-outline-primary {
+      border: 2px solid var(--fleet-blue) !important;
+      color: var(--fleet-blue) !important;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      background: transparent;
     }
     
-    .dataTables_filter input {
-      border: 1.5px solid var(--gray-light);
-      border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 13px;
+    .btn-outline-primary:hover {
+      background-color: var(--fleet-blue) !important;
+      color: var(--fleet-white) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(42, 125, 225, 0.3);
     }
-    
-    .dataTables_filter input:focus {
-      border-color: var(--gold-primary);
-      outline: none;
-    }
-    
-    .dataTables_paginate {
-      float: right;
-      margin-top: 20px;
-    }
-    
-    .dataTables_paginate .paginate_button {
-      padding: 6px 12px !important;
-      margin: 0 3px !important;
-      border-radius: 8px !important;
-      border: 1px solid var(--gray-light) !important;
-      background: var(--white-bg) !important;
-      color: var(--gray-medium) !important;
-      font-size: 12px !important;
-    }
-    
-    .dataTables_paginate .paginate_button.current {
-      background: var(--gold-primary) !important;
-      border-color: var(--gold-primary) !important;
-      color: var(--navy-dark) !important;
-    }
-    
-    .dataTables_info {
-      float: left;
-      font-size: 12px;
-      color: var(--gray-medium);
-      margin-top: 20px;
-    }
-    
-    /* Badges */
+
+    /* ===================== */
+    /* BADGES - FLEET STYLE */
+    /* ===================== */
     .badge.bg-primary {
-      background-color: var(--navy-dark) !important;
+      background-color: var(--fleet-blue) !important;
       color: white !important;
     }
     
     .badge.bg-success {
-      background-color: var(--gold-primary) !important;
-      color: var(--navy-dark) !important;
+      background-color: var(--fleet-green) !important;
+      color: white !important;
     }
     
-    /* Active Menu Item - Navy Sidebar with Gold */
-    .sidebar-item.active > .sidebar-link {
-      background: var(--gold-primary) !important;
-      color: var(--navy-dark) !important;
+    .badge.bg-warning {
+      background-color: var(--fleet-gold) !important;
+      color: var(--fleet-dark) !important;
+    }
+
+    /* ===================== */
+    /* FORM CONTROLS - FLEET STYLE */
+    /* ===================== */
+    .form-control:focus {
+      border-color: var(--fleet-blue) !important;
+      box-shadow: 0 0 0 0.2rem rgba(42, 125, 225, 0.25) !important;
     }
     
-    .sidebar-item.active > .sidebar-link i {
-      color: var(--navy-dark) !important;
+    .form-check-input:checked {
+      background-color: var(--fleet-blue) !important;
+      border-color: var(--fleet-blue) !important;
     }
-    
-    /* Scrollbar for sidebar */
-    .left-sidebar.with-vertical {
-      height: 100vh;
-      overflow-y: auto;
+
+    /* ===================== */
+    /* FOOTER */
+    /* ===================== */
+    .footer {
+      background: var(--fleet-white);
+      border-top: 1px solid #e5e7eb;
+      color: var(--fleet-gray-dark);
+      font-size: 0.7rem;
+      padding: 12px 24px;
+      text-align: center;
     }
-    
-    /* Page Wrapper Background */
-    .page-wrapper {
-      background: var(--white-bg) !important;
+
+    /* Topbar User Profile - Dropdown toggle fix */
+    .dropdown-toggle-no-caret::after {
+      display: none !important;
     }
-    
-    /* Dashboard Cards */
-    .stat-card {
-      border-top: 3px solid var(--gold-primary) !important;
+
+    /* Ensure dropdown appears above everything */
+    .navbar-nav .dropdown-menu {
+      position: absolute !important;
+      right: 0 !important;
+      left: auto !important;
+      top: 100% !important;
     }
-    
-    /* Section Cards */
-    .section-card {
-      border-top: 2px solid var(--gold-primary) !important;
+
+    /* Fix for dropdown being hidden behind content */
+    .topbar .navbar {
+      position: relative;
     }
-    
-    /* Quick Actions */
-    .quick-action:hover {
-      background: var(--gold-soft) !important;
-      border-color: var(--gold-primary) !important;
+
+    .topbar .navbar-nav {
+      position: relative;
+    }
+
+    .topbar .nav-item.dropdown {
+      position: relative;
     }
   </style>
 </head>
 
 <body>
-  <!-- Preloader -->
-  <div class="preloader">
-    <img src="<?=base_url('assets/images/logos/preloader.svg')?>" alt="loader" class="lds-ripple img-fluid" />
-  </div>
-  
+  <!-- Mobile Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
   <div id="main-wrapper">
     <!-- Sidebar Start -->
-    <aside class="left-sidebar with-vertical">
-      <div>
-        <!-- Start Vertical Layout Sidebar -->
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="<?=site_url();?>mydashboard" class="text-nowrap logo-img d-flex align-items-center gap-2">
-            <img src="<?=base_url('assets/images/logos/sslai.png')?>" style="width: 35px; height: auto;"/>
-            <span class="fw-bold">SSLAIS</span>
-          </a> 
-          <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">
-            <i class="ti ti-x" style="color: var(--gold-primary);"></i>
-          </a>
-        </div>
+    <aside class="left-sidebar" id="sidebar">
+      <div class="brand-logo d-flex align-items-center justify-content-between">
+        <a href="<?=site_url();?>mydashboard" class="text-nowrap logo-img d-flex align-items-center gap-2">
+          <img src="<?=base_url('assets/images/logos/sslai.png')?>" style="width: 35px; height: auto;"/>
+          <span class="brand-text">DMIS</span>
+        </a> 
+        <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none d-block d-xl-none" id="closeSidebar">
+          <i class="ti ti-x" style="color: var(--fleet-gray); font-size: 1.2rem;"></i>
+        </a>
+      </div>
 
-        <nav class="sidebar-nav scroll-sidebar" data-simplebar style="height: 100vh !important;">
-          <ul id="sidebarnav">
-            <!-- Home Section -->
-            <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu fs-2">HOME</span>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>mydashboard" aria-expanded="false">
-                <span>
-                  <i class="ti ti-aperture"></i>
-                </span>
-                <span class="hide-menu fs-2">Dashboard</span>
-              </a>
-            </li>
-            
-            <!-- Members Management -->
-            <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu fs-2">MEMBERS MANAGEMENTS</span>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>myaccount?meaction=MAIN" aria-expanded="false">
-                <span>
-                  <i class="ti ti-settings"></i>
-                </span>
-                <span class="hide-menu fs-2">Account Settings</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>mymembers?meaction=MAIN" aria-expanded="false">
-                <span>
-                  <i class="ti ti-user-check"></i>
-                </span>
-                <span class="hide-menu fs-2">List of Members</span>
-              </a>
-            </li>
+      <nav class="sidebar-nav scroll-sidebar" data-simplebar style="height: 100vh !important;">
+        <ul id="sidebarnav" style="list-style: none; padding-left: 0;">
+          <!-- Home Section -->
+          <li class="nav-small-cap">
+            <span>HOME</span>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'mydashboard') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>mydashboard" aria-expanded="false">
+              <i class="ti ti-aperture"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          
+          <!-- Members Management -->
+          <li class="nav-small-cap">
+            <span>MEMBERS MANAGEMENTS</span>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'myaccount') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>myaccount?meaction=MAIN" aria-expanded="false">
+              <i class="ti ti-settings"></i>
+              <span>Account Settings</span>
+            </a>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'mymembers') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>mymembers?meaction=MAIN" aria-expanded="false">
+              <i class="ti ti-user-check"></i>
+              <span>List of Members</span>
+            </a>
+          </li>
 
-            <!-- Loan Management -->
-            <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu fs-2">LOAN MANAGEMENT</span>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>myloanavailment?meaction=MAIN" aria-expanded="false">
-                <span class="rounded-3">
-                  <i class="ti ti-cash"></i>
-                </span>
-                <span class="hide-menu fs-2">Loan Availment</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="<?=site_url();?>myapprovals" aria-expanded="false">
-                    <span class="rounded-3">
-                        <i class="ti ti-timeline"></i>
-                    </span>
-                    <span class="hide-menu fs-2">Loan Approval</span>
-                    <?php
-                    // Get pending count for badge
-                    $pendingCount = $this->db->query("SELECT COUNT(*) as total FROM tbl_loans WHERE approval_status IN ('Pending', 'Submitted')")->getRowArray()['total'];
-                    if($pendingCount > 0): ?>
-                    <span class="badge bg-warning text-dark ms-auto rounded-pill"><?=$pendingCount?></span>
-                    <?php endif; ?>
-                </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>myloanprofile?meaction=MAIN" aria-expanded="false">
-                <span class="rounded-3">
-                  <i class="ti ti-file-invoice"></i>
-                </span>
-                <span class="hide-menu fs-2">Loan Profile</span>
-              </a>
-            </li>
+          <!-- Loan Management -->
+          <li class="nav-small-cap">
+            <span>LOAN MANAGEMENT</span>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'myloanavailment') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>myloanavailment?meaction=MAIN" aria-expanded="false">
+              <i class="ti ti-cash"></i>
+              <span>Loan Availment</span>
+            </a>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'myapprovals') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>myapprovals" aria-expanded="false">
+              <i class="ti ti-timeline"></i>
+              <span>Loan Approval</span>
+              <?php
+              // Get pending count for badge
+              $pendingCount = $this->db->query("SELECT COUNT(*) as total FROM tbl_loans WHERE approval_status IN ('Pending', 'Submitted')")->getRowArray()['total'];
+              if($pendingCount > 0): ?>
+              <span class="badge bg-warning text-dark ms-auto rounded-pill"><?=$pendingCount?></span>
+              <?php endif; ?>
+            </a>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'myloanprofile') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>myloanprofile?meaction=MAIN" aria-expanded="false">
+              <i class="ti ti-file-invoice"></i>
+              <span>Loan Profile</span>
+            </a>
+          </li>
 
+          <!-- Accounting -->
+          <li class="nav-small-cap">
+            <span>ACCOUNTING</span>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'myjournalentry') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>myjournalentry?meaction=MAIN" aria-expanded="false">
+              <i class="ti ti-clipboard-text"></i>
+              <span>Journal Entry</span>
+            </a>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'mycoa') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>mycoa?meaction=MAIN" aria-expanded="false">
+              <i class="ti ti-list-check"></i>
+              <span>Chart of Accounts</span>
+            </a>
+          </li>
 
-            <!-- Accounting -->
-            <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu fs-2">ACCOUNTING</span>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>myjournalentry?meaction=MAIN" aria-expanded="false">
-                <span class="rounded-3">
-                  <i class="ti ti-clipboard-text"></i>
-                </span>
-                <span class="hide-menu fs-2">Journal Entry</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>mycoa?meaction=MAIN" aria-expanded="false">
-                <span class="rounded-3">
-                  <i class="ti ti-list-check"></i>
-                </span>
-                <span class="hide-menu fs-2">Chart of Accounts</span>
-              </a>
-            </li>
+          <!-- Reports -->
+          <li class="nav-small-cap">
+            <span>REPORTS</span>
+          </li>
+          <li class="sidebar-item <?= strpos($current_url, 'myaccountingreport') !== false ? 'active' : ''; ?>">
+            <a class="sidebar-link" href="<?=site_url();?>myaccountingreport?meaction=MAIN" aria-expanded="false">
+              <i class="ti ti-file"></i>
+              <span>Financial Reports</span>
+            </a>
+          </li> 
+        </ul>
+      </nav>
 
-            <!-- Reports -->
-            <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu fs-2">REPORTS</span>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="<?=site_url();?>myaccountingreport?meaction=MAIN" aria-expanded="false">
-                <span class="rounded-3">
-                  <i class="ti ti-file"></i>
-                </span>
-                <span class="hide-menu fs-2">Financial Reports</span>
-              </a>
-            </li> 
-
-          </ul>
-        </nav>
+      <!-- Logout Section at Bottom -->
+      <div class="sidebar-footer">
+        <form action="<?= site_url('mylogout'); ?>" method="post" id="logoutForm" style="display: block; width: 100%;">
+          <?= csrf_field(); ?>
+          <button type="submit" class="logout-link">
+            <i class="ti ti-logout"></i>
+            <span>Logout</span>
+          </button>
+        </form>
       </div>
     </aside>
-    <!--  Sidebar End -->
-    
-    <div class="page-wrapper">
-      <!--  Header Start - NO YELLOW BORDERS -->
+    <!-- Sidebar End -->
+
+    <div class="page-wrapper" id="pageWrapper">
+      <!-- Header Start - FLEET STYLE WITH USER PROFILE -->
       <header class="topbar">
         <div class="with-vertical">
-          <!-- Start Vertical Layout Header -->
-          <nav class="navbar navbar-expand-lg p-0">
+          <nav class="navbar navbar-expand-lg p-0 d-flex justify-content-between w-100">
+            <!-- Left side - Menu Toggle -->
             <ul class="navbar-nav">
-              <li class="nav-item nav-icon-hover-bg rounded-circle ms-n2">
-                <a class="nav-link sidebartoggler" id="headerCollapse" href="javascript:void(0)">
+              <li class="nav-item d-block d-xl-none">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
                   <i class="ti ti-menu-2"></i>
-                </a>
+                </button>
+              </li>
+              <li class="nav-item d-none d-xl-block">
+                <button class="nav-link sidebartoggler" id="sidebarToggle">
+                  <i class="ti ti-menu-2"></i>
+                </button>
               </li>
             </ul>
 
-            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-              <!-- Profile Dropdown -->
+            <!-- Right side - User Profile with Logout -->
+            <ul class="navbar-nav flex-row ms-auto align-items-center mx-4">
               <li class="nav-item dropdown">
-                <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" aria-expanded="false">
+                <a class="nav-link pe-0 dropdown-toggle-no-caret" href="javascript:void(0)" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                   <div class="d-flex align-items-center">
                     <div class="user-profile-img">
-                      <img src="<?=$profile_photo_url?>" class="rounded-circle" width="35" height="35" alt="Profile" />
+                      <img src="<?=$profile_photo_url?>" class="rounded-circle" width="38" height="38" alt="Profile" />
                     </div>
                   </div>
                 </a>
-                <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop1">
-                  <div class="profile-dropdown position-relative" data-simplebar>
-                    <div class="py-3 px-7 pb-0">
-                      <h5 class="mb-0 fs-5 fw-semibold text-primary">User Profile</h5>
-                    </div>
-                    <div class="d-flex align-items-center py-9 mx-7 border-bottom">
-                      <img src="<?=$profile_photo_url?>" class="rounded-circle" width="80" height="80" alt="Profile" />
-                      <div class="ms-3">
-                        <h5 class="mb-1 fs-4 text-primary"><?=$this->cuser;?></h5>
-                        <span class="mb-1 d-block"><?=$full_name;?></span>
-                        <span class="mb-1 d-block fs-2 text-muted"><?=$position;?></span>
-                        <span class="mb-1 d-block fs-2 text-muted"><?=$division . ' - ' . $section;?></span>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <div class="profile-dropdown">
+                    <!-- User Info -->
+                    <div class="profile-info">
+                      <img src="<?=$profile_photo_url?>" class="rounded-circle" width="40" height="40" alt="Profile" style="border: 2px solid var(--fleet-blue);" />
+                      <div>
+                        <h6><?=$this->cuser;?></h6>
+                        <span><?=$full_name;?></span>
                       </div>
                     </div>
-                    <div class="message-body">
-                      <a href="<?=site_url();?>myaccount?meaction=MAIN" class="py-8 px-7 mt-8 d-flex align-items-center dropdown-item">
-                        <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                          <img src="<?=base_url('assets/images/svgs/icon-account.svg')?>" alt="flexy-img" width="24" height="24" />
-                        </span>
-                        <div class="w-100 ps-3">
-                          <h6 class="mb-0 fs-4 lh-base">My Profile</h6>
-                          <span class="fs-3 d-block text-body-secondary">Account Settings</span>
-                        </div>
+                    
+                    <!-- Menu Items -->
+                    <div style="padding: 4px 8px;">
+                      <a href="<?=site_url();?>myaccount?meaction=MAIN" class="dropdown-item">
+                        <i class="bi bi-person-circle me-2"></i> My Profile
                       </a>
-                      <a href="" class="py-8 px-7 d-flex align-items-center dropdown-item">
-                        <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                          <img src="<?=base_url('assets/images/svgs/icon-inbox.svg')?>" alt="flexy-img" width="24" height="24" />
-                        </span>
-                        <div class="w-100 ps-3">
-                          <h6 class="mb-0 fs-4 lh-base">My Inbox</h6>
-                          <span class="fs-3 d-block text-body-secondary">Messages & Emails</span>
-                        </div>
+                      <a href="#" class="dropdown-item">
+                        <i class="bi bi-envelope me-2"></i> Messages
                       </a>
-                      <a href="" class="py-8 px-7 d-flex align-items-center dropdown-item">
-                        <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
-                          <img src="<?=base_url('assets/images/svgs/icon-tasks.svg')?>" alt="flexy-img" width="24" height="24" />
-                        </span>
-                        <div class="w-100 ps-3">
-                          <h6 class="mb-0 fs-4 lh-base">My Task</h6>
-                          <span class="fs-3 d-block text-body-secondary">To-do and Daily Tasks</span>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="d-grid py-4 px-7 pt-8">
-                      <form action="<?= site_url('mylogout'); ?>" method="post" novalidate>
-                          <?= csrf_field(); ?>
-                          <button type="submit" class="btn btn-outline-primary w-100">Log Out</button>
+                      <div class="dropdown-divider"></div>
+                      <!-- Logout Button -->
+                      <form action="<?= site_url('mylogout'); ?>" method="post">
+                        <?= csrf_field(); ?>
+                        <button type="submit" class="dropdown-item logout-item" style="width: 100%; border: none; background: none; text-align: left;">
+                          <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </button>
                       </form>
                     </div>
                   </div>
@@ -629,6 +904,7 @@ $this->cuser = $this->session->get('__xsys_myuserzicas__');
           </nav>
         </div>
       </header>
-      <!--  Header End -->
+      <!-- Header End -->
 
       <div class="body-wrapper">
+        <!-- CONTENT STARTS HERE - YOUR MODULE CONTENT GOES INSIDE THIS DIV -->

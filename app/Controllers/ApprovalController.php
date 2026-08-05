@@ -10,6 +10,8 @@ class ApprovalController extends BaseController
     {
         $this->request = \Config\Services::request();
         $this->approval = model('App\Models\ApprovalModel');
+        $this->riskModel = model('App\Models\RiskAssessmentModel');
+        $this->creditModel = model('App\Models\CreditAssessmentModel');
         $this->db = \Config\Database::connect();
         $this->session = session();
         $this->cuser = $this->session->get('__xsys_myuserzicas__');
@@ -24,82 +26,63 @@ class ApprovalController extends BaseController
             case 'SUBMIT-APPROVAL':
                 $result = $this->approval->submit_for_approval();
                 return $this->response->setJSON($result);
-                break;
+                
+            case 'SAVE-RISK-ASSESSMENT':
+                $result = $this->riskModel->save_assessment();
+                return $this->response->setJSON($result);
+                
+            case 'SAVE-CREDIT-ASSESSMENT':
+                $result = $this->creditModel->save_assessment();
+                return $this->response->setJSON($result);
                 
             case 'APPROVE-LOAN':
                 $result = $this->approval->approve_loan();
                 return $this->response->setJSON($result);
-                break;
                 
             case 'DECLINE-LOAN':
                 $result = $this->approval->decline_loan();
                 return $this->response->setJSON($result);
-                break;
-                
-            case 'REVIEW-LOAN':
-                $result = $this->approval->review_loan();
-                return $this->response->setJSON($result);
-                break;
                 
             case 'REVISE-LOAN':
                 $result = $this->approval->request_revision();
                 return $this->response->setJSON($result);
-                break;
                 
             default:
                 return $this->loadApprovalView($loan_id);
-                break;
         }
     }
 
     private function loadApprovalView($loan_id = null)
     {
-        // Get statistics
-        $pendingCount = $this->db->query("
-            SELECT COUNT(*) as total 
-            FROM tbl_loans 
-            WHERE approval_status = 'Pending'
-        ")->getRowArray()['total'];
+        // Statistics
+        $stats = $this->db->query("
+            SELECT 
+                COUNT(CASE WHEN workflow_stage = 'Pending' THEN 1 END) as pending,
+                COUNT(CASE WHEN workflow_stage = 'Risk Assessment' THEN 1 END) as risk_assessment,
+                COUNT(CASE WHEN workflow_stage = 'Credit Assessment' THEN 1 END) as credit_assessment,
+                COUNT(CASE WHEN workflow_stage = 'Decision' THEN 1 END) as decision,
+                COUNT(CASE WHEN approval_status = 'Approved' THEN 1 END) as approved,
+                COUNT(CASE WHEN approval_status = 'Declined' THEN 1 END) as declined
+            FROM tbl_loans
+        ")->getRowArray();
         
-        $submittedCount = $this->db->query("
-            SELECT COUNT(*) as total 
-            FROM tbl_loans 
-            WHERE approval_status = 'Submitted'
-        ")->getRowArray()['total'];
-        
-        $underReviewCount = $this->db->query("
-            SELECT COUNT(*) as total 
-            FROM tbl_loans 
-            WHERE approval_status = 'Under Review'
-        ")->getRowArray()['total'];
-        
-        $approvedCount = $this->db->query("
-            SELECT COUNT(*) as total 
-            FROM tbl_loans 
-            WHERE approval_status = 'Approved'
-        ")->getRowArray()['total'];
-        
-        $declinedCount = $this->db->query("
-            SELECT COUNT(*) as total 
-            FROM tbl_loans 
-            WHERE approval_status = 'Declined'
-        ")->getRowArray()['total'];
-        
-        // Get ALL loans
+        // All loans
         $allLoans = $this->db->query("
-            SELECT l.loan_id, l.loan_type, l.loan_amount, l.approval_status,
+            SELECT l.loan_id, l.loan_type, l.loan_amount, l.approval_status, l.workflow_stage,
                    m.first_name, m.last_name, m.member_no
             FROM tbl_loans l
             LEFT JOIN tbl_members m ON l.member_id = m.member_id
             ORDER BY l.created_at DESC
         ")->getResultArray();
         
-        // Get loan details if loan_id is provided
+        // Loan details
         $loan_data = null;
-        $approval_logs = null;
         $member = null;
+        $approval_logs = null;
         $amortizationSched = null;
         $member_documents = null;
+        $risk_assessment = null;
+        $credit_assessment = null;
         
         if(!empty($loan_id)) {
             $loan_data = $this->db->query("
@@ -108,28 +91,24 @@ class ApprovalController extends BaseController
             ", [$loan_id])->getRowArray();
             
             if($loan_data) {
-                // Get member details
                 $member = $this->db->query("
                     SELECT first_name, last_name, member_no, contact_number, email 
                     FROM tbl_members 
                     WHERE member_id = ?
                 ", [$loan_data['member_id']])->getRowArray();
                 
-                // Get approval logs
                 $approval_logs = $this->db->query("
                     SELECT * FROM tbl_approval_logs 
                     WHERE loan_id = ? 
                     ORDER BY created_at DESC
                 ", [$loan_id])->getResultArray();
                 
-                // Get amortization schedule
                 $amortizationSched = $this->db->query("
                     SELECT * FROM tbl_loans_ammortization 
                     WHERE loan_id = ?
                     ORDER BY period ASC
                 ", [$loan_id])->getResultArray();
                 
-                // Get member documents (for the member who owns this loan)
                 $member_documents = $this->db->query("
                     SELECT * FROM tbl_member_documents 
                     WHERE member_id = ? 
@@ -137,7 +116,10 @@ class ApprovalController extends BaseController
                     ORDER BY upload_date DESC
                 ", [$loan_data['member_id']])->getResultArray();
                 
-                // Get outstanding balance
+                $risk_assessment = $this->riskModel->getAssessment($loan_id);
+                $credit_assessment = $this->creditModel->getAssessment($loan_id);
+                
+                // Outstanding balance
                 $balanceQuery = $this->db->query("
                     SELECT ending_balance 
                     FROM tbl_loans_ammortization 
@@ -152,18 +134,17 @@ class ApprovalController extends BaseController
         }
         
         $data = [
-            'pendingCount' => $pendingCount,
-            'submittedCount' => $submittedCount,
-            'underReviewCount' => $underReviewCount,
-            'approvedCount' => $approvedCount,
-            'declinedCount' => $declinedCount,
+            'stats' => $stats,
             'allLoans' => $allLoans,
             'loan_data' => $loan_data,
             'member' => $member,
             'approval_logs' => $approval_logs,
             'amortizationSched' => $amortizationSched,
             'member_documents' => $member_documents,
-            'loan_id' => $loan_id
+            'risk_assessment' => $risk_assessment,
+            'credit_assessment' => $credit_assessment,
+            'loan_id' => $loan_id,
+            'cuser' => $this->cuser
         ];
         
         return view('approval/approval-main', $data);

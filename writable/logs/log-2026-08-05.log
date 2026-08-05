@@ -1,0 +1,88 @@
+ERROR - 2026-08-05 15:25:37 --> mysqli_sql_exception: Unknown column 'loan_status' in 'where clause' in C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\sslais\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT SUM(loan...', 0)
+#1 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT SUM(loan...')
+#2 C:\xampp\htdocs\sslais\system\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT SUM(loan...')
+#3 C:\xampp\htdocs\sslais\app\Views\MyDashboard.php(51): CodeIgniter\Database\BaseConnection->query('SELECT SUM(loan...')
+#4 C:\xampp\htdocs\sslais\system\View\View.php(224): include('C:\\xampp\\htdocs...')
+#5 C:\xampp\htdocs\sslais\system\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#6 C:\xampp\htdocs\sslais\system\Common.php(1173): CodeIgniter\View\View->render('MyDashboard', Array, true)
+#7 C:\xampp\htdocs\sslais\app\Controllers\MyDashboard.php(19): view('MyDashboard')
+#8 C:\xampp\htdocs\sslais\system\CodeIgniter.php(933): App\Controllers\MyDashboard->index()
+#9 C:\xampp\htdocs\sslais\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MyDashboard))
+#10 C:\xampp\htdocs\sslais\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\sslais\system\Boot.php(334): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\sslais\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\sslais\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2026-08-05 15:25:37 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'loan_status' in 'where clause'
+[Method: GET, Route: mydashboard]
+in SYSTEMPATH\Database\BaseConnection.php on line 692.
+ 1 APPPATH\Views\MyDashboard.php(51): CodeIgniter\Database\BaseConnection->query('SELECT SUM(loan_amount) as total FROM tbl_loans WHERE loan_status IN (\'Active\', \'Approved\')')
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\MyDashboard.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('MyDashboard', [], true)
+ 5 APPPATH\Controllers\MyDashboard.php(19): view('MyDashboard')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MyDashboard->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MyDashboard))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-05 15:25:37 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'loan_status' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT SUM(loan_amount) as total FROM tbl_loans WHERE loan_status IN (\'Active\', \'Approved\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT SUM(loan_amount) as total FROM tbl_loans WHERE loan_status IN (\'Active\', \'Approved\')')
+ 3 APPPATH\Views\MyDashboard.php(51): CodeIgniter\Database\BaseConnection->query('SELECT SUM(loan_amount) as total FROM tbl_loans WHERE loan_status IN (\'Active\', \'Approved\')')
+ 4 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\MyDashboard.php')
+ 5 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('MyDashboard', [], true)
+ 7 APPPATH\Controllers\MyDashboard.php(19): view('MyDashboard')
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MyDashboard->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MyDashboard))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-05 15:25:37 --> [Caused by] mysqli_sql_exception: Unknown column 'loan_status' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT SUM(loan_amount) as total FROM tbl_loans WHERE loan_status IN (\'Active\', \'Approved\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(738): CodeIgniter\Database\MySQLi\Connection->execute('SELECT SUM(loan_amount) as total FROM tbl_loans WHERE loan_status IN (\'Active\', \'Approved\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(652): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT SUM(loan_amount) as total FROM tbl_loans WHERE loan_status IN (\'Active\', \'Approved\')')
+ 4 APPPATH\Views\MyDashboard.php(51): CodeIgniter\Database\BaseConnection->query('SELECT SUM(loan_amount) as total FROM tbl_loans WHERE loan_status IN (\'Active\', \'Approved\')')
+ 5 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\sslais\\app\\Views\\MyDashboard.php')
+ 6 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('MyDashboard', [], true)
+ 8 APPPATH\Controllers\MyDashboard.php(19): view('MyDashboard')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MyDashboard->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MyDashboard))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-05 15:49:28 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "paymentschedule/payment-schedule-main.php"
+[Method: GET, Route: mypaymentschedule]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('paymentschedule/payment-schedule-main.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('paymentschedule/payment-schedule-main', [], true)
+ 3 APPPATH\Controllers\PaymentScheduleController.php(130): view('paymentschedule/payment-schedule-main', [...])
+ 4 APPPATH\Controllers\PaymentScheduleController.php(29): App\Controllers\PaymentScheduleController->loadPaymentScheduleView('24')
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PaymentScheduleController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PaymentScheduleController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-05 15:49:52 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "paymentschedule/payment-schedule-main.php"
+[Method: GET, Route: mypaymentschedule]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(212): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('paymentschedule/payment-schedule-main.php')
+ 2 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('paymentschedule/payment-schedule-main', [], true)
+ 3 APPPATH\Controllers\PaymentScheduleController.php(130): view('paymentschedule/payment-schedule-main', [...])
+ 4 APPPATH\Controllers\PaymentScheduleController.php(29): App\Controllers\PaymentScheduleController->loadPaymentScheduleView('24')
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\PaymentScheduleController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PaymentScheduleController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

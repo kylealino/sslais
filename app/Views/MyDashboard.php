@@ -1,566 +1,661 @@
 <?php
+// =============================================
+// SSLAIS - LOAN MANAGEMENT DASHBOARD
+// FLEETSYS COLOR PALETTE - MOCKUP DATA ONLY
+// =============================================
+
 $this->request = \Config\Services::request();
 $this->db = \Config\Database::connect();
 $this->session = session();
 $this->cuser = $this->session->get('__xsys_myuserzicas__');
 
+// Get current user info
+$query = $this->db->query("
+    SELECT 
+        `full_name`, 
+        `division`,
+        `section`, 
+        `position`,
+        `username`
+    FROM `myua_user` 
+    WHERE `username` = '$this->cuser'
+");
+$data = $query->getRowArray();
+$full_name = $data['full_name'] ?? 'Admin';
+$position = $data['position'] ?? 'Loan Officer';
+$section = $data['section'] ?? 'Loan Operations';
+$division = $data['division'] ?? 'Credit Division';
+
+// Get profile photo from tbl_members
+$profile_photo_url = base_url('assets/images/profile/user-1.jpg');
+if(!empty($this->cuser)) {
+    $photo_query = $this->db->query("
+        SELECT profile_photo_path 
+        FROM tbl_members 
+        WHERE username = ?", [$this->cuser]
+    );
+    $photo_data = $photo_query->getRowArray();
+    if(!empty($photo_data) && !empty($photo_data['profile_photo_path'])) {
+        $profile_photo_url = base_url($photo_data['profile_photo_path']);
+    }
+}
+
+// =============================================
+// MOCKUP DATA ONLY - NO DATABASE QUERIES
+// =============================================
+
+// Loan Stats (Mockup)
+$totalMembers = 1250;
+$activeLoans = 1000000;
+$outstandingBalance = 5200000;
+$overdueAmount = 450000;
+$dailyCollections = 85000;
+$pendingApprovals = 12;
+
+// Recent Members (Mockup)
+$recentMembers = [
+    ['member_id' => '2026-0057', 'full_name' => 'Dexter Y.', 'membership_date' => '2026-01-15', 'status' => 'Active'],
+    ['member_id' => '2026-0061', 'full_name' => 'Rex B. Cas', 'membership_date' => '2026-02-03', 'status' => 'Active'],
+    ['member_id' => '2026-0068', 'full_name' => 'Maria C. Santos', 'membership_date' => '2026-02-20', 'status' => 'Active'],
+    ['member_id' => '2026-0072', 'full_name' => 'Jose R. Garcia', 'membership_date' => '2026-03-01', 'status' => 'Pending'],
+    ['member_id' => '2026-0075', 'full_name' => 'Ana P. Reyes', 'membership_date' => '2026-03-10', 'status' => 'Active'],
+];
+
+// Recent Loans (Mockup)
+$recentLoans = [
+    ['member_name' => 'Dexter Y.', 'loan_amount' => 150000, 'loan_status' => 'Active', 'approval_status' => 'Approved', 'date_applied' => '2026-03-15'],
+    ['member_name' => 'Rex B. Cas', 'loan_amount' => 75000, 'loan_status' => 'Active', 'approval_status' => 'Approved', 'date_applied' => '2026-03-12'],
+    ['member_name' => 'Maria C. Santos', 'loan_amount' => 200000, 'loan_status' => 'Pending', 'approval_status' => 'Pending', 'date_applied' => '2026-03-10'],
+    ['member_name' => 'Jose R. Garcia', 'loan_amount' => 50000, 'loan_status' => 'Pending', 'approval_status' => 'Submitted', 'date_applied' => '2026-03-08'],
+    ['member_name' => 'Ana P. Reyes', 'loan_amount' => 100000, 'loan_status' => 'Active', 'approval_status' => 'Approved', 'date_applied' => '2026-03-05'],
+];
+
+// Monthly Loan Disbursements (Mockup - Last 6 Months)
+$monthlyDisbursements = [
+    ['month' => 'Aug', 'total' => 185500],
+    ['month' => 'Sep', 'total' => 192300],
+    ['month' => 'Oct', 'total' => 178900],
+    ['month' => 'Nov', 'total' => 201400],
+    ['month' => 'Dec', 'total' => 215700],
+    ['month' => 'Jan', 'total' => 210000],
+];
+
+// Loan Status Distribution (Mockup)
+$loanStatusDistribution = [
+    ['loan_status' => 'Active', 'count' => 45],
+    ['loan_status' => 'Approved', 'count' => 28],
+    ['loan_status' => 'Pending', 'count' => 15],
+    ['loan_status' => 'Overdue', 'count' => 8],
+    ['loan_status' => 'Rejected', 'count' => 4],
+];
+
+// Member Growth (Mockup - Last 6 Months)
+$memberGrowth = [
+    ['month' => 'Aug', 'total' => 15],
+    ['month' => 'Sep', 'total' => 22],
+    ['month' => 'Oct', 'total' => 18],
+    ['month' => 'Nov', 'total' => 25],
+    ['month' => 'Dec', 'total' => 30],
+    ['month' => 'Jan', 'total' => 28],
+];
+
 echo view('templates/myheader.php');
 ?>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
     :root {
-        --navy-dark: #0a1a3a;
-        --navy-medium: #1a2e5a;
-        --navy-light: #2a3e6a;
-        --gold-primary: #d4af37;
-        --gold-dark: #b8960c;
-        --gold-light: #f5e6a3;
-        --gold-soft: #fef7e0;
-        --white-bg: #ffffff;
-        --gray-50: #f8f9fa;
-        --gray-100: #f1f5f9;
-        --gray-200: #e2e8f0;
-        --gray-300: #cbd5e1;
-        --gray-400: #94a3b8;
-        --gray-500: #64748b;
-        --gray-600: #475569;
-        --gray-700: #334155;
-        --gray-800: #1e293b;
-        --success: #10b981;
-        --danger: #ef4444;
-        --warning: #f59e0b;
-        --info: #3b82f6;
+        --fleet-dark: #0b1a2e;
+        --fleet-mid: #1a2f44;
+        --fleet-soft: #2c4058;
+        --fleet-blue: #2a7de1;
+        --fleet-blue-light: #4a9af5;
+        --fleet-gold: #f5b342;
+        --fleet-green: #34c759;
+        --fleet-red: #ff6b6b;
+        --fleet-white: #ffffff;
+        --fleet-gray: #94a3b8;
+        --fleet-gray-dark: #64748b;
+        --fleet-border: #e5e7eb;
+        --fleet-bg: #f0f4f8;
     }
 
-    body {
-        background: var(--gray-50);
-        font-family: 'Inter', sans-serif;
-    }
-
-    /* Dashboard Cards - Matching your attendance card style */
-    .attendance-card {
-        background: var(--white-bg);
-        border-radius: 20px;
-        border: 1px solid var(--gray-200);
+    /* Dashboard Cards */
+    .fleet-card {
+        background: var(--fleet-white);
+        border-radius: 16px;
+        border: 1px solid var(--fleet-border);
         transition: all 0.3s ease;
+        padding: 16px 18px;
+        height: 100%;
     }
-
-    .attendance-card:hover {
+    
+    .fleet-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 20px -12px rgba(0,0,0,0.1);
-        border-color: var(--gray-300);
+        box-shadow: 0 8px 16px -8px rgba(0,0,0,0.08);
+        border-color: var(--fleet-blue);
     }
-
-    .attendance-card .card-body {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-    }
-
-    .attendance-value {
-        font-size: 32px;
+    
+    .fleet-value {
+        font-size: 28px;
         font-weight: 700;
         line-height: 1.2;
-        color: var(--gray-800);
+        color: var(--fleet-dark);
     }
-
-    .attendance-icon {
-        font-size: 42px;
-        opacity: 0.12;
-        color: var(--gold-primary);
+    
+    .fleet-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--fleet-gray);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-bottom: 2px;
     }
-
-    .attendance-label {
+    
+    .fleet-sub {
+        font-size: 10px;
+        color: var(--fleet-gray-dark);
+        margin-top: 2px;
+    }
+    
+    /* Stat Cards */
+    .stat-card {
+        background: var(--fleet-white);
+        border-radius: 16px;
+        padding: 14px 16px;
+        border: 1px solid var(--fleet-border);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px -8px rgba(0,0,0,0.08);
+    }
+    
+    .section-title {
         font-size: 12px;
         font-weight: 600;
-        color: var(--gray-500);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 6px;
-    }
-
-    .attendance-sub {
-        font-size: 11px;
-        color: var(--gray-400);
-        margin-top: 6px;
-    }
-
-    /* Section Cards */
-    .section-card {
-        background: var(--white-bg);
-        border-radius: 20px;
-        border: 1px solid var(--gray-200);
-        padding: 20px;
-        margin-bottom: 24px;
-    }
-
-    .section-title {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--gray-800);
-        margin-bottom: 16px;
-        padding-bottom: 8px;
-        border-bottom: 2px solid var(--gold-primary);
+        color: var(--fleet-dark);
+        margin-bottom: 12px;
+        padding-bottom: 4px;
+        border-bottom: 2px solid var(--fleet-blue);
         display: inline-block;
     }
-
-    /* Welcome Section */
-    .welcome-section {
-        background: var(--white-bg);
-        border-radius: 20px;
-        padding: 20px 24px;
-        margin-bottom: 24px;
-        border: 1px solid var(--gray-200);
+    
+    /* Profit Card */
+    .profit-card {
+        background: linear-gradient(135deg, var(--fleet-dark) 0%, var(--fleet-mid) 100%);
+        border-radius: 16px;
+        padding: 16px 20px;
+        color: white;
+        height: 100%;
+    }
+    
+    .profit-card .profit-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 10px;
     }
-
-    .welcome-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--gray-800);
-        margin-bottom: 4px;
-    }
-
-    .welcome-title span {
-        color: var(--gold-dark);
-    }
-
-    .welcome-subtitle {
-        font-size: 12px;
-        color: var(--gray-500);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .welcome-subtitle i {
-        color: var(--gold-primary);
-        font-size: 6px;
-    }
-
-    .date-badge {
-        background: var(--gray-50);
-        padding: 8px 20px;
-        border-radius: 30px;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--gray-600);
-        border: 1px solid var(--gray-200);
-    }
-
-    .date-badge i {
-        color: var(--gold-primary);
-        margin-right: 6px;
-    }
-
-    /* Stats Row */
-    .stats-row {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        margin-bottom: 24px;
-    }
-
-    /* Progress Bar */
-    .progress-mini {
-        height: 4px;
-        background: var(--gray-200);
-        border-radius: 10px;
-        overflow: hidden;
-        margin: 8px 0 4px;
-    }
-
-    .progress-bar-mini {
-        height: 4px;
-        background: var(--gold-primary);
-        border-radius: 10px;
-    }
-
-    /* Tables */
-    .table-custom {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .table-custom thead th {
-        font-size: 11px;
+    
+    .profit-card .profit-header h6 {
+        font-size: 0.75rem;
         font-weight: 600;
-        color: var(--gray-500);
+        color: rgba(255,255,255,0.6);
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        padding: 10px 8px;
-        border-bottom: 1px solid var(--gray-200);
-        text-align: left;
+        margin: 0;
     }
-
-    .table-custom tbody td {
-        font-size: 12px;
-        color: var(--gray-700);
-        padding: 10px 8px;
-        border-bottom: 1px solid var(--gray-100);
+    
+    .profit-card .profit-amount {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: white;
+        line-height: 1.2;
     }
-
-    .table-custom tbody tr:hover td {
-        background: var(--gray-50);
-    }
-
-    /* Badges */
-    .badge-sm {
-        padding: 4px 10px;
-        border-radius: 30px;
-        font-size: 10px;
+    
+    .profit-card .profit-change {
+        font-size: 0.65rem;
         font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
+        padding: 1px 10px;
+        border-radius: 30px;
+        background: rgba(52, 199, 89, 0.15);
+        color: var(--fleet-green);
+        display: inline-block;
+        margin-left: 6px;
     }
-
-    .badge-active {
-        background: #ecfdf5;
-        color: #10b981;
+    
+    .profit-card .profit-years {
+        display: flex;
+        gap: 12px;
+        margin-top: 4px;
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.5);
     }
-
-    /* Action Buttons */
-    .action-btn {
-        background: transparent;
-        border: none;
-        padding: 4px;
-        color: var(--gray-400);
-        transition: all 0.2s;
+    
+    .profit-card .profit-years .active {
+        color: white;
+        font-weight: 600;
     }
-
-    .action-btn:hover {
-        color: var(--gold-primary);
+    
+    .profit-card .mini-chart {
+        height: 30px;
+        margin-top: 6px;
     }
-
-    /* Quick Action Buttons */
-    .quick-action {
-        background: var(--gray-50);
-        border: 1px solid var(--gray-200);
-        border-radius: 12px;
-        padding: 8px 12px;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--gray-700);
-        width: 100%;
+    
+    /* Progress Bars */
+    .progress {
+        background-color: #f3f4f6;
+        border-radius: 8px;
+        height: 4px;
+    }
+    
+    .progress-bar {
+        border-radius: 8px;
+    }
+    
+    /* Badges */
+    .badge {
+        font-size: 9px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 30px;
+    }
+    
+    .status-badge {
+        padding: 2px 10px;
+        border-radius: 30px;
+        font-size: 0.6rem;
+        font-weight: 600;
+    }
+    
+    .status-badge.approved { background: rgba(52, 199, 89, 0.12); color: var(--fleet-green); }
+    .status-badge.pending { background: rgba(245, 179, 66, 0.12); color: var(--fleet-gold); }
+    .status-badge.active { background: rgba(42, 125, 225, 0.12); color: var(--fleet-blue); }
+    .status-badge.overdue { background: rgba(255, 107, 107, 0.12); color: var(--fleet-red); }
+    .status-badge.rejected { background: rgba(255, 107, 107, 0.12); color: var(--fleet-red); }
+    .status-badge.submitted { background: rgba(42, 125, 225, 0.12); color: var(--fleet-blue); }
+    
+    /* Activity Items */
+    .activity-item {
+        padding: 6px 0;
+        border-bottom: 1px solid var(--fleet-border);
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .activity-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 8px;
-        transition: all 0.2s;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 0.7rem;
     }
-
-    .quick-action:hover {
-        background: var(--gold-soft);
-        border-color: var(--gold-primary);
-        color: var(--gold-dark);
+    
+    .activity-icon.bg-danger { background: rgba(255, 107, 107, 0.15); color: var(--fleet-red); }
+    .activity-icon.bg-info { background: rgba(42, 125, 225, 0.15); color: var(--fleet-blue); }
+    .activity-icon.bg-success { background: rgba(52, 199, 89, 0.15); color: var(--fleet-green); }
+    .activity-icon.bg-warning { background: rgba(245, 179, 66, 0.15); color: var(--fleet-gold); }
+    
+    .activity-content .title {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--fleet-dark);
     }
-
-    /* Content Grid */
-    .content-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-        margin-bottom: 24px;
+    
+    .activity-content .message {
+        font-size: 0.65rem;
+        color: var(--fleet-gray-dark);
+        margin: 0;
     }
-
-    /* Buttons */
-    .btn-light-custom {
-        background: var(--gray-50);
-        border: 1px solid var(--gray-200);
-        border-radius: 12px;
-        padding: 10px;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--gray-600);
-        width: 100%;
-        transition: all 0.2s;
+    
+    .activity-content .time {
+        font-size: 0.55rem;
+        color: var(--fleet-gray);
     }
-
-    .btn-light-custom:hover {
-        background: var(--gold-soft);
-        border-color: var(--gold-primary);
-        color: var(--gold-dark);
+    
+    /* Tables */
+    .table td, .table th {
+        padding: 6px 6px;
+        vertical-align: middle;
+        font-size: 11px;
     }
-
+    
     /* Responsive */
-    @media (max-width: 992px) {
-        .stats-row {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+    @media (max-width: 768px) {
+        .fleet-value {
+            font-size: 22px;
         }
-        .content-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .stats-row {
-            grid-template-columns: 1fr;
-        }
-        .welcome-section {
-            flex-direction: column;
-            text-align: center;
-            gap: 12px;
-        }
-        .attendance-value {
-            font-size: 24px;
-        }
-        .attendance-icon {
-            font-size: 34px;
+        .profit-card .profit-amount {
+            font-size: 1.3rem;
         }
     }
 </style>
 
-<div class="dashboard-wrapper">
-    <div class="ps-3 pe-3">
-        
-        <!-- Welcome Section - Flat Style -->
-        <div class="welcome-section">
-            <div>
-                <div class="welcome-title">
-                    Good afternoon, <span>Admin</span>
-                </div>
-                <div class="welcome-subtitle">
-                    <i class="bi bi-circle-fill"></i>
-                    <span>Science Savings and Loan Association</span>
-                </div>
-            </div>
-            <div class="date-badge">
-                <i class="bi bi-calendar3"></i>
-                Wednesday, March 18, 2026
+<div class="container-fluid px-0">
+    
+    <!-- Header Welcome Section -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <div>
+            <h5 class="fw-semibold mb-0" style="color: var(--fleet-dark);">Dashboard</h5>
+            <p class="text-muted mb-0" style="font-size: 0.8rem;">Loan Operations Overview · <?= htmlspecialchars($full_name) ?></p>
+        </div>
+        <div class="text-end">
+            <div class="mb-0">
+                <span class="text-muted me-2" style="font-size: 0.75rem;"><i class="bi bi-calendar3"></i> <?= date('F d, Y') ?></span>
+                <span class="text-muted" style="font-size: 0.75rem;"><i class="bi bi-clock"></i> <span id="liveClock"><?= date('h:i A') ?></span></span>
             </div>
         </div>
-
-        <!-- Stats Row - Attendance Card Style -->
-        <div class="stats-row">
-            <div class="attendance-card">
-                <div class="card-body">
-                    <div>
-                        <div class="attendance-label">Total Members</div>
-                        <div class="attendance-value">1,250</div>
-                        <div class="attendance-sub">+12 this month</div>
-                    </div>
-                    <i class="bi bi-people-fill attendance-icon"></i>
-                </div>
-            </div>
-
-            <div class="attendance-card">
-                <div class="card-body">
-                    <div>
-                        <div class="attendance-label">Active Loans</div>
-                        <div class="attendance-value">₱1,000,000</div>
-                        <div class="attendance-sub">+5.2% from last month</div>
-                        <div class="progress-mini">
-                            <div class="progress-bar-mini" style="width: 78%;"></div>
-                        </div>
-                    </div>
-                    <i class="bi bi-cash-stack attendance-icon"></i>
-                </div>
-            </div>
-
-            <div class="attendance-card">
-                <div class="card-body">
-                    <div>
-                        <div class="attendance-label">Outstanding</div>
-                        <div class="attendance-value">₱5.2M</div>
-                        <div class="attendance-sub">₱450K overdue</div>
-                    </div>
-                    <i class="bi bi-piggy-bank-fill attendance-icon"></i>
-                </div>
-            </div>
-
-            <div class="attendance-card">
-                <div class="card-body">
-                    <div>
-                        <div class="attendance-label">Daily Collections</div>
-                        <div class="attendance-value">₱85K</div>
-                        <div class="attendance-sub">85% of target</div>
-                        <div class="progress-mini">
-                            <div class="progress-bar-mini" style="width: 85%;"></div>
-                        </div>
-                    </div>
-                    <i class="bi bi-graph-up-arrow attendance-icon"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- Content Grid -->
-        <div class="content-grid">
-            <!-- Member Management -->
-            <div class="section-card">
-                <h6 class="section-title">
-                    <i class="bi bi-people me-2" style="color: var(--gold-primary);"></i>Member Management
-                </h6>
-                
-                <table class="table-custom">
-                    <thead>
-                        <tr>
-                            <th>Member ID</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Loans</th>
-                            <th>Amount</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>2026-0057</strong></td>
-                            <td>
-                                Dexter Y.
-                                <div class="text-muted" style="font-size: 10px;">Joined Jan 2026</div>
-                            </td>
-                            <td><span class="badge-sm badge-active"><i class="bi bi-circle-fill" style="font-size: 6px;"></i> Active</span></td>
-                            <td>2</td>
-                            <td>₱150K</td>
-                            <td>
-                                <button class="action-btn"><i class="bi bi-eye"></i></button>
-                                <button class="action-btn"><i class="bi bi-pencil"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>2026-0061</strong></td>
-                            <td>
-                                Rex B. Cas
-                                <div class="text-muted" style="font-size: 10px;">Joined Feb 2026</div>
-                            </td>
-                            <td><span class="badge-sm badge-active"><i class="bi bi-circle-fill" style="font-size: 6px;"></i> Active</span></td>
-                            <td>1</td>
-                            <td>₱75K</td>
-                            <td>
-                                <button class="action-btn"><i class="bi bi-eye"></i></button>
-                                <button class="action-btn"><i class="bi bi-pencil"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <button class="btn-light-custom mt-3">
-                    <i class="bi bi-plus-circle me-1"></i>View All Members
-                </button>
-            </div>
-
-            <!-- Recent Ledger Entries -->
-            <div class="section-card">
-                <h6 class="section-title">
-                    <i class="bi bi-journal-text me-2" style="color: var(--gold-primary);"></i>Recent Ledger Entries
-                </h6>
-                
-                <table class="table-custom">
-                    <thead>
-                        <tr>
-                            <th>Reference</th>
-                            <th>Account</th>
-                            <th class="text-end">Debit</th>
-                            <th class="text-end">Credit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code class="bg-light px-1 rounded">02-101...0070</code></td>
-                            <td>Loan Repayment</td>
-                            <td class="text-end" style="color: var(--gold-dark);">₱514</td>
-                            <td class="text-end">—</td>
-                        </tr>
-                        <tr>
-                            <td><code class="bg-light px-1 rounded">01-104...0066</code></td>
-                            <td>Interest Earned</td>
-                            <td class="text-end">—</td>
-                            <td class="text-end text-success">₱485</td>
-                        </tr>
-                        <tr>
-                            <td><code class="bg-light px-1 rounded">02-105...0089</code></td>
-                            <td>Loan Disbursement</td>
-                            <td class="text-end" style="color: var(--gold-dark);">₱25,000</td>
-                            <td class="text-end">—</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <div class="d-flex gap-2 mt-3">
-                    <button class="quick-action"><i class="bi bi-plus-circle"></i>Journal Entry</button>
-                    <button class="quick-action"><i class="bi bi-journal-bookmark-fill"></i>Ledger</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom Row -->
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="section-card">
-                    <h6 class="section-title">
-                        <i class="bi bi-cash-stack me-2" style="color: var(--gold-primary);"></i>Loan Management
-                    </h6>
-                    <div class="d-flex gap-2 mb-3">
-                        <button class="quick-action"><i class="bi bi-file-text"></i>Loan Application</button>
-                        <button class="quick-action"><i class="bi bi-folder"></i>Loan Profile</button>
-                    </div>
-                    
-                    <div class="p-3 bg-light rounded-3" style="border-left: 3px solid var(--gold-primary);">
-                        <div class="d-flex justify-content-between small mb-1">
-                            <span>Regular Loans</span>
-                            <span class="fw-semibold">₱3.2M</span>
-                        </div>
-                        <div class="progress-mini">
-                            <div class="progress-bar-mini" style="width: 62%;"></div>
-                        </div>
-                        <div class="d-flex justify-content-between small mt-2 mb-1">
-                            <span>Emergency Loans</span>
-                            <span class="fw-semibold">₱1.5M</span>
-                        </div>
-                        <div class="progress-mini">
-                            <div class="progress-bar-mini" style="width: 29%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="section-card">
-                    <h6 class="section-title">
-                        <i class="bi bi-file-earmark-text me-2" style="color: var(--gold-primary);"></i>Reports
-                    </h6>
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <button class="quick-action"><i class="bi bi-receipt"></i>Cash Receipts</button>
-                        </div>
-                        <div class="col-6">
-                            <button class="quick-action"><i class="bi bi-credit-card"></i>Cash Disbursement</button>
-                        </div>
-                        <div class="col-6">
-                            <button class="quick-action"><i class="bi bi-file-spreadsheet"></i>Balance Sheet</button>
-                        </div>
-                        <div class="col-6">
-                            <button class="quick-action"><i class="bi bi-graph-up"></i>Summary</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Chart of Accounts -->
-        <div class="section-card mt-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <h6 class="section-title mb-0">
-                    <i class="bi bi-list-columns me-2" style="color: var(--gold-primary);"></i>Chart of Accounts
-                </h6>
-                <small class="text-muted">Subsidiary Ledger</small>
-            </div>
-            <div class="d-flex gap-4 mt-3 small">
-                <span><i class="bi bi-circle-fill me-1" style="color: var(--gold-primary); font-size: 8px;"></i>Assets: ₱8.2M</span>
-                <span><i class="bi bi-circle-fill me-1" style="color: var(--gold-light); font-size: 8px;"></i>Liabilities: ₱5.2M</span>
-                <span><i class="bi bi-circle-fill me-1" style="color: var(--gold-dark); font-size: 8px;"></i>Equity: ₱3.0M</span>
-            </div>
-        </div>
-
     </div>
+
+    <!-- ========================================= -->
+    <!-- TOP STATS ROW - 4 Cards -->
+    <!-- ========================================= -->
+    <div class="row g-3 mb-3">
+        <!-- Total Members -->
+        <div class="col-xl-3 col-md-6">
+            <div class="profit-card">
+                <div class="profit-header">
+                    <h6>Total Members</h6>
+                    <span class="badge" style="background: rgba(42, 125, 225, 0.2); color: var(--fleet-blue);">Active</span>
+                </div>
+                <div>
+                    <span class="profit-amount"><?= number_format($totalMembers) ?></span>
+                    <span class="profit-change"><i class="bi bi-arrow-up"></i> +12%</span>
+                </div>
+                <div class="profit-years">
+                    <span class="active">2024</span>
+                    <span>2025</span>
+                </div>
+                <div class="mini-chart">
+                    <canvas id="membersMiniChart" style="height: 30px; width: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Loans -->
+        <div class="col-xl-3 col-md-6">
+            <div class="fleet-card">
+                <div class="fleet-label">Active Loans</div>
+                <div class="fleet-value">₱<?= number_format($activeLoans, 2) ?></div>
+                <div class="fleet-sub"><span class="text-success"><i class="bi bi-arrow-up"></i> +5.2%</span> vs last month</div>
+            </div>
+        </div>
+
+        <!-- Outstanding Balance -->
+        <div class="col-xl-3 col-md-6">
+            <div class="fleet-card">
+                <div class="fleet-label">Outstanding Balance</div>
+                <div class="fleet-value">₱<?= number_format($outstandingBalance, 2) ?></div>
+                <div class="fleet-sub"><span class="text-danger"><i class="bi bi-arrow-up"></i> ₱<?= number_format($overdueAmount, 2) ?></span> overdue</div>
+            </div>
+        </div>
+
+        <!-- Daily Collections -->
+        <div class="col-xl-3 col-md-6">
+            <div class="fleet-card">
+                <div class="fleet-label">Daily Collections</div>
+                <div class="fleet-value">₱<?= number_format($dailyCollections, 2) ?></div>
+                <div class="fleet-sub"><span class="text-success"><i class="bi bi-arrow-up"></i> 85%</span> of target</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- MIDDLE ROW - 3 Cards -->
+    <!-- ========================================= -->
+    <div class="row g-3 mb-3">
+        <!-- Loan Disbursement Trend -->
+        <div class="col-xl-5 col-lg-12">
+            <div class="stat-card">
+                <h6 class="section-title"><i class="bi bi-graph-up me-1" style="color: var(--fleet-blue);"></i> Loan Disbursement (Last 6 Months)</h6>
+                <canvas id="disbursementChart" style="height: 250px; width: 100%;"></canvas>
+            </div>
+        </div>
+
+        <!-- Loan Status Distribution -->
+        <div class="col-xl-3 col-lg-6">
+            <div class="stat-card">
+                <h6 class="section-title"><i class="bi bi-pie-chart-fill me-1" style="color: var(--fleet-blue);"></i> Loan Status</h6>
+                <canvas id="loanStatusChart" style="height: 180px; width: 100%;"></canvas>
+                <div class="row mt-2 text-center small g-0">
+                    <?php 
+                    $colors = ['#2a7de1', '#34c759', '#f5b342', '#ff6b6b', '#94a3b8'];
+                    $index = 0;
+                    foreach($loanStatusDistribution as $status): 
+                        $color = $colors[$index % count($colors)];
+                    ?>
+                    <div class="col-4"><span style="color: <?= $color ?>;">●</span> <?= $status['loan_status'] ?></div>
+                    <?php $index++; endforeach; ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Approvals & Quick Actions -->
+        <div class="col-xl-4 col-lg-12">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="section-title mb-0"><i class="bi bi-bell-fill me-1" style="color: var(--fleet-gold);"></i> Pending Approvals</h6>
+                    <span style="font-size: 0.65rem; color: var(--fleet-gray);">
+                        <span style="color: var(--fleet-blue); font-weight: 600;"><?= $pendingApprovals ?></span> pending
+                    </span>
+                </div>
+                
+                <!-- Pending Approvals List -->
+                <div class="activity-feed" style="max-height: 180px; overflow-y: auto;">
+                    <?php foreach(array_slice($recentLoans, 0, 3) as $loan): ?>
+                    <div class="activity-item">
+                        <div class="activity-icon bg-<?= $loan['approval_status'] == 'Pending' ? 'warning' : 'info' ?>">
+                            <i class="bi bi-file-text"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="title"><?= htmlspecialchars($loan['member_name']) ?></div>
+                            <p class="message">₱<?= number_format($loan['loan_amount'], 2) ?> · <?= $loan['loan_status'] ?></p>
+                            <div class="time"><?= date('M d, Y', strtotime($loan['date_applied'])) ?></div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                
+                <div class="d-flex gap-2 mt-2">
+                    <button class="btn btn-sm" style="background: var(--fleet-blue); color: white; border: none; border-radius: 30px; padding: 4px 16px; font-size: 0.7rem;">
+                        <i class="bi bi-check2"></i> Review All
+                    </button>
+                    <button class="btn btn-sm" style="background: var(--fleet-border); color: var(--fleet-gray-dark); border: none; border-radius: 30px; padding: 4px 16px; font-size: 0.7rem;">
+                        <i class="bi bi-plus"></i> New Loan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- BOTTOM ROW - Recent Members + Recent Loans -->
+    <!-- ========================================= -->
+    <div class="row g-3 mb-3">
+        <!-- Recent Members -->
+        <div class="col-xl-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="section-title mb-0"><i class="bi bi-people me-1" style="color: var(--fleet-blue);"></i> Recent Members</h6>
+                    <a href="<?= site_url('mymembers?meaction=MAIN') ?>" class="text-decoration-none" style="color: var(--fleet-blue); font-size: 0.7rem;">View all →</a>
+                </div>
+                <div class="table-responsive mt-2">
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Member ID</th>
+                                <th>Name</th>
+                                <th>Joined Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($recentMembers as $member): ?>
+                            <tr>
+                                <td><strong><?= htmlspecialchars($member['member_id']) ?></strong></td>
+                                <td><?= htmlspecialchars($member['full_name']) ?></td>
+                                <td><?= date('M d, Y', strtotime($member['membership_date'])) ?></td>
+                                <td><span class="status-badge <?= strtolower($member['status']) ?>"><?= $member['status'] ?></span></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Loans -->
+        <div class="col-xl-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="section-title mb-0"><i class="bi bi-file-text me-1" style="color: var(--fleet-blue);"></i> Recent Loan Applications</h6>
+                    <a href="<?= site_url('myloanprofile?meaction=MAIN') ?>" class="text-decoration-none" style="color: var(--fleet-blue); font-size: 0.7rem;">View all →</a>
+                </div>
+                <div class="table-responsive mt-2">
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Member</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Approval</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($recentLoans as $loan): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($loan['member_name']) ?></td>
+                                <td>₱<?= number_format($loan['loan_amount'], 2) ?></td>
+                                <td><span class="status-badge <?= strtolower($loan['loan_status']) ?>"><?= $loan['loan_status'] ?></span></td>
+                                <td><span class="status-badge <?= strtolower($loan['approval_status']) ?>"><?= $loan['approval_status'] ?></span></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+    // Members Mini Chart (Sparkline)
+    const membersData = <?php echo json_encode(array_column($memberGrowth, 'total')); ?>;
+    const memberLabels = <?php echo json_encode(array_column($memberGrowth, 'month')); ?>;
+    
+    if(document.getElementById('membersMiniChart')) {
+        new Chart(document.getElementById('membersMiniChart'), {
+            type: 'line',
+            data: {
+                labels: memberLabels,
+                datasets: [{
+                    data: membersData,
+                    borderColor: '#f5b342',
+                    backgroundColor: 'rgba(245, 179, 66, 0.1)',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    x: { display: false },
+                    y: { display: false } 
+                },
+                elements: { line: { borderWidth: 2 } }
+            }
+        });
+    }
+
+    // Loan Disbursement Chart
+    const disbursementData = <?php echo json_encode($monthlyDisbursements); ?>;
+    
+    if(document.getElementById('disbursementChart')) {
+        new Chart(document.getElementById('disbursementChart'), {
+            type: 'line',
+            data: {
+                labels: disbursementData.map(d => d.month),
+                datasets: [{
+                    label: 'Loan Disbursements (₱)',
+                    data: disbursementData.map(d => d.total),
+                    borderColor: '#2a7de1',
+                    backgroundColor: 'rgba(42, 125, 225, 0.05)',
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#2a7de1',
+                    pointBorderColor: '#fff',
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { 
+                    legend: { 
+                        display: false 
+                    } 
+                },
+                scales: { 
+                    y: { 
+                        ticks: { 
+                            callback: (v) => '₱' + (v/1000) + 'K', 
+                            font: { size: 10 } 
+                        },
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    // Loan Status Chart (Doughnut)
+    const loanStatusData = <?php echo json_encode($loanStatusDistribution); ?>;
+    const statusColors = ['#2a7de1', '#34c759', '#f5b342', '#ff6b6b', '#94a3b8'];
+    
+    if(document.getElementById('loanStatusChart') && loanStatusData.length > 0) {
+        new Chart(document.getElementById('loanStatusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: loanStatusData.map(d => d.loan_status),
+                datasets: [{ 
+                    data: loanStatusData.map(d => d.count), 
+                    backgroundColor: statusColors.slice(0, loanStatusData.length),
+                    borderWidth: 0
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: true, 
+                cutout: '60%',
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+
+    // Live Clock
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('liveClock').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+</script>
 
 <?php echo view('templates/myfooter.php'); ?>
